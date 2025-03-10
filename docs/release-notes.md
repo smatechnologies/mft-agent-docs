@@ -18,6 +18,7 @@ Mar 2025
 
 :white_check_mark: **MFT-640**: ECDSA and ED25519 keys can now be generated from the WebUI SSH Keys page.
 
+:eight_spoked_asterisk: **OC-1893**: Added optional feature to enforce unidirectional shutdown of the TLS data channel for FTPS* managed sites.
 
 ## OpConMFT ver 3.13.5
 October 2024
