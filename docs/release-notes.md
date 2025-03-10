@@ -5,6 +5,21 @@ hide_title: 'true'
 
 # OpConMFT release notes
 
+## OpConMFT ver 3.13.6
+Mar 2025
+
+:eight_spoked_asterisk: **MFT-634**: When testing an SFTP site for the first time in the WebUI, clicking the Deny button from the Accept Fingerprint dialog resulted in the fingerprint being saved.
+
+:eight_spoked_asterisk: **MFT-645**: Non-default encrypted SSH Keys could not be decrypted when connecting to SFTP sites.
+
+:eight_spoked_asterisk: **MFT-647**: Fixed an issue with managing (delete/select) TLS certs in desktop UI.
+
+:eight_spoked_asterisk: **MFT-651**: Fixed an issue with Web UI - managed site password display for the wrong site.
+
+:white_check_mark: **MFT-640**: ECDSA and ED25519 keys can now be generated from the WebUI SSH Keys page.
+
+:eight_spoked_asterisk: **OC-1893**: Added optional feature to enforce unidirectional shutdown of the TLS data channel for FTPS* managed sites.
+
 ## OpConMFT ver 3.13.5
 October 2024
 
