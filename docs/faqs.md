@@ -268,8 +268,8 @@ mac_algorithms:
 
 ## Best Practice for build out of Servers in an Environment
 
-- While the customer should choose a setup that works best for their environment, the following recommendations are considered Best Practice:
-    
+While the customer should choose a setup that works best for their environment, the following recommendations are considered Best Practice:    
+
 - Because OpConMFT merges both Client and Server products we recommend separate Production and Test servers 
     - One installation of OpConMFT for Production 
     - One installation of OpConMFT for Test 
