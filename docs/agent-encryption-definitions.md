@@ -33,6 +33,9 @@ The following functionality is provided by the OpCon MFT Configurator:
 - The ability to delete key(s)
 
 PGP has the added advantage of compression. Much like a zip file, files that are encoded using PGP are also compressed. These file(s) are expanded and restored to their original state when they are decrypted by their intended recipient.
+:::note
+At this time, MFT only has support for asymmetric PGP encryption, with the use of a public and private keypair. It is not recommended to use symmetric PGP with the use of a public key and password, but support for this may be added in future versions.
+:::
 
 ## Using PGP with OpCon MFT
 
