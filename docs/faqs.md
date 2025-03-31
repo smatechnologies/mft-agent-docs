@@ -27,10 +27,6 @@ The server has its own set of logs - one for each internal server (ftp/http and 
         
 The size of logs _varies greatly_ depending on protocol and the specifics of individual file transfer job runs.
         
-## What Performance benchmarks exist for OpCon MFT?
-
-We do not currently have any official benchmarks for performance, though this is on our radar.
-    
 ## File capabilities – Internal and External
 
 #### The following Transfer protocols are supported by the OpConMFT Client:

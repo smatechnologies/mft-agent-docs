@@ -31,5 +31,6 @@ module.exports = {
     'security',
     'trouble-shooting',
     'architecture',
+    'faqs',
   ],
 };

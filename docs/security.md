@@ -1,5 +1,5 @@
 ---
-sidebar_label: Security'
+sidebar_label: 'Security'
 hide_title: 'true'
 ---
 
