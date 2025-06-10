@@ -5,6 +5,52 @@ hide_title: 'true'
 
 # OpConMFT release notes
 
+## OpConMFT ver 3.13.7
+June 2025
+
+:eight_spoked_asterisk: **OC-1904**: Fixed an issue with webhook configuration -  Undecryptable webhook configuration could prevent MFT jobs from running.
+
+:eight_spoked_asterisk: **OC-2662**: In WebUI, on the SSH Keys page, KeyInfo dialog appeared blank for certain key types.
+
+:eight_spoked_asterisk: **OC-2667**: Fixed an issue with authentication - SSH partial authentication (key AND password required) failed abruptly when connecting to SFTP sites.
+
+:eight_spoked_asterisk: **OC-2482**: Fixed an issue with decompression - Default empty mask field in decompress step now interpreted as all files.
+
+:eight_spoked_asterisk: **OC-2600**: When deleting SSH keys from the WebUI, associated passwords were not deleted.
+
+:eight_spoked_asterisk: **OC-3241**: In WebUI, SSH Key export dialog more clearly and consistently conveys the various export options.
+
+:eight_spoked_asterisk: **OC-2712**: Generated Ed25519 SSH Keys were invalid.
+
+:eight_spoked_asterisk: **OC-2723**: Valid Ed25519 SSH Keys could not be imported.
+
+:eight_spoked_asterisk: **OC-2742**: api/job/status/GROUP.JOB REST API call failed when job was not currently running.
+
+:eight_spoked_asterisk: **OC-2744**: api/job/create/GROUP.JOB REST API call failed with 500 error instead of proper 409 conflict if job already existed.
+
+:eight_spoked_asterisk: **OC-2746**: api/job/create/GROUP.JOB REST API call failed with error 500 instead of 400 + err msg when job data was incorrectly formatted.
+
+:eight_spoked_asterisk: **OC-2748**: api/job/start REST API call failed with error 500 instead of proper 409 conflict.
+
+:eight_spoked_asterisk: **OC-2750**: api/job/config/GROUP.JOB REST API call -- GET and POST job data format did not match.
+
+:eight_spoked_asterisk: **OC-2758**: api/site/config REST API call failed with 500 instead of 400, along with associated error message, when job data was misformatted.
+
+:eight_spoked_asterisk: **OC-2807**: Decompress step could crash interpreter with certain classes of PKZIP files produced by Windows 11.
+
+:eight_spoked_asterisk: **OC-2826**: Path endpoints could be tested from WebUI with blank / missing paths.
+
+:eight_spoked_asterisk: **OC-2828**: WebUI Debug Data Settings dialog now commits settings changes when closed.
+
+:white_check_mark: **OC-1776**: Added "Quote on Logon" field to each managed site definition which allows execution of an arbitrary FTP protocol-level command immediately after authentication.
+
+:white_check_mark: **OC-1792**: On authentication failures while testing SFTP sites in WebUI, dialog prompts user to confirm that credentials are correct.
+
+:white_check_mark: **OC-2464**: Improved logging of SFTP authentication process.
+
+:white_check_mark: **OC-3069**: In WebUI, SSH Key export dialog more clearly and consistently conveys the various export options.
+
+
 ## OpConMFT ver 3.13.6
 Mar 2025
 
