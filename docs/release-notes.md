@@ -5,6 +5,50 @@ hide_title: 'true'
 
 # OpConMFT release notes
 
+## OpConMFT ver 3.13.8
+August 2025
+
+:eight_spoked_asterisk: **OC-3242**: Desktop Configurator and WebUI were not deleting passphrases associated with ssh keys when deleting the key itself.
+
+:eight_spoked_asterisk: **OC-2486**: In Server Console and WebUI, SFTP / FTP checkboxes on the Users page could sometimes fail to display appropriately.
+
+:eight_spoked_asterisk: **OC-2493**: WebUI now displays consistent local time and date throughout UI.
+
+:eight_spoked_asterisk: **OC-2834**: OpConMFT now provides more helpful error message when site tests fail due to missing OpCon connection.
+
+:eight_spoked_asterisk: **OC-3345**: Duplicate PGP keys could be created from the WebUI by pressing the OK button multiple times.
+
+:eight_spoked_asterisk: **OC-3349**: WebUI pages with empty records now show explicit "No records to display." msg instead of simply a blank page.
+
+:eight_spoked_asterisk: **OC-3353**: In WebUI's PGP Key page, when creating a new key, calendar did not close after selecting a expiration date.
+
+:eight_spoked_asterisk: **OC-3355**: In WebUI "PGP Keys" page, closing the Create PGP Key dialog and reopening retained dialog settings from previous canceled attempt.
+
+:eight_spoked_asterisk: **OC-3357**: PGP passphrase was not being preserved when generated from WebUI.
+
+:eight_spoked_asterisk: **OC-3359**: Added expiration date column to WebUI PGP Keys page, and added additional details include key fingerprints and sub-key fingerprints to PGP Keys Details dialog.
+
+:eight_spoked_asterisk: **OC-3363**: In the WebUI's PGP Key page, required fields are now clearly marked.
+
+:eight_spoked_asterisk: **OC-3367**: "Load Defaults" button removed from WebUI pages where it was irrelevant.
+
+:eight_spoked_asterisk: **OC-3369**: In WebUI, PGP Key export dialog now displays filename of downloaded key.
+
+:eight_spoked_asterisk: **OC-3471**: Offline activation dialog did not allow saving license activation files under Windows Server Core and similar Desktop-less Windows platforms.
+
+:eight_spoked_asterisk: **OC-3910**: In WebUI, PGP key expiration date was always only one day ahead.
+
+:white_check_mark: **OC-2836**: Automatic configuration tool removed from WebUI Outgoing Email test dialog.
+
+:white_check_mark: **OC-2971**: Robo-FTP scripts now support UNIX and MAC-style line endings (single CR or single LF EOL) in addition to CR+LF.
+
+:white_check_mark: **OC-3959**: In WebUI PGP Keys page, it was possible to create PGP keys with expiration date set in the past.
+
+:white_check_mark: **OC-4029**: Reduced extraneous coroutine trace log lines from default log level output.
+
+:white_check_mark: **OC-4030**: Licensing subsystem logging can now be selectively turned up with extra debug data logging off.
+
+
 ## OpConMFT ver 3.13.7
 June 2025
 
