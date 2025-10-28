@@ -114,3 +114,23 @@ After selecting the Authentication button, a successful authentication message w
 
 The OpCon MFT Agent can then be started.
 
+## MFT Agent Upgrade
+
+Updating the OpConMFT agent can be a complex process, but following established best practices can help ensure a smooth transition and minimize potential issues. Here are some key recommendations:
+
+1. Backup Configuration: Before updating the OpConMFT agent, ensure that you have backed up all the files below. A snapshot of the MFT server is also a potentially useful option in addition, so you have a restore point if needed.
+	* In the install location of the agent, defaulted to 'C:\Program Files\OpConMFT 3.13', open the programdata folder. You will want to copy the config.xml and SchedulerService.sqlite files in another location.
+
+2. Stop Agent/Services Communication: Before proceeding, ensure that no OPCONMFT jobs are currently running. Once confirmed, follow these steps:
+	* Stop the OPCONMFT Agent Communication: This prevents any new job executions or interactions during the update process.
+	* Halt the Windows OPCONMFT Services: Safely shut down the associated services to prepare for maintenance or upgrade activities.
+
+3. Run the installer: Use the installer for the latest version and ensure it finishes correctly and replaces the existing version in programs and features.
+
+4. Start up services: Once started, ensure that the MFT WebUI is accessible from both the Server running MFT and from the OpCon server.
+
+5. Reconnect the Agent in OpCon: Once reconnected, the agent should automatically authenticate. If it does not, then move on to step 6.
+ 
+6. Reset Auth Token Deadline: If the initial authentication step is not successful upon starting up the agent, reset the auth token deadline and re-authenticate. This can be done using the Reset Auth Token Deadline button on the Scheduler Settings tab of the OpConMFT Configurator.
+
+By following these recommended practices, customers can help ensure a smoother update process for the OpConMFT agent and minimize the risk of communication issues requiring service restarts.
