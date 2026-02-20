@@ -5,6 +5,28 @@ hide_title: 'true'
 
 # OpConMFT release notes
 
+## OpConMFT ver 3.13.9
+February 2026
+
+:eight_spoked_asterisk: **OCAG-241**: Added more helpful error messages when PGPDECRYPT fails on unexpected packet error.
+
+:eight_spoked_asterisk: **OCAG-91**: OpConMFT no longer prompts to import cross-product settings from Robo-FTP / Robo-FTP Server.
+
+:eight_spoked_asterisk: **OCAG-276**: PGPENCRYPT command could stall under some environments when user keyring files did not exist.
+
+:eight_spoked_asterisk: **OCAG-405**: Fixed Error Reconciliation page links which were non-functional.
+
+:eight_spoked_asterisk: **OCAG-503**: In WebUI, saving password for associated PGP key post-import failed with an exception.
+
+:eight_spoked_asterisk: **OCAG-512**: MFT Job output through JORS returned Internal Server Error with SQL Server backend.
+
+:eight_spoked_asterisk: **OCAG-539**: JORS output gave wrong time for file tracking steps.
+
+:white_check_mark: **OCAG-407**: Added preferred PGP key hash algorithm field when generating PGP Keys.
+
+:white_check_mark: **OCAG-448**: Added preferred symmetric cipher algorithm to PGP key generation in Desktop Configurator.
+
+
 ## OpConMFT ver 3.13.8
 August 2025
 
