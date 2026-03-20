@@ -70,11 +70,11 @@ While the OpCon MFT Agent supports mans different steps, the OpConMFT JobType cu
 - **decrypt** step is used to decrypt a file set according to the encryption information.
 - **name** step is used to rename the files when they are delivered to the destination.
 
-### Task Definition
+## Task Definition
 
 When defining OpCon MFT Tasks Source and Destination information must be defined while Compression and Encryption information is optional.
 
-#### Source
+### Source
 
 The Source section defines the information for the **_get_** step so a file set can be created.
 
@@ -88,10 +88,11 @@ The **_get_** step searches the defined **_File Path_** for file names that matc
 | **File Filter**         | This defines the files to be included in the file set. It supports wild cards (?) and (\*) as well as multiple definitions seperated by the pipe ('\|') character (i.e. \*.csv\|\*.xls). When requiring all files in the directory the definition \* should be used instead of \*.\* as the second definition will only select files that have a name and and extension.                                                         |
 | **File Path**           | An optional definition that defines the path to check for files to add to the file set. If present the value is relative to the default definition associated with the endpoint.                                                                                                                                                                                                                                                 |
 | **Timeout**             | An optional field that indicates how many minutes the **_get_** step should wait for the source files if no files are present when the task starts (default value is 1 minute).                                                                                                                                                                                                                                                  |
-| **Retain Source Files** | This field indicates if the source files associated with the **_get_** step should be removed after the file set is created (values True : False - default False).                                                                                                                                                                                                                                                               |
-| **Reprocess Files**     | This field indicates if the source files associated with the **_get_** step can be reprocessed after the file has been previously processed (values True : False - default False).                                                                                                                                                                                                                                               |
+| **Retain Source Files** | This field indicates if the source files associated with the **_get_** step should be removed after the file set is created (values True : False - default False). Mutually exclusive with Reprocess Files.                                                                                                                                                                                                                      |
+| **Reprocess Files**     | This field indicates if the source files associated with the **_get_** step can be reprocessed after the file has been previously processed (values True : False - default False). Mutually exclusive with Retain Source Files.                                                                                                                                                                                                  |
+| **Archive Files**       | This field indicates if the source files associated with the **_get_** step will be stored in the usually temporary midpoint location on the Server running MFT. (values True : False - default False).                                                                                                                                                                                                                          |
 
-#### Destination
+### Destination
 
 The Destination section defines the information for the **_put_** step where the file set is to be created.
 
@@ -120,7 +121,7 @@ This function appears when Encryption is selected. It is used to reverse the ord
 
 ![Reverse Order](../static/img/reverse-order-changed.png)
 
-#### Compression
+### Compression
 
 The optional Compression section defines the information for the **_compress_** or **_decompress_** steps.
 
@@ -128,7 +129,7 @@ The optional Compression section defines the information for the **_compress_** 
 | ---------- | -------------------------------------------------------------------------------------------------------------- |
 | **Action** | Select the Compression action from the dropdown list (values are None : Compress : Decompress - default None). |
 
-##### Compress Action
+#### Compress Action
 
 The **_compress_** step includes all files associated with the file set into a zip archive file. Files added to the zip archive are removed from the current file set so they are not passed on to the next step in the task.
 
@@ -139,7 +140,7 @@ The **_compress_** step includes all files associated with the file set into a z
 | **File Name** | An optional definition that defines the name of the zip file to create. The default zip filename is the name of the first file in the file set. |
 | **Password**  | An optional definition that defines a password that can be added to the compressed file.                                                        |
 
-##### Decompress Action
+#### Decompress Action
 
 The **_decompress_** step inflates compressed files from the current file set. Any decompressed files that match the specification setting are added to the task's current file set. The input file that was decompressed is removed from the file set so it is not passed on to the next task step. The decompress step applies the standard File Filters (\*.zip|\*.z|\*.gz|\*.bz2) when looking for files to decompress.
 
@@ -150,7 +151,7 @@ The **_decompress_** step inflates compressed files from the current file set. A
 | **Password**       | An optional definition that defines a password that must be used to decompress the file.                                                                                                                                                                                            |
 | **Extract Filter** | The compressed file could contain multiple files and it is therefore possible to only require specific files within the compressed file. Use **\*** to extract all files or specific files by defining a file type using wild cards. Multiple types can be entered using the pipe ( | ) character as a separation character (i.e. \*.csv | \*.xls). |
 
-#### Encryption
+### Encryption
 
 The optional Encryption section defines the information for the **_encrypt_** or **_decrypt_** steps.
 
@@ -158,7 +159,7 @@ The optional Encryption section defines the information for the **_encrypt_** or
 | ---------- | --------------------------------------------------------------------------------------------------------- |
 | **Action** | Select the Encryption action from the dropdown list (values are None : Encrypt : Decrypt - default None). |
 
-##### Encrypt Action
+#### Encrypt Action
 
 The **_encrypt_** step is used to encrypt files in the task's current file set with a specific PGP public key. The encrypted output files replace their associated input source files in the file set that is passed to the task's next step. The encrypted output files are named by adding a .pgp extension to the source file name. For example, if the source file is named **_{filenamepart}_** then the output file will be named **_{filenamepart}_**.pgp.
 
@@ -173,7 +174,7 @@ The **_encrypt_** step is used to encrypt files in the task's current file set w
 | **Cipher**         | Select the symmetric cipher to be used to encrypt the file set from the dropdown list (values are CAST5 : AES : AES192 : IDEA : Blowfish : Twofish : 3DES - default AES).                                                                                                                                                                                                 |
 | **Ascii Armor**    | Indicates whether the encrypted representation of a file should consist entirely of printable ASCII characters (values true : false - default false).                                                                                                                                                                                                                     |
 
-##### Decrypt Action
+#### Decrypt Action
 
 The **_decrypt_** step decrypts PGP (or GPG) encrypted source files in the current file set. The decrypted output files replace the encrypted source files in the current file set that is passed on to the next step in the job.
 
