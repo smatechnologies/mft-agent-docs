@@ -1,425 +1,536 @@
 ---
-sidebar_label: 'Release Notes'
-hide_title: 'true'
+title: Release notes
+sidebar_label: Release notes
+description: "Release notes for OpCon MFT, including new features, improvements, and bug fixes by version."
+tags:
+  - Reference
+  - System Administrator
+  - Automation Engineer
+  - Getting Started
 ---
 
-# OpConMFT release notes
+# OpCon MFT release notes
 
-## OpConMFT ver 3.13.9
-February 2026
+## OpCon MFT 3.13.9
 
-:eight_spoked_asterisk: **OCAG-241**: Added more helpful error messages when PGPDECRYPT fails on unexpected packet error.
+**Released:** February 2026
 
-:eight_spoked_asterisk: **OCAG-91**: OpConMFT no longer prompts to import cross-product settings from Robo-FTP / Robo-FTP Server.
+OpCon MFT 3.13.9 includes improvements to PGP key generation and several bug fixes for JORS output, WebUI PGP key management, and the PGPENCRYPT command.
 
-:eight_spoked_asterisk: **OCAG-276**: PGPENCRYPT command could stall under some environments when user keyring files did not exist.
+## New features
 
-:eight_spoked_asterisk: **OCAG-405**: Fixed Error Reconciliation page links which were non-functional.
+### PGP keys
 
-:eight_spoked_asterisk: **OCAG-503**: In WebUI, saving password for associated PGP key post-import failed with an exception.
+- **Added a preferred PGP key hash algorithm field to PGP key generation.** You can now specify a preferred hash algorithm when generating PGP keys.
+- **Added a preferred symmetric cipher algorithm option to PGP key generation in the Desktop Configurator.** You can now specify a preferred symmetric cipher algorithm when generating PGP keys from the Desktop Configurator.
 
-:eight_spoked_asterisk: **OCAG-512**: MFT Job output through JORS returned Internal Server Error with SQL Server backend.
+## Bug fixes
 
-:eight_spoked_asterisk: **OCAG-539**: JORS output gave wrong time for file tracking steps.
+### PGP
 
-:white_check_mark: **OCAG-407**: Added preferred PGP key hash algorithm field when generating PGP Keys.
+- **Improved error messages for PGPDECRYPT failures.** Errors now display a more helpful description when an unexpected packet error occurs during decryption.
+- **Fixed an issue where the PGPENCRYPT command could stall when user keyring files did not exist.** The command now handles missing keyring files without stalling.
+- **Fixed an issue where saving the password for a PGP key after import failed with an exception in the web UI.** Passwords for associated PGP keys are now saved correctly after import.
 
-:white_check_mark: **OCAG-448**: Added preferred symmetric cipher algorithm to PGP key generation in Desktop Configurator.
+### Jobs
 
+- **Fixed an issue where job output retrieved through JORS returned an Internal Server Error when using a SQL Server backend.** JORS output is now returned correctly for all supported database backends.
+- **Fixed an issue where JORS output displayed incorrect timestamps for file tracking steps.** File tracking steps now display the correct time in JORS output.
 
-## OpConMFT ver 3.13.8
-August 2025
+### Web UI
 
-:eight_spoked_asterisk: **OC-3242**: Desktop Configurator and WebUI were not deleting passphrases associated with ssh keys when deleting the key itself.
+- **Fixed non-functional links on the Error Reconciliation page.** All links on the Error Reconciliation page now work correctly.
+- **Removed the prompt to import cross-product settings from Robo-FTP and Robo-FTP Server.** OpCon MFT no longer prompts users to import settings from Robo-FTP or Robo-FTP Server.
 
-:eight_spoked_asterisk: **OC-2486**: In Server Console and WebUI, SFTP / FTP checkboxes on the Users page could sometimes fail to display appropriately.
+---
 
-:eight_spoked_asterisk: **OC-2493**: WebUI now displays consistent local time and date throughout UI.
+## OpCon MFT 3.13.8
 
-:eight_spoked_asterisk: **OC-2834**: OpConMFT now provides more helpful error message when site tests fail due to missing OpCon connection.
+**Released:** August 2025
 
-:eight_spoked_asterisk: **OC-3345**: Duplicate PGP keys could be created from the WebUI by pressing the OK button multiple times.
+OpCon MFT 3.13.8 includes improvements to PGP key management in the web UI and several bug fixes for SFTP, FTP, and WebUI display issues.
 
-:eight_spoked_asterisk: **OC-3349**: WebUI pages with empty records now show explicit "No records to display." msg instead of simply a blank page.
+## New features
 
-:eight_spoked_asterisk: **OC-3353**: In WebUI's PGP Key page, when creating a new key, calendar did not close after selecting a expiration date.
+### PGP keys
 
-:eight_spoked_asterisk: **OC-3355**: In WebUI "PGP Keys" page, closing the Create PGP Key dialog and reopening retained dialog settings from previous canceled attempt.
+- **Added an expiration date column to the PGP Keys page in the web UI.** The PGP Keys page now displays the expiration date for each key, along with key fingerprints and sub-key fingerprints in the key details dialog.
+- **Added validation to prevent creating PGP keys with an expiration date set in the past.** The web UI now enforces that PGP key expiration dates must be set in the future.
 
-:eight_spoked_asterisk: **OC-3357**: PGP passphrase was not being preserved when generated from WebUI.
+## Improvements
 
-:eight_spoked_asterisk: **OC-3359**: Added expiration date column to WebUI PGP Keys page, and added additional details include key fingerprints and sub-key fingerprints to PGP Keys Details dialog.
+### PGP keys
 
-:eight_spoked_asterisk: **OC-3363**: In the WebUI's PGP Key page, required fields are now clearly marked.
+- **Removed the Load Defaults button from web UI pages where it was not applicable.** The Load Defaults button is no longer displayed on pages where it served no function.
 
-:eight_spoked_asterisk: **OC-3367**: "Load Defaults" button removed from WebUI pages where it was irrelevant.
+### Logging
 
-:eight_spoked_asterisk: **OC-3369**: In WebUI, PGP Key export dialog now displays filename of downloaded key.
+- **Reduced extraneous coroutine trace log lines from default log level output.** Default logging is less verbose, making logs easier to review.
+- **Licensing subsystem logging can now be selectively increased with extra debug data logging disabled.** Administrators can increase licensing log detail without enabling full debug data logging.
 
-:eight_spoked_asterisk: **OC-3471**: Offline activation dialog did not allow saving license activation files under Windows Server Core and similar Desktop-less Windows platforms.
+### Web UI
 
-:eight_spoked_asterisk: **OC-3910**: In WebUI, PGP key expiration date was always only one day ahead.
+- **Updated the web UI to display consistent local time and date throughout.** All date and time values in the web UI now use the same local time format.
+- **Improved the error message displayed when site tests fail due to a missing OpCon connection.** The error message now provides a more helpful description of the connection failure.
+- **Updated empty record pages to display an explicit "No records to display." message instead of a blank page.** Pages with no records now display a clear message rather than an empty table.
+- **Updated the PGP Key export dialog to display the filename of the downloaded key.** The export dialog now shows the filename so you can confirm which file was downloaded.
+- **Updated required fields on the PGP Keys page to be clearly marked.** Required fields on the Create PGP Key dialog are now visually indicated.
+- **Updated the calendar on the PGP Key expiration date field to close after a date is selected.** The date picker calendar now closes automatically after selecting an expiration date.
 
-:white_check_mark: **OC-2836**: Automatic configuration tool removed from WebUI Outgoing Email test dialog.
+### SFTP and SSH keys
 
-:white_check_mark: **OC-2971**: Robo-FTP scripts now support UNIX and MAC-style line endings (single CR or single LF EOL) in addition to CR+LF.
+- **Removed associated passwords when deleting SSH keys.** Deleting an SSH key from the Desktop Configurator or web UI now also removes the associated passphrase.
 
-:white_check_mark: **OC-3959**: In WebUI PGP Keys page, it was possible to create PGP keys with expiration date set in the past.
+## Bug fixes
 
-:white_check_mark: **OC-4029**: Reduced extraneous coroutine trace log lines from default log level output.
+### PGP keys
 
-:white_check_mark: **OC-4030**: Licensing subsystem logging can now be selectively turned up with extra debug data logging off.
+- **Fixed an issue where duplicate PGP keys could be created by selecting the OK button multiple times.** The web UI now prevents duplicate PGP keys from being created by multiple rapid submissions.
+- **Fixed an issue where closing and reopening the Create PGP Key dialog retained settings from a previously canceled attempt.** The Create PGP Key dialog now resets correctly when reopened.
+- **Fixed an issue where the PGP passphrase was not preserved when a key was generated from the web UI.** PGP passphrases are now saved correctly when keys are generated through the web UI.
+- **Fixed an issue where the PGP key expiration date was always set to one day ahead of the selected date.** PGP key expiration dates are now saved as configured.
 
+### Web UI
 
-## OpConMFT ver 3.13.7
-June 2025
+- **Fixed an issue where the SFTP and FTP checkboxes on the Users page could fail to display correctly.** Checkboxes now display the correct state in the web UI Server Console and Desktop Configurator.
 
-:eight_spoked_asterisk: **OC-1904**: Fixed an issue with webhook configuration -  Undecryptable webhook configuration could prevent MFT jobs from running.
+### Licensing
 
-:eight_spoked_asterisk: **OC-2662**: In WebUI, on the SSH Keys page, KeyInfo dialog appeared blank for certain key types.
+- **Fixed an issue where the offline activation dialog did not allow saving license activation files on Windows Server Core and similar desktop-less platforms.** License activation files can now be saved on all supported Windows platforms.
 
-:eight_spoked_asterisk: **OC-2667**: Fixed an issue with authentication - SSH partial authentication (key AND password required) failed abruptly when connecting to SFTP sites.
+### Outgoing email
 
-:eight_spoked_asterisk: **OC-2482**: Fixed an issue with decompression - Default empty mask field in decompress step now interpreted as all files.
+- **Removed the automatic configuration tool from the web UI Outgoing Email test dialog.** The automatic configuration tool has been removed from the test dialog.
 
-:eight_spoked_asterisk: **OC-2600**: When deleting SSH keys from the WebUI, associated passwords were not deleted.
+### Robo-FTP
 
-:eight_spoked_asterisk: **OC-3241**: In WebUI, SSH Key export dialog more clearly and consistently conveys the various export options.
+- **Added support for UNIX and MAC-style line endings (single CR or single LF) in Robo-FTP scripts.** Robo-FTP scripts now support UNIX and MAC line endings in addition to CR+LF.
 
-:eight_spoked_asterisk: **OC-2712**: Generated Ed25519 SSH Keys were invalid.
+---
 
-:eight_spoked_asterisk: **OC-2723**: Valid Ed25519 SSH Keys could not be imported.
+## OpCon MFT 3.13.7
 
-:eight_spoked_asterisk: **OC-2742**: api/job/status/GROUP.JOB REST API call failed when job was not currently running.
+**Released:** June 2025
 
-:eight_spoked_asterisk: **OC-2744**: api/job/create/GROUP.JOB REST API call failed with 500 error instead of proper 409 conflict if job already existed.
+OpCon MFT 3.13.7 includes new SSH key capabilities, REST API improvements, and several bug fixes for SFTP, decompression, and WebUI.
 
-:eight_spoked_asterisk: **OC-2746**: api/job/create/GROUP.JOB REST API call failed with error 500 instead of 400 + err msg when job data was incorrectly formatted.
+## New features
 
-:eight_spoked_asterisk: **OC-2748**: api/job/start REST API call failed with error 500 instead of proper 409 conflict.
+### SFTP sites
 
-:eight_spoked_asterisk: **OC-2750**: api/job/config/GROUP.JOB REST API call -- GET and POST job data format did not match.
+- **Added a "Quote on Logon" field to managed site definitions.** You can now specify an arbitrary FTP protocol-level command to execute immediately after authentication for each managed site.
+- **Added a prompt to confirm credentials when authentication fails during SFTP site testing in the web UI.** The web UI now prompts you to verify credentials when a test connection fails due to an authentication error.
+- **Improved logging of the SFTP authentication process.** SFTP authentication activity is now logged in more detail.
 
-:eight_spoked_asterisk: **OC-2758**: api/site/config REST API call failed with 500 instead of 400, along with associated error message, when job data was misformatted.
+### Web UI
 
-:eight_spoked_asterisk: **OC-2807**: Decompress step could crash interpreter with certain classes of PKZIP files produced by Windows 11.
+- **Updated the SSH Key export dialog to more clearly convey the available export options.** The export dialog now provides clearer descriptions of each export format.
 
-:eight_spoked_asterisk: **OC-2826**: Path endpoints could be tested from WebUI with blank / missing paths.
+## Bug fixes
 
-:eight_spoked_asterisk: **OC-2828**: WebUI Debug Data Settings dialog now commits settings changes when closed.
+### SSH keys
 
-:white_check_mark: **OC-1776**: Added "Quote on Logon" field to each managed site definition which allows execution of an arbitrary FTP protocol-level command immediately after authentication.
+- **Fixed an issue where generated Ed25519 SSH keys were invalid.** Ed25519 keys generated by OpCon MFT are now valid and importable by other systems.
+- **Fixed an issue where valid Ed25519 SSH keys could not be imported.** Ed25519 keys from external sources can now be imported correctly.
+- **Fixed an issue where associated passwords were not deleted when SSH keys were deleted from the web UI.** Deleting an SSH key now also removes the associated passphrase.
 
-:white_check_mark: **OC-1792**: On authentication failures while testing SFTP sites in WebUI, dialog prompts user to confirm that credentials are correct.
+### REST API
 
-:white_check_mark: **OC-2464**: Improved logging of SFTP authentication process.
+- **Fixed an issue where the `/api/job/status/GROUP.JOB` call failed when the job was not currently running.** The status endpoint now returns the correct response for jobs that are not actively running.
+- **Fixed an issue where the `/api/job/create/GROUP.JOB` call returned a 500 error instead of a 409 conflict when the job already existed.** The endpoint now returns a proper conflict response.
+- **Fixed an issue where the `/api/job/create/GROUP.JOB` call returned a 500 error instead of a 400 error with a message when job data was incorrectly formatted.** The endpoint now returns a proper validation error response.
+- **Fixed an issue where the `/api/job/start` call returned a 500 error instead of a proper 409 conflict.** The endpoint now returns a proper conflict response.
+- **Fixed an issue where GET and POST data formats for `/api/job/config/GROUP.JOB` did not match.** The GET and POST formats are now consistent.
+- **Fixed an issue where the `/api/site/config` call returned a 500 error instead of a 400 error with a message when job data was misformatted.** The endpoint now returns a proper validation error response.
 
-:white_check_mark: **OC-3069**: In WebUI, SSH Key export dialog more clearly and consistently conveys the various export options.
+### Decompression
 
+- **Fixed an issue where the default empty mask field in a decompress step was not interpreted as all files.** An empty mask in a decompress step now correctly matches all files.
+- **Fixed an issue where the decompress step could crash when processing certain PKZIP files produced by Windows 11.** The decompress step now handles these file types correctly.
 
-## OpConMFT ver 3.13.6
-Mar 2025
+### SFTP sites
 
-:eight_spoked_asterisk: **MFT-634**: When testing an SFTP site for the first time in the WebUI, clicking the Deny button from the Accept Fingerprint dialog resulted in the fingerprint being saved.
+- **Fixed an issue where SSH partial authentication (key and password both required) failed when connecting to SFTP sites.** SFTP connections requiring both key and password authentication now succeed.
 
-:eight_spoked_asterisk: **MFT-645**: Non-default encrypted SSH Keys could not be decrypted when connecting to SFTP sites.
+### Web UI
 
-:eight_spoked_asterisk: **MFT-647**: Fixed an issue with managing (delete/select) TLS certs in desktop UI.
+- **Fixed an issue where path endpoints could be tested with blank or missing paths.** The test button now requires a valid path before running a site test.
+- **Fixed an issue where the Debug Data Settings dialog did not commit changes when closed.** Settings are now saved when the dialog is closed.
 
-:eight_spoked_asterisk: **MFT-651**: Fixed an issue with Web UI - managed site password display for the wrong site.
+### Webhooks
 
-:white_check_mark: **MFT-640**: ECDSA and ED25519 keys can now be generated from the WebUI SSH Keys page.
+- **Fixed an issue where undecryptable webhook configurations could prevent MFT jobs from running.** Webhook configurations are now validated and handled without blocking job execution.
 
-:eight_spoked_asterisk: **OC-1893**: Added optional feature to enforce unidirectional shutdown of the TLS data channel for FTPS* managed sites.
+---
 
-## OpConMFT ver 3.13.5
-October 2024
+## OpCon MFT 3.13.6
 
-:eight_spoked_asterisk: **MFT-506**: Fixed an issue with MFT not recognizing group settings.
+**Released:** March 2025
 
-:eight_spoked_asterisk: **MFT-434**: Fixed an issue with download a file from azure blob storage.
+OpCon MFT 3.13.6 includes new SSH key types for SFTP sites and several bug fixes for site configuration and TLS certificates.
 
-:eight_spoked_asterisk: **MFT-554**: Reconciliation page is removed from WebUI-Jobs and can't access it with direct link.
+## New features
 
-:eight_spoked_asterisk: **MFT-537**: Fixed an issue with configuring Azure blob storage sites in WebUI.
+### SSH keys
 
-:eight_spoked_asterisk: **MFT-538**: Updated WebUI-FTP server page with create new certificate feature.
+- **Added support for generating ECDSA and ED25519 keys from the SSH Keys page in the web UI.** You can now generate ECDSA and ED25519 key types directly from the web UI SSH Keys page.
 
-:eight_spoked_asterisk: **MFT-539**: Updated WebUI-FTP server page with import certificate feature.
+## Bug fixes
 
-:eight_spoked_asterisk: **MFT-541**: Updated WebUI-FTP server page with view and export certificate feature.
+### SFTP sites
 
-:eight_spoked_asterisk: **MFT-549**: Fixed an issue with displaying fakepath in impoting a ssh key.
+- **Fixed an issue where selecting Deny in the Accept Fingerprint dialog when testing an SFTP site for the first time resulted in the fingerprint being saved.** Selecting Deny now correctly discards the fingerprint.
+- **Fixed an issue where non-default encrypted SSH keys could not be used to connect to SFTP sites.** All supported encrypted SSH key formats can now be used for SFTP authentication.
 
-:eight_spoked_asterisk: **MFT-550**: Fixed an issue with viewing TLS certificate details in WebUI.
+### TLS certificates
 
-:eight_spoked_asterisk: **MFT-551**: Fixed an issue with deleting debug files in WebUI-settings-Debug Data.
+- **Fixed an issue with managing TLS certificates in the Desktop UI.** Certificate management operations (delete and select) now work correctly.
 
-:eight_spoked_asterisk: **MFT-552**: Added "Amazon web services S3" server type back in configurator-managed sites-add.
+### Web UI
 
-:eight_spoked_asterisk: **MFT-555**: Fixed an issue in Configurator while adding a site with server type "Amazon S3".
+- **Fixed an issue where the managed site password was displayed for the wrong site.** Passwords are now displayed for the correct managed site.
 
-:eight_spoked_asterisk: **MFT-567**: MFT Managed Sites honor advanced SSH method settings.
+### FTPS
 
-:eight_spoked_asterisk: **MFT-564**: Fixed issue with algorithms list in ciphers.
+- **Added an optional feature to enforce unidirectional shutdown of the TLS data channel for FTPS managed sites.** This option is available for FTPS managed sites where the remote server requires unidirectional TLS shutdown.
 
-:eight_spoked_asterisk: **MFT-565**: Fixed an issue with saving loggging settings, added save button to save settings.
+---
 
-:eight_spoked_asterisk: **MFT-571**: Fixed an issue with WebUI site test button to save all the settings.
+## OpCon MFT 3.13.5
 
-:eight_spoked_asterisk: **MFT-574**: Fixed an issue with WebUI-Managed Sites-adding site with account key for AZ blob storage server type.
+**Released:** October 2024
 
-:eight_spoked_asterisk: **MFT-577**: Managed site SSHKeyName setting being stored inconsistently could break settings load in Web UI.
+OpCon MFT 3.13.5 includes new platform support, file upload limits, and numerous web UI and configuration fixes.
 
-:eight_spoked_asterisk: **MFT-602**: Upgrade installation with exe, installer didn't use existing installation directory.
+## New features
 
-:eight_spoked_asterisk: **MFT-579**: Fixed SSH keys page issues that include import, create buttons not working and exporting key pair.
+### Protocols
 
-:eight_spoked_asterisk: **MFT-608**: Path endpoints with credentials silently failed when used. The test button is still inoperable but they now work.
+- **Added support for FTP and SFTP connections to IBM i and z/OS platforms.** OpCon MFT now supports connecting to IBM i and z/OS systems over FTP and SFTP (put operations).
 
-:white_check_mark: **MFT-417**: OpconMFt supports FTP, SFTP connections to IBMi and zOS platforms.
+### File server
 
-:white_check_mark: **MFT-444**: Limit file uploads to a maximum size.
+- **Added the ability to limit file uploads to a maximum size.** You can now configure a maximum file size for uploads to the OpCon MFT Server.
+- **Updated the browser authentication form for the file server to be brandable and stylable.** When logging into the file server from a browser, authentication is now presented through a customizable form instead of a browser popup.
+- **Updated TLS certificate and FTP Server pages with full certificate management.** The web UI now supports creating, importing, viewing, deleting, and exporting TLS certificates, including the option to add intermediate certificates.
 
-:white_check_mark: **MFT-455**: When logging into the file server from a browser authentication is now done via a brandable/stylable form instead of a browser popup.
+## Improvements
 
-:white_check_mark: **MFT-562**: TLS certificates and FTP Server web pages are updated with functionality to create, import, view, delete and Export certificates. Also "Add Intermediate Certificate" option included.
+### Azure Blob Storage
 
+- **Added the Amazon Web Services S3 server type back to the Configurator managed sites add dialog.** The AWS S3 option is available again when adding a new managed site.
 
-## OpConMFT ver 3.13.4
-July 2024
+### SFTP
 
-:eight_spoked_asterisk: **MFT-190**: Allow disabling SMTP authentication so single sign-on won't be attempted when offered.
+- **Updated managed sites to honor advanced SSH method settings.** Advanced SSH method configuration is now respected when connecting via managed sites.
 
-:eight_spoked_asterisk: **MFT-327**: MFT Server can now be configured via the MFT Scheduler Service provided Web UI.
+## Bug fixes
 
-:eight_spoked_asterisk: **MFT-328**: Added WebUI Server "Users" page to implement Desktop Server Console user configuration functionality.
+### Groups
 
-:eight_spoked_asterisk: **MFT-342**: Email field added to user account settings.
+- **Fixed an issue where OpCon MFT did not recognize group settings.** Group settings are now applied correctly during job processing.
 
-:eight_spoked_asterisk: **MFT-355**: Support Username and Password with Path Endpoints for use where windows single sign-on doesn't work.
+### Azure Blob Storage
 
-:eight_spoked_asterisk: **MFT-367**: The MFT Agent now stores event data in a persistent on disk store so events fire (possibly late) even if OpCon or the MFT Agent go down.
+- **Fixed an issue where downloading a file from Azure Blob Storage failed.** File downloads from Azure Blob Storage now complete correctly.
+- **Fixed an issue where configuring Azure Blob Storage sites in the web UI failed.** Azure Blob Storage site configuration now saves correctly.
+- **Fixed an issue where adding a site with an account key for Azure Blob Storage failed.** Sites using Azure account key authentication can now be added and saved correctly.
 
-:eight_spoked_asterisk: **MFT-391**: CVE-2023-48795: Avoid potential downgrade attacks by implementing strict kex. More details can be found in the advisory.
-CVE-2023-6918: Avoid potential use of weak keys in low memory conditions by systematically checking return values of MD functions. More details can be found in the advisory.
+### Web UI
 
-:eight_spoked_asterisk: **MFT-396**: FIPS mode is configurable but defaults to the windows FIPS mode setting.
+- **Fixed an issue where the Reconciliation page was removed from the WebUI-Jobs section and could not be accessed directly.** The Reconciliation page link has been corrected.
+- **Fixed an issue where saving logging settings required a save button that was missing.** A save button has been added to the logging settings page.
+- **Fixed an issue where the site test button did not save all settings before testing.** All settings are now saved before running a site test.
+- **Fixed an issue where a fake path was displayed when importing an SSH key.** The correct file path is now displayed during SSH key import.
+- **Fixed an issue where TLS certificate details could not be viewed in the web UI.** TLS certificate details are now displayed correctly.
+- **Fixed an issue where debug files could not be deleted from the Debug Data settings page.** Debug file deletion now works correctly.
 
-:eight_spoked_asterisk: **MFT-417**: Support SFTP and FTP (put) connections to IBMi and z/OS.
+### SSH keys
 
-:eight_spoked_asterisk: **MFT-422**: get, pull, and monitor steps can now redownload already processed files if configured to do so.
+- **Fixed issues with SSH key page actions including import, create, and key pair export.** SSH key management operations now function correctly.
 
-:eight_spoked_asterisk: **MFT-437**: Process for checking stored SSH fingerprints now handles pre-existing MD5 hashes and uses SHA256 hashes for new sites, upgrading from MD5 when possible.
+### Path endpoints
 
-:eight_spoked_asterisk: **MFT-439**: Added create directory, and delete buttons for rudimentary file management for directories served over HTTP.
+- **Fixed an issue where path endpoints with credentials silently failed when used.** Path endpoints with credentials now work correctly during job execution.
 
-:eight_spoked_asterisk: **MFT-445**: MFT Server now supports password length and complexity requirements.
+### Installation
 
-:eight_spoked_asterisk: **MFT-446**: MFT Server user passwords now uses salted sha256 hashes instead of (unsalted) sha1 hashes.
+- **Fixed an issue where the upgrade installer did not use the existing installation directory.** The upgrade installer now correctly uses the previously configured installation path.
 
-:eight_spoked_asterisk: **MFT-450**: MFT Agent now fires CloudEvents for client side activity if the Web Hook is licensed and configured.
+### Algorithms
 
-:eight_spoked_asterisk:  **MFT-307**: WebUI port automatically defaults to port 41100 with HTTPS enabled on install.
+- **Fixed an issue with the algorithms list in ciphers.** The available cipher list now displays correctly.
 
-:eight_spoked_asterisk:  **MFT-323**: Delete User button added to WebUI Server "Users" page.
+### Managed site SSH keys
 
-:eight_spoked_asterisk:  **MFT-326**: Added WebUI Server "Logging" page.
+- **Fixed an issue where the SSH key name setting was stored inconsistently and could break settings loading in the web UI.** SSH key name settings are now stored and loaded consistently.
 
-:eight_spoked_asterisk:  **MFT-334**: Added General tab in WebUI - ServerConsole - Users page.
+---
 
-:eight_spoked_asterisk:  **MFT-338**: Added Shares tab in WebUI - ServerConsole - Users page.
+## OpCon MFT 3.13.4
 
-:eight_spoked_asterisk:  **MFT-361**: Added missing Framework documentation from installation.
+**Released:** July 2024
 
-:eight_spoked_asterisk:  **MFT-373**: Email address field added to Server WebUI user settings page.
+OpCon MFT 3.13.4 introduces web UI server management, persistent event storage, FIPS mode configuration, and numerous security and reliability improvements.
 
-:eight_spoked_asterisk:  **MFT-379**: Mitigated CVE-2023-21893.
+## New features
 
-:eight_spoked_asterisk:  **MFT-489**: Improved performance for SFTP client file transfers.
+### Web UI server management
 
-:white_check_mark: **MFT-106**: Fixed %uploadfiles and %downloadfiles arrays documentation.
+- **Added a Server Users page to the web UI.** You can now configure server users directly from the web UI, implementing the same functionality available in the Desktop Server Console.
+- **Added a Server Logging page to the web UI.** Server logging settings are now configurable from the web UI.
+- **Added a General tab to the Server Console Users page in the web UI.** The General tab provides access to core user settings.
+- **Added a Shares tab to the Server Console Users page in the web UI.** The Shares tab allows configuration of file sharing settings for each user.
+- **Added a delete user button to the Server Users page in the web UI.** Users can now be deleted directly from the web UI.
+- **Added an email field to user account settings.** An email address can now be associated with each server user account.
 
-:white_check_mark: **MFT-115**: Fixed an issue where adding a group in the web ui could hang timeout.
+### Event storage
 
-:white_check_mark: **MFT-176**: FTPLIST command now return $ERROR_SERVER_IS_FTP when you connect to an FTP server as HTTP.
+- **Added persistent on-disk storage for MFT Agent event data.** Events now fire (possibly late) even if OpCon or the MFT Agent are temporarily unavailable, preventing event loss during outages.
 
-:white_check_mark: **MFT-216**: SFTP connections failed for SSH connections that only accepted "keyboard-interactive" authentication method.
+### Security and compliance
 
-:white_check_mark: **MFT-223**: Could not delete job groups from Scheduler -> Group Settings tab.
+- **Added FIPS mode configuration.** FIPS mode is now configurable and defaults to the Windows FIPS mode setting.
+- **Added strict key exchange enforcement to mitigate potential SFTP downgrade attacks (CVE-2023-48795).** OpCon MFT now implements strict kex to reduce the risk of protocol downgrade attacks.
+- **Added systematic return value checking for MD functions to address low-memory key weakness (CVE-2023-6918).** MD function return values are now checked to prevent use of weak keys in low-memory conditions.
+- **Mitigated CVE-2023-21893.**
+- **Updated SSH host key fingerprints to use SHA256 instead of MD5.** SSH host key fingerprints now use the stronger SHA256 hash algorithm.
+- **Updated the process for checking stored SSH fingerprints.** Pre-existing MD5 fingerprints are handled and upgraded to SHA256 where possible.
+- **Updated MFT Server user passwords to use salted SHA256 hashes instead of unsalted SHA1 hashes.** Password storage is now more secure.
+- **Added password length and complexity requirements to the MFT Server.** Administrators can now enforce password complexity rules for server users.
 
-:white_check_mark: **MFT-273**: User could delete files from a virtual directory with just upload, list, and post permissions enabled.
+### File management
 
-:white_check_mark: **MFT-265**: ProgramData and UserData directory fields could be directly edited from WebUI Configuration Data page.
+- **Added create directory and delete buttons for basic file management in directories served over HTTP.** Directories served over HTTP now support rudimentary file management from the browser.
 
-:white_check_mark: **MFT-277**: Debug log export included HTML contents at end of downloaded ZIP file.
+### CloudEvents
 
-:white_check_mark: **MFT-351**: Files with Unicode characters in their name could not be download from server web UI.
+- **Added CloudEvents support for MFT Agent client-side activity.** The MFT Agent now fires CloudEvents for client-side file transfer activity when the webhook is licensed and configured.
 
-:white_check_mark: **MFT-356**: SSH Key selection toggle is now enabled when adding a new SFTP site in the Web UI.
+### WebUI port
 
-:white_check_mark: **MFT-365**: FTPLOGON was missing TLSv1.3 values from /minversion and /maxversion options.
+- **Updated the web UI port to default to port 41100 with HTTPS enabled on new installs.** New installations now use HTTPS on port 41100 by default.
 
-:white_check_mark: **MFT-370**: Log rotation in the server logs works as intended.
+### SFTP
 
-:white_check_mark: **MFT-374**: SSH hostkey fingerprints now use SHA256 instead of MD5 hash.
+- **Added support for redownloading already-processed files.** Get, pull, and monitor steps can now be configured to redownload files that have already been processed.
+- **Improved performance for SFTP client file transfers.**
 
-:white_check_mark: **MFT-377**: User facing server logging stopped when set to rotate every N megabytes.
+## Improvements
 
-:white_check_mark: **MFT-381**: User share folder expiration date set to random value if not explicitly set.
+### SMTP
 
-:white_check_mark: **MFT-395**: Exporting SSH public key did not work from WebUI.
+- **Added the ability to disable SMTP authentication.** Single sign-on authentication is no longer attempted when SMTP authentication is disabled.
 
-:white_check_mark: **MFT-401**: Configurator error uninstalling and reinstalling Scheduler Service.
+### Path endpoints
 
-:white_check_mark: **MFT-473**: Importing ssh-1 format ssh keys failed.
+- **Added username and password support for path endpoints.** Path endpoints can now be configured with credentials for environments where Windows single sign-on is not available.
 
-:white_check_mark: **MFT-507**: Clients that canonicalize request with a zero length path caused the server to spontaneously disconnect them.
+## Bug fixes
 
-:white_check_mark: **MFT-528**: CloudEvents were being dropped or corrupted
+### SSH keys
 
-## OpConMFT ver 3.13.3
-Oct 2023
+- **Fixed an issue where exporting an SSH public key did not work from the web UI.** SSH public key export now functions correctly.
+- **Fixed an issue where importing SSH-1 format keys failed.** SSH-1 format keys can now be imported.
+- **Fixed an issue where SSH key selection was not enabled when adding a new SFTP site in the web UI.** SSH key selection is now available when configuring a new SFTP site.
 
-:eight_spoked_asterisk: **MFT-280**: Added support of 2 jobs with the same name to run simultaneously. 
+### Groups
 
-:eight_spoked_asterisk: **MFT-207**: Successful site test under Managed Sites page now displays a site listing.
+- **Fixed an issue where job groups could not be deleted from the Scheduler Group Settings tab.** Job group deletion now works correctly.
 
-:eight_spoked_asterisk: **MFT-289**: When trying to start a listener the error message now says communication with OpCon failed.
+### Virtual directories
 
-:eight_spoked_asterisk: **MFT-296**: MFT Server now waits for OpCon to come up so it is no longer a requirement that OpCon's Rest API be reachable when the service starts.
+- **Fixed an issue where a user could delete files from a virtual directory with only upload, list, and post permissions.** File deletion from virtual directories now requires the correct permissions.
+- **Fixed an issue where a share folder expiration date was set to a random value when not explicitly configured.** Expiration dates are now unset by default unless explicitly specified.
 
-:eight_spoked_asterisk: **MFT-305**: FTP server types that use "explicit mode" now labeled as such, under Managed Sites page.
+### Web UI
 
-:eight_spoked_asterisk: **MFT-306**: Incorrect warning about "log data signature check failed" removed from Logging WebUI page.
+- **Fixed an issue where ProgramData and UserData directory fields could be directly edited from the Configuration Data page.** These fields are now read-only in the web UI.
+- **Fixed an issue where files with Unicode characters in their name could not be downloaded from the server web UI.** Unicode filenames are now handled correctly.
+- **Fixed an issue where the debug log export included HTML content at the end of the downloaded ZIP file.** The debug export ZIP no longer contains extraneous HTML content.
 
-:eight_spoked_asterisk: **MFT-308**: Automatic site configuration option removed from Managed Sites WebUI page.
+### FTP
 
-:eight_spoked_asterisk: **MFT-310**: WebUI managed site test now differentiates between various errors on failed connection.
+- **Fixed an issue where FTPLIST returned $ERROR_SERVER_IS_FTP when connecting to an FTP server as HTTP.** The correct error is now returned.
+- **Fixed an issue where SFTP connections failed for connections that only accepted keyboard-interactive authentication.** Keyboard-interactive SFTP authentication now works correctly.
+- **Fixed an issue where the FTPLOGON command was missing TLSv1.3 values from /minversion and /maxversion options.** TLSv1.3 is now supported in the version range options.
 
-:eight_spoked_asterisk: **MFT-311**: Files that could not be processed by job because no size or date change now reported as such instead of misleading "file not found" error.
+### Logging
 
-:eight_spoked_asterisk: **MFT-324**: List of currently logged in users now visible from server WebUI.
+- **Fixed an issue where log rotation stopped working when set to rotate every N megabytes.** Log rotation by size now functions correctly.
+- **Fixed an issue where the Configurator showed an error when uninstalling and reinstalling the Scheduler Service.** The reinstall process no longer produces an error.
 
-:eight_spoked_asterisk: **MFT-325**: Implemented disconnect button on server WebUI to kick off logged-in users.
+### File sharing
 
-:eight_spoked_asterisk: **MFT-337**: Implemented "Virtual Folders" tab on "Users" page of ServerConsole WebUI.
+- **Fixed an issue where a corrupted share configuration element could crash the MFT Server when listing a directory.** The server now handles corrupted share configurations without crashing.
 
-:white_check_mark: **MFT-153**: FTPS (Explicit) Control Only server type caused site test failure on WebUI Managed Sites page.
+### CloudEvents
 
-:white_check_mark: **MFT-185**: Irrelevant links to unnecessary Error Reconciliation page removed from all pages.
+- **Fixed an issue where CloudEvents were being dropped or corrupted.** CloudEvents are now delivered reliably.
 
-:white_check_mark: **MFT-188**: On Managed Sites WebUI page, Proxy Settings toggle could not be enabled.
+### Documentation
 
-:white_check_mark: **MFT-222**: On TLS Certificate WebUI page, after importing a certificate, column values and headers contained doubled-up text.
+- **Updated `%uploadfiles` and `%downloadfiles` array documentation.** The documentation for these variables now reflects the correct behavior.
 
-:white_check_mark: **MFT-220**: On TLS Certificate WebUI page, unable to successfully export a certificate.
+---
 
-:white_check_mark: **MFT-218**: Keys could not be successfully exported from the PGP Keys WebUI page.
+## OpCon MFT 3.13.3
 
-:white_check_mark: **MFT-242**: On Outbound Email WebUI page, TLS Mode drop-down list was blank and contained no selectable options.
+**Released:** October 2023
 
-:white_check_mark: **MFT-239**: Confirmation dialog for deleting a managed site in WebUI did not offer an option to cancel delete operation.
+OpCon MFT 3.13.3 includes new server management capabilities and numerous WebUI and stability fixes.
 
-:white_check_mark: **MFT-237**: Inconsistent dialog title suggested managed site test failure when managed site test actually succeeded.
+## New features
 
-:white_check_mark: **MFT-276**: Some modal dialogs in WebUI were abnormally wide and not disambiguated from background.
+### Jobs
 
-:white_check_mark: **MFT-279**: On PGP Keys WebUI page, a saved passphrase could not be viewed.
+- **Added support for two jobs with the same name running simultaneously.** OpCon MFT now supports concurrent execution of jobs that share the same name.
 
-:white_check_mark: **MFT-284**: Fixed issues with Intermittent erroneous TLS initialization error when connected to plain non TLS services and Intermittent server crash on logoff.
+### Server management
 
-:white_check_mark: **MFT-291**: Debug logging for the Web UI and the Scheduler separated into Scheduler.log and NewUI.log to fix log rotation.
+- **Added a list of currently logged-in users visible from the server web UI.** Administrators can now see which users are currently connected to the server.
+- **Added a Disconnect button on the server web UI to remove logged-in users.** Administrators can now disconnect active users from the server web UI.
+- **Added a Virtual Folders tab to the Users page of the Server Console web UI.** Virtual folder assignments can now be managed from the Users page.
 
-:white_check_mark: **MFT-294**: Under high load MFT agent jobs could report failure when they actually worked. This error would also prevent acquiring job logs.
+### Managed sites
 
-:white_check_mark: **MFT-315**: Azure blob storage custom connection string was ignored when connecting.
+- **Updated FTP server types that use explicit mode to be labeled as such.** Explicit mode server types are now clearly identified on the Managed Sites page.
+- **Removed the automatic site configuration option from the Managed Sites web UI page.** The automatic configuration option is no longer available.
 
-:white_check_mark: **MFT-317**: Password, Verification fields added to Outbound Email WebUI page.
+### Logging
 
-:white_check_mark: **MFT-318**: Delete button on Outbound Email WebUI page did not actually delete outbound email item.
+- **Separated debug logging for the web UI and the Scheduler into separate log files.** The web UI now logs to `NewUI.log` and the Scheduler logs to `Scheduler.log`, enabling independent log rotation.
 
-:white_check_mark: **MFT-340**: Styling listing output didn't work correctly due to missing closing div tags.
+## Improvements
 
-:white_check_mark: **MFT-348**: Fixed an issue with a rare crash during file uploads.
+### Managed sites
 
-:white_check_mark: **MFT-350**: Successful path endpoint tests dialog title no longer contains "error".
+- **Updated the managed site test to differentiate between various errors on a failed connection.** The test dialog now displays more specific error information when a connection fails.
+- **Improved the successful site test page to display a site listing.** A successful site test now shows the directory listing for the connected site.
 
-:white_check_mark: **MFT-354**: Fixed an issue with deleting group in desktop Configurator.
+### Error messages
 
-:white_check_mark: **MFT-357**: A corrupted share configuration element could crash MFT Server when listing a directory in the web UI.
+- **Updated the message displayed when files cannot be processed because no size or date change was detected.** The message now accurately describes the condition instead of showing a misleading "file not found" error.
 
-:white_check_mark: **MFT-359**: Fixed an issue with deleting PGP Secret keys from WebUI.
+### Server startup
 
-:white_check_mark: **MFT-360**: TLS version limitations did set in Web UI did not show in desktop configurator.
+- **Updated the MFT Server to wait for OpCon to come up before requiring an active connection.** The OpCon Rest API is no longer required to be reachable when the MFT service starts.
 
-:white_check_mark: **MFT-362**: Inactive Help buttons removed from MFT Web UI.
+### Server communication
 
-## OpConMFT ver 3.13.2
-June 2023
+- **Updated the listener error message to indicate that communication with OpCon failed when a listener cannot start.** The error message is now more descriptive.
 
-:eight_spoked_asterisk: **MFT-7**: MFT Agent installer no longer include no longer supported MS product SQL Server CE.
+## Bug fixes
 
-:eight_spoked_asterisk: **MFT-288**: Disable the buttons & sub menu option for unauthenticated user (who doesn't have admin access now) and show the warring message on the header of the application.
+### WebUI
 
-:white_check_mark: **MFT-153**: FTPS (Explicit) Control Only server type caused site test failure on WebUI Managed Sites page.
+- **Fixed an issue where some modal dialogs were abnormally wide and not visually distinct from the background.** Modal dialogs now display at the correct size and with proper visual separation.
+- **Fixed an issue where the incorrect dialog title indicated a managed site test failure when the test actually succeeded.** The dialog title now accurately reflects the test result.
+- **Fixed an issue where the confirmation dialog for deleting a managed site did not offer a cancel option.** The delete confirmation dialog now includes a cancel button.
+- **Fixed an issue where proxy settings could not be enabled on the Managed Sites page.** The Proxy Settings toggle now functions correctly.
+- **Fixed an issue where keys could not be exported from the PGP Keys page.** PGP key export now works correctly.
+- **Fixed an issue where a saved passphrase could not be viewed on the PGP Keys page.** Saved passphrases can now be viewed.
+- **Fixed an issue where the TLS Mode list on the Outbound Email page was blank.** The TLS Mode list now displays the available options.
+- **Fixed an issue where the Delete button on the Outbound Email page did not delete the selected item.** The delete action now functions correctly.
+- **Fixed an issue where Password and Verification fields were missing from the Outbound Email page.** Both fields are now available.
+- **Fixed an issue where the TLS Certificate page displayed doubled column values and headers after importing a certificate.** Column values and headers are now displayed correctly after import.
+- **Fixed an issue where TLS certificates could not be exported from the web UI.** Certificate export now works correctly.
 
-:white_check_mark: **MFT-185**: Irrelevant links to unnecessary Error Reconciliation page removed from all pages.
+### TLS
 
-:white_check_mark: **MFT-187**: Fixed an issue with edit Site TLS Client Cert toggle.
+- **Fixed an issue where TLS version limitations set in the web UI did not appear in the Desktop Configurator.** TLS version settings are now synchronized between the web UI and Desktop Configurator.
 
-:white_check_mark: **MFT-188**: On Managed Sites WebUI page, Proxy Settings toggle could not be enabled.
+### Azure Blob Storage
 
-:white_check_mark: **MFT-193**: PGP key passphrase now being saved correctly by WebUI.
+- **Fixed an issue where a custom connection string for Azure Blob Storage was ignored.** Custom connection strings are now applied correctly when connecting to Azure Blob Storage.
 
-:white_check_mark: **MFT-216**: SFTP connections failed for SSH connections that only accepted "keyboard-interactive" authentication method.
+### Stability
 
-:white_check_mark: **MFT-226**: Fixed an issue with HTTP/HTTPS Transfer Type drop down list.
+- **Fixed intermittent TLS initialization errors when connecting to non-TLS services and an intermittent server crash on logoff.** These stability issues have been resolved.
+- **Fixed an issue where MFT Agent jobs could report failure under high load even when they succeeded.** Job status reporting is now reliable under high load, and this error no longer prevents acquiring job logs.
+- **Fixed a rare crash during file uploads.** An edge case that could cause a crash during upload has been resolved.
+- **Fixed an issue where a corrupted share configuration element could crash the MFT Server when listing a directory.** The server now handles corrupted share configurations without crashing.
 
-:white_check_mark: **MFT-222**: On TLS Certificate WebUI page, after importing a certificate, column values and headers contained doubled-up text.
+### PGP keys
 
-:white_check_mark: **MFT-220**: On TLS Certificate WebUI page, unable to successfully export a certificate.
+- **Fixed an issue where PGP secret keys could not be deleted from the web UI.** PGP secret key deletion now works correctly.
 
-:white_check_mark: **MFT-219**: Fixed an issue with TLS certificate delete in WebUI.
+### Groups
 
-:white_check_mark: **MFT-242**: On Outbound Email WebUI page, TLS Mode drop-down list was blank and contained no selectable options.
+- **Fixed an issue where deleting a group in the Desktop Configurator failed.** Group deletion now works correctly.
 
-:white_check_mark: **MFT-241**: Fixed an issue with SMTP email configuration, CC and BCC as not mandatory.
+### Server console
 
-:white_check_mark: **MFT-240**: Fixed an issue with SMTP application crash.
+- **Fixed an issue where listing output styling did not work correctly due to missing closing tags.** Listing output now renders correctly.
+- **Fixed an issue where disconnecting a user on the information page failed.** User disconnection now works correctly.
 
-:white_check_mark: **MFT-239**: Confirmation dialog for deleting a managed site in WebUI did not offer an option to cancel delete operation.
+---
 
-:white_check_mark: **MFT-237**: Inconsistent dialog title suggested managed site test failure when managed site test actually succeeded.
+## OpCon MFT 3.13.2
 
-:white_check_mark: **MFT-236**: Fixed an issue with WebUI - Configuration data browse directory that was not working.
+**Released:** June 2023
 
-:white_check_mark: **MFT-235**: Fixed an issue with WebUI - Configuration data buttons that were not working.
+OpCon MFT 3.13.2 includes unauthenticated user access restrictions and numerous WebUI and connectivity fixes.
 
-:white_check_mark: **MFT-234**: Fixed an issue with WebUI - Debug data pages.
+## New features
 
-:white_check_mark: **MFT-232**: Fixed an issue with GUI Configurator - TLS Certificate import/delete.
+### Access control
 
-:white_check_mark: **MFT-248**: Fixed am issue with test buttons to verify the inputs.
+- **Added restriction of buttons and sub-menu options for unauthenticated users.** Users without administrator access no longer see active controls, and a warning message is displayed.
 
-:white_check_mark: **MFT-255**: Fixed an issue with server console when disconnecting a user on the information page.
+### Installer
 
-:white_check_mark: **MFT-256**: When looking at a share the share creating control should not be visible.
+- **Removed the no-longer-supported Microsoft SQL Server CE component from the MFT Agent installer.** The installer no longer includes SQL Server CE.
 
-:white_check_mark: **MFT-257**: MFT server could not send events successfully on windows builds lower than 1903 which in server OSes was anything lower than 2022. 
+## Bug fixes
 
-:white_check_mark: **MFT-258**: Fixed an issue with Virtual folders not appearing for user.
+### SFTP and FTP
 
-:white_check_mark: **MFT-259**: Fixed an issue with FTP disconnects on upload with winscp.
+- **Fixed an issue where SFTP connections failed for connections that only accepted keyboard-interactive authentication.** Keyboard-interactive SFTP authentication now works correctly.
+- **Fixed an issue where FTP and SFTP protocol checkboxes were not updated in the Server Console user list when the supported protocol changed.** Protocol checkboxes now reflect the current configuration.
+- **Fixed an issue where FTP disconnects occurred on upload with WinSCP.** FTP upload sessions using WinSCP no longer disconnect unexpectedly.
 
-:white_check_mark: **MFT-260**: Fixed an issue with FTP/SFTP checkboxes are not updated in Server Console user list when supported protocol changed.
+### TLS certificates
 
-:white_check_mark: **MFT-276**: Some modal dialogs in WebUI were abnormally wide and not disambiguated from background.
+- **Fixed an issue with TLS certificate deletion in the web UI.** TLS certificate deletion now works correctly.
+- **Fixed an issue where TLS certificate column values and headers displayed doubled-up text after import.** Column headers and values are now displayed correctly after import.
+- **Fixed an issue where TLS certificates could not be exported.** Certificate export now functions correctly.
+- **Fixed an issue with the TLS Client Certificate toggle on site editing.** The TLS Client Cert toggle now functions correctly.
 
-:white_check_mark: **MFT-279**: On PGP Keys WebUI page, a saved passphrase could not be viewed.
+### PGP
 
-:white_check_mark: **MFT-317**: Password, Verification fields added to Outbound Email WebUI page.
+- **Fixed an issue where the PGP key passphrase was not saved correctly by the web UI.** PGP key passphrases are now saved correctly.
+- **Fixed an issue where keys could not be exported from the PGP Keys page.** PGP key export now works correctly.
+- **Fixed an issue where a saved passphrase could not be viewed on the PGP Keys page.** Saved passphrases can now be viewed.
 
-:white_check_mark: **MFT-318**: Delete button on Outbound Email WebUI page did not actually delete outbound email item.
+### Outbound email
 
-:white_check_mark: **MFT-207**: WebUI managed site test button, Successful site test page now displays a site listing.
+- **Fixed an issue where the TLS Mode list on the Outbound Email page was blank.** The TLS Mode list now displays the correct options.
+- **Fixed an issue where CC and BCC fields were incorrectly required on the Outbound Email page.** CC and BCC are now optional.
+- **Fixed an issue with SMTP application crashes.** SMTP configuration no longer causes application crashes.
+- **Fixed an issue where the Delete button on the Outbound Email page did not delete the selected item.** Delete now functions correctly.
+- **Fixed an issue where Password and Verification fields were missing from the Outbound Email page.** Both fields are now available.
+
+### Managed sites
+
+- **Fixed an issue where the confirmation dialog for deleting a managed site did not offer a cancel option.** The delete confirmation dialog now includes a cancel button.
+- **Fixed an issue where the proxy settings toggle could not be enabled.** The Proxy Settings toggle now functions correctly.
+- **Fixed an issue where the HTTP/HTTPS Transfer Type list was not working.** The Transfer Type list now displays the correct options.
+- **Fixed an issue where the managed site test showed a success title when the test actually failed.** The result dialog title now accurately reflects the outcome.
+- **Fixed an issue where the managed site test displayed a site listing on success.** Successful tests now show the site listing as expected.
+
+### Web UI
+
+- **Fixed an issue with the Configuration Data browse directory function.** Directory browsing on the Configuration Data page now works correctly.
+- **Fixed an issue with the Configuration Data page buttons.** All buttons on the Configuration Data page now function correctly.
+- **Fixed an issue with the Debug Data pages.** Debug data pages now load and display correctly.
+- **Fixed an issue with test buttons not verifying inputs.** Test buttons now validate required fields before running.
+- **Fixed an issue where SFTP and FTP checkboxes on the Server Console Users page could fail to display correctly.** Protocol checkboxes now display the correct state.
+
+### Windows compatibility
+
+- **Fixed an issue where the MFT Server could not send events on Windows builds lower than build 1903.** Event sending now works on all supported Windows Server versions.
+
+### Virtual folders
+
+- **Fixed an issue where virtual folders were not appearing for users.** Virtual folder assignments now display correctly for all users.

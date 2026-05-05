@@ -1,9 +1,22 @@
 ---
-sidebar_label: 'MFT Agent Group Definitions'
-hide_title: 'true'
+title: Group Definitions
+sidebar_label: Group Definitions
+description: "How to configure OpCon MFT Agent group definitions, including data retention settings, error notification email, and macro substitution."
+tags:
+  - Reference
+  - Procedural
+  - System Administrator
 ---
 
-# MFT Agent Group Definitions
+# Group Definitions
+
+## What is it?
+
+Group definitions control the job execution attributes shared by all tasks running under a given group, including data retention period and error notification settings.
+
+- Use this when configuring how long job data is retained for a group of tasks
+- Use this when setting up error notification email recipients and message content for a group
+- Groups are derived automatically from the OpCon Department Name, but can be configured to customize their behavior
 
 Group definitions are currently defined using the OpCon MFT Agent Web Server. A connection to the OpCon MFT Agent Web Server requires a user / password for system where the OpCon MFT Agent is installed (not an OpCon user).
 
@@ -76,3 +89,28 @@ Subject
 %job_name & " failed at Step " & %step_name & %crlf & %error_string & %crlf &job_details
 
 ```
+
+## FAQs
+
+**How is a group name determined?**
+
+The group name is derived from the OpCon Department Name associated with the OpCon job. All special characters and spaces are removed. For example, a Department Name of `Test Group` becomes a group name of `TestGroup`. The default group is `General`.
+
+**What happens if a group does not exist when a job runs?**
+
+If the group associated with a job submission does not exist in the OpCon MFT Agent, the group is created automatically with default settings. Configure the group explicitly if custom retention or notification settings are required.
+
+**What does the Prune Old Data setting control?**
+
+The **Prune Old Data** field controls how long job data (including archived files and logs) is retained for the group before being automatically deleted. The value is expressed as a duration (for example, `-12 months` for 12 months).
+
+## Glossary
+
+**Group** — A logical container in the OpCon MFT Agent that groups tasks sharing common execution attributes. The group name is derived from the OpCon Department Name.
+
+**Macro** — A substitution token used in email notification subject and body fields. Macros are prefixed with `%` and are replaced with runtime values such as the job name, step name, or current date.
+
+**Related topics:**
+
+- [Task Definitions](./agent-task-definitions.md)
+- [MFT Agent installation](./agent-installation.md)

@@ -1,38 +1,53 @@
 ---
-sidebar_label: 'Security'
-hide_title: 'true'
+title: Security
+sidebar_label: Security
+description: "Encryption technologies and security protocols supported by OpCon MFT, including SSL/TLS, SSH, PGP, ZIP, and CMS."
+tags:
+  - Reference
+  - System Administrator
+  - Automation Engineer
 ---
 
 # Security
-OpCon MFT supports both connection-level security and file-level security. 
 
-When connecting to a secure site via SFTP, FTPS, or HTTPS the transmitted data is encrypted on one end and automatically decrypted on the other end.
+## What is it?
 
-OpCon MFT also supports using PGP to encrypt and decrypt individual files. PGP encrypted files may be transferred via either normal or secure connections. Most servers are not able to automatically decrypt PGP encrypted files. If you need this functionality consider using OpCon MFT Server software on the remote site.
+The Security reference describes the connection-level and file-level encryption technologies supported by OpCon MFT.
 
-## Supported Encryption Technologies
-OpCon MFT includes support for a number of different encryption technologies:
+- Use this when selecting the appropriate encryption protocol or cipher for a file transfer task
+- Use this when verifying whether OpCon MFT supports a specific cipher, key algorithm, or HMAC required by a trading partner
+- Use this when configuring PGP, ZIP, or CMS encryption for files that must be protected at rest or in transit
 
-- SSL (Secure Socket Layers)
-- TLS (Transport Layer Security) - A modern replacement for SSL
-- SSH (Secure Shell)
-- PGP (Pretty Good Privacy)
-- ZIP
-- CMS (Cryptographic Message Syntax)
+OpCon MFT provides two layers of security that can be used independently or together:
 
-### SSL/TLS Encryption
-OpCon MFT supports the following versions of SSL/TLS when connecting with the FTPS or HTTPS protocols:
+| Security layer | How it works | Technologies |
+|---|---|---|
+| **Connection-level** | Encrypts data while it travels between systems. The sending side encrypts automatically and the receiving side decrypts automatically. | SSL/TLS (for FTPS and HTTPS), SSH (for SFTP) |
+| **File-level** | Encrypts the file itself, so it stays protected whether stored locally, at rest on a server, or during transfer. | PGP, ZIP (AES-256), CMS |
 
-- SSL 3.0
-- TLS 1.0
-- TLS 1.1
-- TLS 1.2 (most recent version of TLS as of 2018)
+## SSL/TLS
 
-**Perfect Forward Secrecy**
+SSL/TLS secures connections made over the FTPS and HTTPS protocols. TLS is the modern, more secure successor to SSL.
 
-Without Perfect Forward Secrecy (PFS), if an adversary manages to compromise a server's private key, they will be able to decrypt any secure communications which were previously monitored and recorded by that adversary at any time in the past. Perfect Forward Secrecy is a property of certain modern ciphers which fully eliminates this risk through the use of additional temporary keys that cannot be obtained by any eavesdropper. 
+OpCon MFT supports the following protocol versions:
 
-**OpCon MFT supports Perfect Forward Secrecy by providing a large collection of PFS-enabled ciphers, including**
+| Version | Notes |
+|---|---|
+| SSL 3.0 | Retained for compatibility with legacy systems |
+| TLS 1.0 | Older version, widely supported |
+| TLS 1.1 | Intermediate version |
+| TLS 1.2 | Recommended — most secure version supported |
+
+OpCon MFT's SSL/TLS implementation is based on OpenSSL 1.1.1e. For additional details, visit openssl.org.
+
+### Perfect Forward Secrecy
+
+Without Perfect Forward Secrecy (PFS), if an adversary compromises a server's private key, they can decrypt any previously recorded secure communications. PFS eliminates this risk by generating unique temporary session keys for each connection that cannot be recovered by an eavesdropper even if the server's private key is later compromised.
+
+OpCon MFT supports PFS through a collection of DHE and ECDHE cipher suites.
+
+<details>
+<summary>View PFS-enabled ciphers</summary>
 
 - DHE-RSA-AES128-GCM-SHA256
 - DHE-RSA-AES128-SHA
@@ -52,19 +67,22 @@ Without Perfect Forward Secrecy (PFS), if an adversary manages to compromise a s
 - ECDHE-RSA-DES-CBC3-SHA
 - ECDHE-RSA-RC4-SHA
 
-**Supported HMACs (hash-based message authentication code)**
+</details>
 
-OpCon MFT includes support for several different HMAC algorithms. A particular HMAC may only be available for certain ciphers, and vice-versa. 
-The complete list of HMAC algorithms is as follows:
+### Supported HMACs
 
-- MD5
-- SHA
-- SHA256
-- SHA384
+HMAC (hash-based message authentication code) algorithms verify that a message has not been tampered with in transit. A particular HMAC may only be available for certain ciphers, and vice versa.
 
-**Supported Ciphers**
+Supported HMAC algorithms: MD5, SHA, SHA256, SHA384
 
-OpCon MFT includes support for all 106 separate ciphers provided by OpenSSL 1.1.1e for use with TLS. Each of these ciphers can be paired with a limited number of HMAC algorithms, making for a total of 130 cipher + HMAC combinations. The complete cipher list is as follows:
+### Full cipher list
+
+OpCon MFT supports all 106 ciphers provided by OpenSSL 1.1.1e for use with TLS. Each cipher can be paired with a limited number of HMAC algorithms, for a total of 130 cipher + HMAC combinations.
+
+Most users do not need to review this list. It is provided for security audits and trading partner compatibility verification.
+
+<details>
+<summary>View all 106 supported TLS ciphers</summary>
 
 - ECDHE-RSA-AES256-GCM-SHA384
 - ECDHE-ECDSA-AES256-GCM-SHA384
@@ -197,15 +215,16 @@ OpCon MFT includes support for all 106 separate ciphers provided by OpenSSL 1.1.
 - EXP-ADH-RC4-MD5
 - EXP-RC4-MD5
 
-**SSL/TLS Implementation**
+</details>
 
-OpCon MFT's SSL/TLS implementation is OpenSSL 1.1.1e, which is the most current version as of this writing. Implementation details of OpenSSL are beyond the scope of this document. 
- - Please visit openssl.org for any further details you might need.
+## SSH / SFTP
 
-### SSH Encryption
-SFTP stands for "SSH File Transfer Protocol." Like its name suggests, it is a file transfer protocol (similar to FTP) that operates inside an SSH (secure shell) session. The SSH protocol, and by extension OpCon MFT's implementation of SSH/SFTP, offers a number of encryption and encryption-related features to ensure the security of your data. When an initial connection is established to the server, both client and server must agree to use the same ciphers and algorithms.
+SFTP (SSH File Transfer Protocol) transfers files over an encrypted SSH (Secure Shell) session. When a connection is established, both sides negotiate which ciphers and algorithms to use from their shared supported sets.
 
-**Supported Key-Exchange methods**
+<details>
+<summary>View supported SSH algorithms</summary>
+
+**Key-exchange methods**
 
 - diffie-hellman-group1-sha1
 - diffie-hellman-group14-sha1
@@ -215,7 +234,7 @@ SFTP stands for "SSH File Transfer Protocol." Like its name suggests, it is a fi
 - ecdh-sha2-nistp384
 - ecdh-sha2-nistp521
 
-**Supported Ciphers**
+**Ciphers**
 
 - aes128-ctr
 - aes192-ctr
@@ -230,7 +249,7 @@ SFTP stands for "SSH File Transfer Protocol." Like its name suggests, it is a fi
 - cast128-cbc
 - 3des-cbc
 
-**Supported HMACs (hash-based message authentication code)**
+**HMACs**
 
 - SHA1
 - SHA1-96
@@ -238,12 +257,22 @@ SFTP stands for "SSH File Transfer Protocol." Like its name suggests, it is a fi
 - SHA2-512
 - MD5
 - MD5-96
-- RIPEMD-160 
+- RIPEMD-160
 
-### PGP Encryption 
-OpCon MFT supports encryption and decryption of files using PGP (Pretty Good Privacy) through the PGPENCRYPT and PGPDECRYPT commands. PGP cryptography enables you to protect sensitive information when it is stored locally or transmitted across the Internet, so that it cannot be read by anyone except the intended recipient. OpCon MFT's PGP implementation includes support for the following features:
+</details>
 
-**Supported Symmetric Ciphers**
+## PGP
+
+PGP (Pretty Good Privacy) encrypts individual files using a public/private key pair. The sender encrypts using the recipient's public key; only the recipient's private key can decrypt the file. This protects the file both at rest and during transfer, regardless of whether the connection itself is encrypted.
+
+OpCon MFT supports PGP through the PGPENCRYPT and PGPDECRYPT commands and can generate its own PGP keys — no additional software is required.
+
+**Default settings:** AES-128 cipher, ZIP compression, SHA-1 hash. In PGP 2.6 compatibility mode: IDEA cipher, MD5 hash.
+
+<details>
+<summary>View supported PGP algorithms</summary>
+
+**Symmetric ciphers**
 
 - AES (128-bit)
 - AES192
@@ -254,13 +283,13 @@ OpCon MFT supports encryption and decryption of files using PGP (Pretty Good Pri
 - Twofish
 - 3DES
 
-**Supported Key Algorithms**
+**Key algorithms**
 
 - RSA (1024-, 2048-, and 4096-bit)
 - DSA (1024-, 2048-, and 4096-bit)
 - Elgamal
 
-**Supported Hash Methods**
+**Hash methods**
 
 - MD5
 - SHA1
@@ -268,22 +297,34 @@ OpCon MFT supports encryption and decryption of files using PGP (Pretty Good Pri
 - SHA 256-bit, 384-bit, 512-bit
 - SHA-224
 
-**Supported Compression Algorithms**
+**Compression algorithms**
 
 - Uncompressed
 - ZIP
 - ZLIB
 - BZIP2
 
-OpCon MFT can generate its own PGP keys, so no additional software is needed when working with PGP encryption. When generating a new PGP key with OpCon MFT you can choose between the RSA or the DSA (aka DSADH, aka DSS) algorithms, at either 1024-, 2048-, or 4096-bit lengths. By default, files encrypted OpCon MFT use the AES(-128) cipher (or IDEA in PGP 2.6 compatibility mode), ZIP compression, and SHA-1 hash (or MD5 in compatibility mode). Only the IDEA cipher is supported in PGP 2.6 compatiblity mode.
+</details>
 
-### ZIP Encryption
-OpConMFT supports password-protected encrypted ZIP files through use of the ZIP and UNZIP commands. Two encryption ciphers are supported with ZIP: the original PKZIP encryption scheme and AES-256. The original PKZIP encryption scheme is now known to be insecure, but it has an advantage that most ZIP programs are able to decrypt files using this cipher, if provided with the correct password. AES-256, in contrast, is an extremely secure military-grade cipher, and though not all ZIP programs are able to understand AES-256-encrypted ZIP files, most commercial programs do support this cipher, including current versions of WinZip (since 2004) and WinRAR (since 2013). When more than a casual layer of security is necessary, a ZIP file should either be encrypted with AES-256 or else protected by an additional layer of encryption such as PGP (for data-at-rest) or TLS (for data-in-transit).
+## ZIP
 
-### CMS Encryption
-OpCon MFT supports encrypted CMS (Cryptographic Message Syntax) files through use of the CMSENCRYPT  and CMSDECRYPT commands. Both commands support handling signed, encrypted, and signed+encrypted CMS envelopes. Symmetric passphrase support is also available. 
+OpCon MFT supports password-protected encrypted ZIP files through the ZIP and UNZIP commands.
 
-**The encryption ciphers offered through CMS are as follows:**
+Two encryption ciphers are available:
+
+| Cipher | Security | Compatibility |
+|---|---|---|
+| **PKZIP** (legacy) | Known to be insecure | Supported by most ZIP programs |
+| **AES-256** | Military-grade, recommended | Supported by WinZip (2004+), WinRAR (2013+), and most commercial programs |
+
+When strong security is required, use AES-256 or add a second layer of encryption — PGP for files at rest, or TLS for files in transit.
+
+## CMS
+
+CMS (Cryptographic Message Syntax) encrypts files using SSL/TLS certificates rather than PGP keys. OpCon MFT supports signed, encrypted, and signed+encrypted CMS envelopes through the CMSENCRYPT and CMSDECRYPT commands. Symmetric passphrase support is also available.
+
+<details>
+<summary>View supported CMS ciphers</summary>
 
 - des3 (default)
 - des
@@ -297,3 +338,41 @@ OpCon MFT supports encrypted CMS (Cryptographic Message Syntax) files through us
 - camellia128
 - camellia192
 - camellia256
+
+</details>
+
+## Glossary
+
+**CMS (Cryptographic Message Syntax)** — A standard for digitally signed and encrypted messages. OpCon MFT supports CMS envelopes through the CMSENCRYPT and CMSDECRYPT commands.
+
+**HMAC (Hash-based Message Authentication Code)** — A mechanism for verifying the integrity and authenticity of a message using a cryptographic hash function combined with a secret key.
+
+**Perfect Forward Secrecy (PFS)** — A property of certain cipher suites that generates unique session keys for each connection, ensuring that compromise of a server's private key does not expose previously recorded sessions.
+
+**PGP (Pretty Good Privacy)** — A file-level encryption standard used to protect data at rest or in transit. OpCon MFT supports PGP encryption and decryption through the PGPENCRYPT and PGPDECRYPT commands.
+
+**SFTP (SSH File Transfer Protocol)** — A file transfer protocol that operates over an SSH (Secure Shell) session, providing encrypted file transfer capability.
+
+**SSL (Secure Sockets Layer)** — An older connection-level encryption protocol, now superseded by TLS. OpCon MFT retains support for SSL 3.0 for compatibility with legacy systems.
+
+**TLS (Transport Layer Security)** — The modern replacement for SSL, used to encrypt connections made over FTPS and HTTPS protocols.
+
+## FAQs
+
+**What is the difference between connection-level security and file-level security?**
+
+Connection-level security (SSL/TLS, SSH) encrypts data while it is in transit between systems. File-level security (PGP, ZIP, CMS) encrypts the file itself, so it remains protected whether it is stored locally, at rest on a server, or being transferred.
+
+**Which encryption should be used for the highest security?**
+
+For data in transit, use TLS 1.2 with a PFS-enabled cipher. For data at rest or when the remote server cannot automatically decrypt files, use PGP with AES-256 and the RSA or DSA key algorithm. For ZIP encryption, use AES-256 rather than the legacy PKZIP scheme.
+
+**Can OpCon MFT generate its own PGP keys?**
+
+Yes. OpCon MFT can generate PGP keys using either the RSA or DSA algorithm at 1024-, 2048-, or 4096-bit key lengths. No additional software is required.
+
+**Related topics:**
+
+- [Architecture](./architecture.md)
+- [MFT Agent installation](./agent-installation.md)
+- [Encryption Definitions](./agent-encryption-definitions.md)

@@ -1,9 +1,23 @@
 ---
-sidebar_label: 'MFT Agent Encryption Definitions'
-hide_title: 'true'
+title: Encryption Definitions
+sidebar_label: Encryption Definitions
+description: "How to configure PGP keys, TLS certificates, and SSH keys in the OpCon MFT Agent for file encryption, connection security, and SFTP authentication."
+tags:
+  - Reference
+  - Procedural
+  - System Administrator
+  - Automation Engineer
 ---
 
-# MFT Agent Encryption Definitions
+# Encryption Definitions
+
+## What is it?
+
+Encryption definitions configure the PGP keys, TLS certificates, and SSH keys used by the OpCon MFT Agent for file-level encryption and secure connection authentication.
+
+- Use this when setting up PGP encryption for files that must be protected at rest or during transfer
+- Use this when configuring TLS certificates for FTPS or HTTPS connections
+- Use this when importing or generating SSH keys for SFTP authentication
 
 The OpCon MFT Agent incorporates abilities to encrypt and decrypt files using PGP cryptography and for managing a PGP keyring. PGP is a commonly recognized method of what is referred to as strong cryptography. Cryptography is the science of using mathematics to encrypt and decrypt data. PGP cryptography enables you to protect sensitive information when it is stored locally or transmitted across the Internet so it cannot be read by anyone except the intended recipient.
 
@@ -55,7 +69,7 @@ Enter the credentials for the OpCon MFT Agent Web Server in the pop-up window an
 
 ### Creating a New Key-Pair
 
-Click the ***Create Key*** button.
+Select the **Create Key** button.
 
 ![Create Key-Pair](../static/img/encryption-create-key-pair.png)
 
@@ -75,7 +89,7 @@ When completed select the **OK** to save the new definition.
 
 ### Importing a Key-Pair, Public Key or a Keyring
 
-Click the ***Import Key*** button. 
+Select the **Import Key** button. 
 
 You may import a key-pair, Public key, or a whole keyring into OpCon MFT by following these steps:
 
@@ -117,7 +131,7 @@ Enter the credentials for the OpCon MFT Agent Web Server in the pop-up window an
 
 ![Certificates](../static/img/add-certificate.png)
 
-Click the ***Create Key*** button.
+Select the **Create Key** button.
 
 ![Create Certificates](../static/img/create-certificates.png)
 
@@ -210,3 +224,39 @@ Field                           | Description
 
 When completed select the **OK** to import the SSH Key.
 If necessary select **Copy Public Key** to extract a copy of the public key.
+
+## FAQs
+
+**What type of PGP encryption does OpCon MFT support?**
+
+OpCon MFT supports asymmetric PGP encryption using a public/private key pair. Symmetric PGP (using a passphrase without a key pair) is not currently supported.
+
+**What is the difference between a TLS certificate and a PGP key?**
+
+A TLS certificate secures the connection between two systems at the transport layer (used with FTPS and HTTPS). A PGP key encrypts the file itself, so the file remains protected regardless of how it is transferred or stored.
+
+**Can OpCon MFT generate its own SSH keys?**
+
+Yes. Select **Key Pair Creation** in the SSH Key Management section to generate an SSH key pair using either RSA or DSA at 1024-, 2048-, 3072-, or 4096-bit key sizes. After creation, the corresponding public key must be placed in the appropriate location on the remote SFTP server.
+
+**What is ASCII armoring for PGP?**
+
+ASCII armoring encodes a PGP key or encrypted file using only printable ASCII characters. ASCII-armored files are plain text and can be safely transmitted via email or viewed in a text editor. Non-armored files use a binary format.
+
+## Glossary
+
+**ASCII Armor** — An encoding format for PGP keys and encrypted files that uses only printable ASCII characters, making the content safe for email transmission and text-based viewing.
+
+**Bilateral Connection** — A TLS connection that requires both the server and the client to present a certificate. Also called mutual authentication.
+
+**Passphrase** — A secret string used to protect a private key or SSH key. The passphrase is required to use the key for encryption, decryption, or authentication.
+
+**PGP (Pretty Good Privacy)** — A file-level encryption standard that uses a public/private key pair to protect files at rest or in transit.
+
+**TLS Certificate** — A digitally signed document that identifies a server or client and provides a public key for establishing encrypted TLS connections.
+
+**Related topics:**
+
+- [Security](./security.md)
+- [Endpoint Definitions](./agent-endpoint-definitions.md)
+- [Task Definitions](./agent-task-definitions.md)

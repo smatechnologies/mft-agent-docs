@@ -1,89 +1,96 @@
 ---
-sidebar_label: 'MFT Server Installation'
-hide_title: 'true'
+title: MFT Server installation
+sidebar_label: MFT Server Installation
+description: "How to install and configure the OpCon MFT Server, including webhook registration and server user setup."
+tags:
+  - Procedural
+  - System Administrator
+  - Installation
+  - Getting Started
 ---
 
-# MFT Server Installation
+# MFT Server installation
 
-## General
+## What is it?
 
-The OpCon MFT Server is installed automatically as part of the OpCon MFT Agent. 
+The MFT Server installation procedure configures the OpCon MFT Server to receive and route incoming files, and registers it with the OpCon CloudEvents webhook for trigger-based automation.
 
-An updated key containing the OpCon MFT Server License must be applied to the OpCon Environment associated with the MFT installation before starting the installation
-process. It will not be possible to complete the Webhook registration process as the capability will only be enabled once a key has been registered.
+- Use this when setting up the OpCon MFT Server component for the first time
+- The OpCon MFT Server must be installed after the OpCon MFT Agent is configured and communicating with OpCon
+- After installation, server users must be configured before any external parties can deposit or retrieve files
 
+The OpCon MFT Server is installed automatically as part of the OpCon MFT Agent.
+
+:::note
+An updated license key containing the OpCon MFT Server license must be applied to the OpCon environment before starting the installation. Webhook registration requires this license to be active.
+:::
+
+:::note
 The OpCon MFT Agent must be configured and communicating with the OpCon environment before installing the OpCon MFT Server.
+:::
 
-The installation process consists of the following:
-- Webhook registration.
-- Configure and start the OpCon MFT server.
-- Define OpCon MFT Server users.
+The installation process consists of the following steps:
 
-## Webhook Registration
+1. Webhook registration
+2. Configure and start the OpCon MFT Server
+3. Define OpCon MFT Server users
 
-The OpCon MFT Server submits all triggers associated with the server to the OpCon environment through an OpCon CloudEvents Webhook. For this to work, the OpCon MFT
-Server must be authenticated as a valid user. This requires that the OpCon MFT Server is registered as a Webhook user receiving the authentication
-token from OpCon to be used with all POSTs to the OpCon Webhook. The registration process submits a request to the OpCOn MFT Agent Rest-API providing
-the information necessary to initialize the connection between the OpCon MFT Server and the OpCon CloudEvents Webhook.
+## Webhook registration
 
------
+The OpCon MFT Server submits all trigger events to the OpCon environment through an OpCon CloudEvents webhook. For this to work, the server must be registered as an authenticated webhook user. The registration process submits a request to the OpCon MFT Agent Rest-API to initialize the connection between the OpCon MFT Server and the OpCon CloudEvents webhook.
 
-Using Solution Manager, select the OpCon MFT Agent which supports the required OpCon MFT Server (remember: this agent must already be authenticated) and select the OpCon MFT Settings TAB.
+To register the webhook, complete the following steps:
 
+1. In Solution Manager, select the OpCon MFT Agent that supports the required OpCon MFT Server. The agent must already be authenticated.
+2. Select the **OpCon MFT Settings** tab.
 
-![OpCon MFT Server Registration](../static/img/opcon-mft-server-registration.png)
+   ![OpCon MFT Server Registration](../static/img/opcon-mft-server-registration.png)
 
+3. Set the **Server Enabled** field to **True**.
+4. In the **Server WebHook URL** field, enter `https://(OpCon Server)/api/cloudevents/events`. This is the URL of the OpCon webhook. SSL is used for this connection, so the server name in the URL must match the name on the OpCon server certificate. If OpCon and OpCon MFT are installed on the same server, use `localhost`.
+5. Select the **Save** button. The OpCon environment submits a registration request to the OpCon MFT Agent.
 
-Using the OpCon MFT Settings TAB
+The following two messages are displayed when registration succeeds:
 
-- Enable the associated OpCOn MFT Server by setting the **Server Enabled** field to **True**.
-- Set the **Server WebHook URL** field to **https://(OpCon Server)/api/cloudevents/events** which is the url of the OpCon Webhook. SSL is used for this connection, and so when entering the name of the server in the Webhook URL, the format must use the full name that matches the OpCon server name in the certificate. If OpCon and OpCon MFT are installed on the same server, use the value `localhost`.
+- Configuration saved
+- Webhook Registered Successfully
 
-- Select **Save** to save the updated configuration.
+## Configure and start the OpCon MFT Server
 
-When the configuration is saved, the OpCon environment will submit a request to the OpCon MFT Agent to register the OpCon MFT Server with the OpCon CloudEvents Webhook.
+To configure and start the OpCon MFT Server, complete the following steps:
 
+1. Select the **Server Console** in the **OpConMFT n.nn** application menu. The OpCon MFT Server Console opens.
+2. Select the **FTP Server** menu item.
 
-This results in two messages being displayed:
-- Configuration saved.
-- Webhook Registered Successfully.
+   ![Server Configuration](../static/img/opcon-mft-server-start-ftp-server.png)
 
-## Configure and start the OpCon MFT server
+3. To enable web file sharing, enter a port number for the HTTP port value. Use a specific port number instead of the default port (80).
+4. Select the **Start FTP** button to start the FTP server.
 
-Start the OpCon MFT Server Console, by Selecting the **Server Console** in the **OpConMFT n.nn** Application Menu.
+For additional information on FTP and SFTP server configuration fields, open the help file by selecting **Server Help File** in the **OpConMFT n.nn** application menu.
 
-Select the **FTP Server** Menu Item.
+## Define OpCon MFT Server users
 
+All users who will retrieve or deposit files on the OpCon MFT Server must be configured directly within the server. To manage server users, complete the following steps:
 
-![Server Configuration](../static/img/opcon-mft-server-start-ftp-server.png)
+1. Select the **Server Console** in the **OpConMFT n.nn** application menu. The OpCon MFT Server Console opens.
+2. Select the **Users** menu item.
 
+   ![User Definition](../static/img/opcon-mft-server-define-user.png)
 
-To enable web file sharing, set a port number for the HTTP port value. It is better to use a specific port instead of the default port (80).
-Select the **Start FTP** button to start the FTP Server.
+3. Select one of the following options:
 
-For additional information on fields associated with configuring the FTP / SFTP server, open the help file associated with the OpCon MFT Server.
+   | Action | Description |
+   |---|---|
+   | **New** | Creates a new server user |
+   | **Edit** | Modifies the selected user definition |
+   | **Remove** | Deletes the selected user |
 
-Start the OpCon MFT Server Help file by Selecting the **Server Help File** in the **OpConMFT n.nn** Application Menu.
+For additional information on user definition fields, open the help file by selecting **Server Help File** in the **OpConMFT n.nn** application menu, then select **Server Console > Users**.
 
-***Server Console -> FTP Server ***
-***Server Console -> SFTP Server ***
+**Related topics:**
 
-## Define OpCon MFT Server users 
-
-All users that will retrieve or deposit files on the OpCon MFT Server must be configured directly within the server. 
-
-![User Definition](../static/img/opcon-mft-server-define-user.png)
-
-Start the OpCon MFT Server Console, by Selecting the **Server Console** in the **OpConMFT n.nn** Application Menu.
-
-Select the **Users** Menu Item.
-Select **New** to create a new user.
-Select a user in the list and select **Edit** to make changes to the user definition.
-Select a user in the list and select **Remove** to remove the user.
-
-For additional information on fields associated with a user definition open the help file associated with the OpCOn MFT Server.
-
-Start the OpCon MFT Server Help file, by Selecting the **Server Help File** in the **OpConMFT n.nn** Application Menu.
-
-***Server Console -> Users***
-
+- [MFT Server system requirements](./server-system-requirements.md)
+- [MFT Agent installation](./agent-installation.md)
+- [Server triggers](./server-triggers.md)
+- [Server file sharing](./server-file-sharing.md)

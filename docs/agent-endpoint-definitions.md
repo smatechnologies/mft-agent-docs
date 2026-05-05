@@ -1,9 +1,23 @@
 ---
-sidebar_label: 'MFT Agent Endpoint Definitions'
-hide_title: 'true'
+title: Endpoint Definitions
+sidebar_label: Endpoint Definitions
+description: "How to define path endpoints and site endpoints in the OpCon MFT Agent, including field descriptions and connectivity testing."
+tags:
+  - Reference
+  - Procedural
+  - Automation Engineer
+  - System Administrator
 ---
 
-# MFT Agent Endpoint Definitions
+# Endpoint Definitions
+
+## What is it?
+
+Endpoint definitions configure the source and destination locations used in OpCon MFT file transfer tasks.
+
+- Use this when setting up a new local directory or UNC path as a transfer endpoint
+- Use this when configuring a remote FTP, FTPS, SFTP, HTTP, HTTPS, or S3 site as a managed site endpoint
+- Endpoints must be defined before they can be selected in task definitions
 
 Endpoints are currently defined using the OpCon MFT Agent Web Server. A connection to the OpCon MFT Agent Web Server requires a user / password for system where the OpCon MFT Agent is installed (not an OpCon user).
 
@@ -68,8 +82,35 @@ Field                        | Description
 **Ignore Directory Errors**  | Check this to allow changing into directories whose existence cannot be verified (SFTP and HTTP only).
 **Proxy Settings**           | If enabled, specify the proxy settings.
 
-Once defined, test connectivity by selecting the **Test** button. When performing a test, if the connection information does not work, the system will ask if it should
-scan through the various protocol options. If one is found, it will ask if this should be saved. 
+Once defined, test connectivity by selecting the **Test** button. When performing a test, if the connection information does not work, the system will ask if it should scan through the various protocol options. If one is found, it will ask if this should be saved.
 
 When completed select the **OK** to save the new definition or changes.
+
+## FAQs
+
+**What is the difference between a path endpoint and a site endpoint?**
+
+A path endpoint (also called a local endpoint) references a file location on the server where the OpCon MFT Agent is installed — either a UNC path (`\\server\directory`) or a Windows directory path (`c:\directory`). A site endpoint (also called a managed site) references a remote system accessed over a network protocol such as FTP, SFTP, HTTPS, or S3.
+
+**What protocols are supported for site endpoints?**
+
+Supported protocols include FTP, FTPS (FTP + TLS in control+data, control-only, data-only, or implicit modes), SFTP (SSH File Transfer Protocol), HTTP 1.1, HTTPS (HTTP 1.1 + Implicit TLS), and Amazon Web Services S3.
+
+**What happens if the connection test fails?**
+
+If the test connection fails, the system prompts to scan through various protocol options to find a valid connection. If a working combination is found, it offers to save the configuration with those settings.
+
+## Glossary
+
+**Managed Site** — A site endpoint definition that stores the connection details for a remote server, including protocol, address, credentials, and optional settings such as transfer rate limits and retry behavior.
+
+**Path Endpoint** — A local endpoint definition that references a directory on the server where the OpCon MFT Agent is installed, using either a UNC path or a Windows drive path.
+
+**UNC Path** — A Universal Naming Convention path in the format `\\server\share\directory` used to reference file locations on a network server.
+
+**Related topics:**
+
+- [Task Definitions](./agent-task-definitions.md)
+- [Encryption Definitions](./agent-encryption-definitions.md)
+- [MFT Agent installation](./agent-installation.md)
 

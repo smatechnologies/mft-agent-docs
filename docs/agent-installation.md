@@ -1,136 +1,148 @@
 ---
-sidebar_label: 'MFT Agent Installation'
-hide_title: 'true'
+title: MFT Agent installation
+sidebar_label: MFT Agent Installation
+description: "How to install, configure, and upgrade the OpCon MFT Agent and connect it to OpCon."
+tags:
+  - Procedural
+  - System Administrator
+  - Installation
+  - Getting Started
 ---
 
-# MFT Agent Installation
+# MFT Agent installation
 
-The OpCon MFT environment consists of an OpCon MFT Agent and the SMAMftAgentProxy that provides the communication link between OpCon and the OpCon MFT Agent.
+## What is it?
 
-The SMAMftAgentProxy is contained within the SMANetCom environment and is installed automatically when the core SMA OpCon component is installed. 
+The MFT Agent installation procedure sets up the OpCon MFT Agent on a Windows server and connects it to an OpCon environment so that file transfer jobs can be scheduled and executed.
 
-The SMAMftAgentProxy uses the new SMANetCom Rest-API module and provides the communications link between OpCon and the OpCon MFT Agent Rest-API. There is a
-one to one relationship between an OpCon environment and an OpCon MFT Agent is due to the authentication token used between OpCon and the OpCon MFT Agent.
-Part of the configuration process is to retrieve the token value from the OpCon MFT Agent and store this in the OpCon agent record. 
+- Use this when performing a new installation of the OpCon MFT Agent on a server
+- Use this when upgrading an existing OpCon MFT Agent to a newer version
+- After installation, the agent must be configured in Solution Manager and authenticated before file transfer jobs can run
 
-## OpCon MFT Agent Installation
-The OpCon MFT Agent software can be downloaded using the OpCon Web Installer. It is listed as SMA OpConMFT under the Agents section. The software currently
-only has a download option. Once down loaded, the installer can be started manually outside the OpCon Web Installer.
+The OpCon MFT environment consists of an OpCon MFT Agent and the SMAMftAgentProxy, which provides the communication link between OpCon and the OpCon MFT Agent. The SMAMftAgentProxy is contained within the SMANetCom environment and is installed automatically when the core OpCon component is installed.
 
-The agent installation consists of executing the installer program and answering a single license acceptance message.
-After the installation, if a system restart is required, restart the system.
+There is a one-to-one relationship between an OpCon environment and an OpCon MFT Agent due to the authentication token used between them.
 
-### Retrieve the OpCon MFT Agent Port Number
-After the restart, the port number for communication with OpCon that was automatically configured during the installation process must be retrieved from the OpCon MFT Agent.
+## OpCon MFT Agent installation
 
-Select the **OpConMFT n.nn** menu item and then the **OpConMFT n.nn Configurator** menu item.
+The OpCon MFT Agent software can be downloaded using the OpCon Web Installer. It is listed as **SMA OpConMFT** under the Agents section. The software currently has a download option only. Once downloaded, the installer can be started manually outside the OpCon Web Installer.
 
-This opens the Configurator Software.
+The agent installation consists of running the installer program and accepting the license agreement. After the installation, if a system restart is required, restart the system.
 
-Select the **Scheduler** option from the tree view and then the **Scheduler Settings**. The port number will be displayed in the **UI Port** field.
+### Retrieve the OpCon MFT Agent port number
 
-### Enable Use SSL/TLS
-The connection between OpCon and the OpCon MFT Agent requires a https connection instead of the default http connection. 
+After the restart, retrieve the port number for communication with OpCon. This port number was automatically configured during the installation process.
 
-Using the Configurator, define a self-signed certificate or extract the information to request purchase a certificate from a CA authority.
-Select the **TLS Certificates** option from the tree view and select **create**.
+To retrieve the port number, complete the following steps:
 
-Enter the information for the certificate.
+1. Select the **OpConMFT n.nn** menu item and then select **OpConMFT n.nn Configurator**. The Configurator opens.
+2. Select the **Scheduler** option from the tree view, then select **Scheduler Settings**. The port number is displayed in the **UI Port** field.
 
-Field                      | Description
--------------------------- | -----------
-**City/Town**              | Enter the name of your city or town.
-**Organization**           | Enter the name of your organization.
-**State/Province/Region**  | Enter the name of the area you are located in.
-**Common Name**            | Enter a name for the certificate (i.e. OpConMFTxxx - where xxx is a unique value in case you more than one OpCon MFT Agent).
-**Country**                | Enter the name of your country.
-**Unit**                   | Enter the name of your unit within your organization.
-**Password**               | Enter a password that will be associated with the certificate.
-**Verify Password**        | Re-enter the password.
-**E-mail Address**         | Enter a valid email address that will be associated with the certificate.
+### Enable SSL/TLS
 
-Select **Create Self Signed** to create a certificate or **Create Signing Request** to produce the information to purchase a certificate from a CA.
+The connection between OpCon and the OpCon MFT Agent requires an HTTPS connection instead of the default HTTP connection. To enable SSL/TLS, complete the following steps:
 
-On the **Scheduler Settings** screen, ensure that the **Use SSL/TLS** option is selected. 
+1. In the Configurator, select the **TLS Certificates** option from the tree view and select **Create**.
+2. Enter the certificate information:
 
-Now select the browse option next to the **Use SSL/TLS** field and select the self-signed certificate you created or a certificate you imported. 
+   | Field | Description |
+   |---|---|
+   | **City/Town** | Enter the name of your city or town |
+   | **Organization** | Enter the name of your organization |
+   | **State/Province/Region** | Enter the name of your region |
+   | **Common Name** | Enter a name for the certificate (for example, `OpConMFTxxx` where `xxx` is a unique value if you have more than one OpCon MFT Agent) |
+   | **Country** | Enter the name of your country |
+   | **Unit** | Enter the name of your unit within your organization |
+   | **Password** | Enter a password to associate with the certificate |
+   | **Verify Password** | Re-enter the password |
+   | **E-mail Address** | Enter a valid email address to associate with the certificate |
 
-![OpCon MFT Agent Scheduler Settings Tab](../static/img/opcon-mft-agent-configurator-scheduler-settings.png)
+3. Select **Create Self Signed** to create a self-signed certificate, or select **Create Signing Request** to produce information for purchasing a certificate from a CA.
+4. On the **Scheduler Settings** screen, select the **Use SSL/TLS** option.
+5. Select the browse option next to the **Use SSL/TLS** field and select the self-signed certificate you created or a certificate you imported.
 
-### Define Email SMTP Server Connection
-The OpCon MFT Agent can be configured to send notifications (emails). To enable notifications, a SMTP Server connection must be completed.
+   ![OpCon MFT Agent Scheduler Settings Tab](../static/img/opcon-mft-agent-configurator-scheduler-settings.png)
 
-Select the **OutBound Email (SMTP)** option from the tree view and then **Add** button.
+### Define the email SMTP server connection
 
-![OpCon MFT Agent Notifications Server](../static/img/opcon-mft-agent-configurator-notifications-settings.png)
+The OpCon MFT Agent can be configured to send notifications. To enable notifications, complete the following steps:
 
-Set the required options to configure the connection to the SMTP service. The same SMTP service used for OpCon Notifications can be used for OpCon MFT Notifications.
+1. Select the **OutBound Email (SMTP)** option from the tree view and select the **Add** button.
 
-Field                                    | Description
----------------------------------------- | -----------
-**Site Name**                            | Enter a name to define the SMTP connection.
-**Server URL / IP Address**              | Enter the address of the SMTP service.
-**Server Port**                          | Adjust the port number if required (default 25).
-**UserId / Password**                    | Enter credentials for the SMTP service.
-**No TLS / Explicit TLS / Implicit TLS** | Select the TLS option for the SMTP service.
-**From**                                 | Enter the name to be used as the sender of all notifications from the OpCon MFT Agent.
-**Send To**                              | Enter a recipient address that will be used when the **Test** button is selected. 
+   ![OpCon MFT Agent Notifications Server](../static/img/opcon-mft-agent-configurator-notifications-settings.png)
 
-Select the **Test** button to send a test message. During this process, if the connection fails, the software test various TLS and port options to obtain a valid connection. 
+2. Set the required options to configure the connection to the SMTP service:
 
-Once these changes have been made, restart the OpConMFT Service.
+   | Field | Description |
+   |---|---|
+   | **Site Name** | Enter a name to identify the SMTP connection |
+   | **Server URL / IP Address** | Enter the address of the SMTP service |
+   | **Server Port** | Adjust the port number if required (default is 25) |
+   | **UserId / Password** | Enter credentials for the SMTP service |
+   | **No TLS / Explicit TLS / Implicit TLS** | Select the TLS option for the SMTP service |
+   | **From** | Enter the name to use as the sender for all notifications from the OpCon MFT Agent |
+   | **Send To** | Enter a recipient address to use when the **Test** button is selected |
 
+3. Select the **Test** button to send a test message. If the connection fails, the software tests various TLS and port options to find a valid connection.
+4. Once changes are complete, restart the OpConMFT service.
 
-After the OpCon MFT agent is installed, a new token value is available for download for a short period of time. If the OpCon MFT OpCon Agent configuration is not completed within this specified time an error message will be displayed indicating that the token is not available. If this happens, then a new token must be generated using the OpCon MFT Agent software. This can be done by selecting the **Reset Auth Token Deadline** button on the **Scheduler Settings** tab of the **OpConMFT Configurator**. 
+:::note
+After the OpCon MFT Agent is installed, a new token value is available for download for a limited time. If the OpCon MFT Agent configuration in OpCon is not completed within this window, an error indicates that the token is not available. If this occurs, generate a new token by selecting the **Reset Auth Token Deadline** button on the **Scheduler Settings** tab of the OpConMFT Configurator.
+:::
 
-## OpCon MFT Agent Configuration
-The configuration of the OpCon MFT Agent is done using Solution Manager.
+## OpCon MFT Agent configuration
 
-From Solution Manager, select **Library** and under the **Administration** menu select **Agents**.
+The configuration of the OpCon MFT Agent is completed using Solution Manager. To configure the agent, complete the following steps:
 
-![OpCon MFT Agent View](../static/img/opconmft-agent-definition-1.png)
+1. In Solution Manager, select **Library** and under the **Administration** menu select **Agents**.
 
-Select **+ Add** to configure the new OpCon MFT Agent.
+   ![OpCon MFT Agent View](../static/img/opconmft-agent-definition-1.png)
 
-Enter a name for the agent and select the **OpConMFT** from the **Machine Type** drop-down list.
+2. Select **+ Add** to configure a new OpCon MFT Agent.
+3. Enter a name for the agent and select **OpConMFT** from the **Machine Type** list.
+4. Select the **General Settings** tab and enter the address information, the Max Concurrent Jobs value, and the Socket Number (the **UI Port** number retrieved from the OpCon MFT Agent Scheduler Settings tab).
 
-Open the **General Settings** tab and enter the address information, the Max Concurrent Jobs and the Socket Number (the **UI Port** number retrieved from the OpCon MFT Agent Scheduler Settings tab). 
+   ![OpCon MFT Agent Settings](../static/img/opconmft-agent-definition-2.png)
 
-![OpCon MFT Agent Settings](../static/img/opconmft-agent-definition-2.png)
+5. Select the **Save** button.
+6. Select the **Communications Settings** tab and enter the **JORS Port Number**, which is the same port number used in the General Settings tab.
+7. Select the **Save** button.
+8. Go to the **Operational Agents** screen and select the created OpCon MFT Agent. The AgentSelection tab is displayed, which includes an **Authentication** button.
+9. Select the **Authentication** button. A successful authentication message is displayed. The OpCon MFT Agent can then be started.
 
-Save the configuration.
+:::note
+There is a timeout of 100 seconds between completing the OpCon MFT Agent installation and performing the initial authentication step. If this is not completed within that time, the following message is displayed: **Unable to update authentication token for machine — The request was cancelled due to the configured HttpClient.Timeout of 100 seconds**. When this occurs, reset the auth token deadline and re-authenticate using the **Reset Auth Token Deadline** button.
+:::
 
-Select the **Communications Settings** tab and enter the **JORS Port Number** which is the same port number used on the previous tab ((the **UI Port** number retrieved from the OpCon MFT Agent Scheduler Settings tab).
+## MFT Agent upgrade
 
-Save the configuration.
+Updating the OpCon MFT Agent requires careful preparation to avoid communication issues. To upgrade the agent, complete the following steps:
 
-The next step is to complete the Authentication process which consists of connecting to the OpCon MFT Agent for the first time and obtaining a token which will be used for future communication.
-There is a timeout value of 100 seconds between the completion of the OpCon MFT Agent installation and performing the initial authentication step. If this is not completed within the time frame, it will not be possible to authenticate. The following message will be displayed **Unable to update authentication token for machine** reason ***The request was cancelled due to the configured HttpClient.Timeout of 100 seconds***. 
+1. Back up the configuration files. In the installation directory (default: `C:\Program Files\OpConMFT 3.13`), open the `programdata` folder and copy `config.xml` and `SchedulerService.sqlite` to a safe location. A server snapshot is also recommended as an additional restore point.
+2. Confirm that no OpCon MFT jobs are currently running.
+3. Stop the OpCon MFT Agent communication to prevent new job executions during the upgrade.
+4. Stop the Windows OpCon MFT services.
+5. Run the installer for the latest version and confirm it finishes correctly and replaces the existing version.
+6. Start the services and confirm that the MFT web UI is accessible from both the MFT server and the OpCon server.
+7. Reconnect the agent in OpCon. The agent should authenticate automatically.
+8. If authentication does not succeed automatically, select the **Reset Auth Token Deadline** button on the **Scheduler Settings** tab of the OpConMFT Configurator and re-authenticate.
 
-When this occurs it will be necessary to reset the auth token deadline and re-authenticate. See **OpConMFT Agent Installation** for process.
+## FAQs
 
-Go to the **Operational Agents** screen and select the created opCon MFT Agent. This will display the AgentSelection tab, which includes an **Authentication** button. 
-After selecting the Authentication button, a successful authentication message will appear. 
+**What happens if I miss the 100-second authentication window after installation?**
 
-The OpCon MFT Agent can then be started.
+Select the **Reset Auth Token Deadline** button on the **Scheduler Settings** tab of the OpConMFT Configurator to make a new token available. Then re-authenticate from Solution Manager using the **Authentication** button on the Operational Agents screen.
 
-## MFT Agent Upgrade
+**Can I have more than one OpCon MFT Agent in the same OpCon environment?**
 
-Updating the OpConMFT agent can be a complex process, but following established best practices can help ensure a smooth transition and minimize potential issues. Here are some key recommendations:
+Yes. Each OpCon MFT Agent has a one-to-one relationship with an OpCon environment via its authentication token, but you can configure multiple agents, each with its own machine definition in Solution Manager.
 
-1. Backup Configuration: Before updating the OpConMFT agent, ensure that you have backed up all the files below. A snapshot of the MFT server is also a potentially useful option in addition, so you have a restore point if needed.
-	* In the install location of the agent, defaulted to 'C:\Program Files\OpConMFT 3.13', open the programdata folder. You will want to copy the config.xml and SchedulerService.sqlite files in another location.
+**What port does the OpCon MFT Agent use to communicate with OpCon?**
 
-2. Stop Agent/Services Communication: Before proceeding, ensure that no OPCONMFT jobs are currently running. Once confirmed, follow these steps:
-	* Stop the OPCONMFT Agent Communication: This prevents any new job executions or interactions during the update process.
-	* Halt the Windows OPCONMFT Services: Safely shut down the associated services to prepare for maintenance or upgrade activities.
+The port number is configured during installation and displayed in the **UI Port** field on the **Scheduler Settings** tab of the OpConMFT Configurator. This value must be entered as the Socket Number and JORS Port Number when configuring the agent in Solution Manager.
 
-3. Run the installer: Use the installer for the latest version and ensure it finishes correctly and replaces the existing version in programs and features.
+**Related topics:**
 
-4. Start up services: Once started, ensure that the MFT WebUI is accessible from both the Server running MFT and from the OpCon server.
-
-5. Reconnect the Agent in OpCon: Once reconnected, the agent should automatically authenticate. If it does not, then move on to step 6.
- 
-6. Reset Auth Token Deadline: If the initial authentication step is not successful upon starting up the agent, reset the auth token deadline and re-authenticate. This can be done using the Reset Auth Token Deadline button on the Scheduler Settings tab of the OpConMFT Configurator.
-
-By following these recommended practices, customers can help ensure a smoother update process for the OpConMFT agent and minimize the risk of communication issues requiring service restarts.
+- [MFT Agent system requirements](./agent-system-requirements.md)
+- [MFT Server installation](./server-installation.md)
+- [Architecture](./architecture.md)

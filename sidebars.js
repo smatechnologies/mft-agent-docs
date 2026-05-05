@@ -1,12 +1,17 @@
 module.exports = {
   mySidebar: [
-    'index',
+    {
+      type: 'link',
+      label: 'OpCon MFT',
+      href: '/',
+    },
     'release-notes',
-    'introduction',
+    'overview',
     {
       type: 'category',
       label: 'MFT Agent',
       collapsed: true,
+      link: { type: 'doc', id: 'agent-overview' },
       items: [
         'agent-system-requirements',
         'agent-installation',
@@ -20,6 +25,7 @@ module.exports = {
       type: 'category',
       label: 'MFT Server',
       collapsed: true,
+      link: { type: 'doc', id: 'server-overview' },
       items: [
         'server-system-requirements',
         'server-installation',
@@ -28,9 +34,9 @@ module.exports = {
         'server-virtual-folders',
       ],
     },
+    'architecture',
     'security',
     'trouble-shooting',
-    'architecture',
     'faqs',
   ],
 };

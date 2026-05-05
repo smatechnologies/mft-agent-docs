@@ -1,56 +1,67 @@
 ---
-sidebar_label: 'MFT Agent Requirements'
-hide_title: 'true'
+title: MFT Agent system requirements
+sidebar_label: System requirements
+description: "Hardware and software requirements for installing the OpCon MFT Agent."
+tags:
+  - Reference
+  - System Administrator
+  - Installation
+  - Getting Started
 ---
 
-# Getting Started
+# MFT Agent system requirements
 
-* OpCon MFT **Requires OpCon version 22.0 or greater**.
+## What is it?
 
-* Before starting an installation, **an updated OpCon License key including an OpConMFT Agent type must be obtained.** Failure to do this will result in a License 
-Violation.
+The MFT Agent system requirements define the minimum hardware and software needed to install and run the OpCon MFT Agent on a Windows server.
 
-
-## Hardware Requirements
-
-On the MFT Agent server, please ensure the following minimum hardware requirements are met for each instance of MFT Agent installed.
-
-* **RAM:** 512Mb plus 50 MB per instance of OpCon MFT.exe 
+- Review these requirements before beginning any new installation or upgrade of the OpCon MFT Agent
+- Use these requirements to plan server capacity when deploying multiple concurrent file transfer jobs
 
 :::note
-
-Each actively running OpCon MFT script uses one instance of OpCon MFT.exe
-
+OpCon MFT **requires OpCon version 22.0 or greater**.
 :::
 
-* **CPU:** We recommend having 1 available CPU core for every 10 to 20 actively running instances of OpCon MFT.exe, depending on the nature of the processes being automated. 
+:::note
+Before starting an installation, **an updated OpCon license key including an OpConMFT Agent type must be obtained.** Failure to do this results in a license violation.
+:::
+
+## Hardware requirements
+
+On the MFT Agent server, ensure the following minimum hardware requirements are met for each instance of the MFT Agent installed.
+
+- **RAM:** 512 MB plus 50 MB per instance of `OpConMFT.exe`
 
 :::note
+Each actively running OpCon MFT script uses one instance of `OpConMFT.exe`.
+:::
 
+- **CPU:** Continuous recommends having 1 available CPU core for every 10 to 20 actively running instances of `OpConMFT.exe`, depending on the nature of the processes being automated.
+
+:::note
 Encryption and decryption may be more processor-intensive than other activities such as renaming files.
-
 :::
 
-* **DISK:** We recommend a minimum of 2 GB of hard drive space to install the software and have room to maintain a typical number of logs. Be sure to provision sufficient additional hard drive space for the files you wish to manage using the software.
+- **DISK:** Continuous recommends a minimum of 2 GB of hard drive space to install the software and maintain a typical number of logs. Provision sufficient additional hard drive space for the files you intend to manage using the software.
 
-## Software Requirements
+## Software requirements
 
-OpCon MFT is a 64-bit software and the following requirements apply:
+OpCon MFT is 64-bit software. The following requirements apply:
 
-* Requires the 64-bit version of: **Windows Server 2012 R2, 2016, or 2019 (including Core edition)**, OR **Windows Desktop Editions 10 or 11**.
-* Requires **Microsoft .NET Framework 4.8**
-* Requires **Visual Studio 2022 C++ Runtime**
-* Requires **SQL Compact Edition 4.0 SP1**
+- Requires the 64-bit version of **Windows Server 2012 R2, 2016, or 2019 (including Core edition)**, or **Windows Desktop Editions 10 or 11**
+- Requires **Microsoft .NET Framework 4.8**
+- Requires **Visual Studio 2022 C++ Runtime**
+- Requires **SQL Compact Edition 4.0 SP1**
 
-:::note 
-
+:::note
 The full installer includes all of these dependencies.
-
 :::
 
 :::note
-
-The OpCon MFT installer does not itself require rebooting but the dependencies installed on the initial install may.
-
+The OpCon MFT installer does not itself require rebooting, but the dependencies installed on the initial install may require a restart.
 :::
 
+**Related topics:**
+
+- [MFT Agent installation](./agent-installation.md)
+- [MFT Server system requirements](./server-system-requirements.md)

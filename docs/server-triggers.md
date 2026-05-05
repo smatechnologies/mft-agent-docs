@@ -1,11 +1,25 @@
 ---
-sidebar_label: 'MFT Server Triggers'
-hide_title: 'true'
+title: Server Triggers
+sidebar_label: Server Triggers
+description: "How to configure CloudEvents trigger filters and events in OpCon MFT Server, including trigger types, filter fields, and worked examples."
+tags:
+  - Reference
+  - Procedural
+  - System Administrator
+  - Automation Engineer
 ---
 
-# MFT Server Triggers
+# Server Triggers
 
-OpCon supports a new capability called CloudEvents which allows events to be submitted to OpCon through a Webhook. 
+## What is it?
+
+Server Triggers describe how the OpCon MFT Server forwards file system events to the OpCon CloudEvents webhook, and how those events can be mapped to OpCon actions through trigger filters.
+
+- Use this when configuring an OpCon job to run automatically when a file arrives on the OpCon MFT Server
+- Use this when filtering trigger events by source, trigger type, file name, directory, or other data fields
+- Use this when troubleshooting CloudEvents trigger definitions that are not firing as expected
+
+OpCon supports a new capability called CloudEvents which allows events to be submitted to OpCon through a webhook. 
 
 OpCon MFT Server supports various triggers that are automatically forwarded to the OpCon CloudEvents environment allowing OpCon to perform actions based on the incoming triggers. These triggers are submitted to OpCon through the OpCon CloudEvents Webhook. During configuration, the OpCon MFT Server is registered with the OpCon CloudEvents Webhook. The registration process ensures that the OpCon MFT server is known to the OpCon system and able to submit triggers. If the OpCon MFT Server is not correctly registered with the OpCon system all incoming triggers from that server will be ignored.
 
@@ -350,3 +364,31 @@ Next, create the CloudEvents Trigger Definition from the CloudEvents Triggers sc
 ![Example Display Specific File](../static/img/cloudevents-example-display-forward-specific-incoming-file.png)
 
 - Select **Save** to save and activate the filter.
+
+## FAQs
+
+**Why are incoming triggers being ignored?**
+
+If the OpCon MFT Server is not correctly registered with the OpCon CloudEvents webhook, all incoming triggers from that server are ignored. Verify that the server is registered by checking the **Server Enabled** and webhook URL settings on the **OpCon MFT Settings** tab in Solution Manager. See [MFT Server installation](./server-installation.md) for registration steps.
+
+**Can wildcard patterns be used in trigger filters?**
+
+Trigger filters use regex expressions, not standard wildcard syntax. For example, the wildcard `input?.dta` becomes the regex `input..dta`, and `input.*` becomes `input.*`. The wildcard `*.dta` is not supported in regex filter syntax.
+
+**Why should `[[$DATE]]` be used instead of `[[$SCHEDULE DATE]]` in trigger events?**
+
+Trigger events fired by CloudEvents are not associated with an OpCon schedule, so `[[$SCHEDULE DATE]]` has no reference and causes an error. Use `[[$DATE]]` for date values in trigger-fired events.
+
+## Glossary
+
+**CloudEvents** — An OpCon feature that receives trigger messages from a webhook and maps them to OpCon events using configurable Trigger Filters and Trigger Events.
+
+**Trigger Event** — The OpCon event action that fires when a Trigger Filter matches an incoming message. Trigger Events are standard OpCon events such as `$JOB:ADD` or `$CONSOLE:Display`.
+
+**Trigger Filter** — A set of conditions applied to incoming CloudEvents messages. Filters can match on source, type, time, and event-specific data fields such as file name or directory.
+
+**Related topics:**
+
+- [MFT Server installation](./server-installation.md)
+- [Architecture](./architecture.md)
+- [Task Definitions](./agent-task-definitions.md)

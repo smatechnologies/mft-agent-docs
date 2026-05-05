@@ -1,131 +1,171 @@
 ---
-sidebar_label: 'Architecture'
-hide_title: 'true'
+title: Architecture
+sidebar_label: Architecture
+description: "Technical architecture of the OpCon MFT integration, including SMANetCom, ProxyAgent, message types, and the CloudEvents webhook."
+tags:
+  - Reference
+  - System Administrator
 ---
 
 # Architecture
 
-An alternate to the traditional OpCon - Agent - Application integration approach was developed providing a simpler integration approach for future applications. 
+## What is it?
 
-The approach requires that the application to be integrated supports a Rest-API, which then allows the application to function as the OpCon Agent. Enhancements to the SMANetCom module provides new functionality that communicates directly with the application using standard Rest-API calls (GET, POST, PUT, DELETE).
+The Architecture reference describes how the OpCon MFT Agent integrates with OpCon and how the OpCon MFT Server forwards trigger events to the OpCon CloudEvents webhook.
 
-The OpCon MFT Server is an additional component of the OpCon MFT Agent. 
+- Use this when troubleshooting communication issues between OpCon and the OpCon MFT Agent
+- Use this when understanding how OpCon messages map to OpCon MFT Rest-API calls
+- Use this when understanding how the OpCon MFT Server submits trigger events to CloudEvents
+
+OpCon MFT integrates with OpCon through a Rest-API connection rather than a traditional agent. SMANetCom communicates directly with the OpCon MFT Agent service, and the AgentProxy translates between OpCon's internal message format and the OpCon MFT Agent's Rest-API.
+
+The OpCon MFT Server is an additional component of the OpCon MFT Agent.
 
 ![Architecture Overview](../static/img/architecture-overview.png)
 
-OpCon provides the following functions:
-- Stores the task definition as an OpConMFT Job type. 
-- Additions to the OpCon Rest-API to support the new OpConMFT Job type.
-- Extensions to the OpCon Rest-API to route requests to the OpCon MFT Agent Rest-API.  
-- The communication between OpCon and the OpCon MFT Agent through SMANetCom. 
-- Schedules the task.
-- Additions to JORS environment to retrieve the job log from the OpCon MFT Agent.
+## How OpCon MFT connects to OpCon
 
-The Solution Manager Client provides the following functions:
-- Master Job and Daily Job UI for defining and managing OpConMFT Job types.
-- Endpoints UI for defining and managing endpoints in the OpCon MFT Agent.
-- Encryption Key UI for defining encryption information in the OpCon MFT Agent.
+Each component in the OpCon MFT architecture has a specific role:
 
-The OpCon MFT Agent provides the following functions:
-- Stores endpoint definitions.
-- Stores encryption definitions.
-- Execution of tasks submitted by OpCon.
-- Accepts webhook registration requests from OpCon for the OpCon MFT Server.
+**OpCon** manages scheduling and communication:
 
-The SMANetCom module has been enhanced to support connections to a remote application using Rest-API calls.
+- Stores the task definition as an OpConMFT job type
+- Routes requests to the OpCon MFT Agent Rest-API
+- Manages communication through SMANetCom
+- Retrieves job logs from the OpCon MFT Agent through the JORS environment
 
-## SMANetCom
-A new capability has been added to SMANetCom allowing SMANetCom to directly interact with a Rest-API. The implementation requires a ProxyAgent which provides the mapping between the traditional SMANetCom TX Messages and the Rest-API endpoints of the associated application. 
+**Solution Manager** provides the user interface:
 
-The new capability implements message queuing to pass requests to the ProxyAgents. The ProxyAgents returns data to SMANetCom via callback methods 
-provided on each request.  
+- Master Job and Daily Job UI for defining and managing OpConMFT job types
+- Endpoints UI for defining and managing endpoints in the OpCon MFT Agent
+- Encryption Key UI for defining encryption information in the OpCon MFT Agent
 
-The OpCon Agent LsamTypeId provides the indication that this agent type is a Rest-API agent and will be managed by this new capability. A LSAMTYPEID of 90 
-or greater will be interpreted as a Rest-API agent.
+**OpCon MFT Agent** performs the work:
 
-During SMANetCom startup if a Rest-API agent is detected, the specific Rest-API agent information is retrieved from the database (address, port, token, etc). The AgentProxy for the Rest-API is started, passing the address, port and token information. A TX4 message type is then generated and passed to the ProxyAgent. During normal operations a TXH message is generated and passed to the AgentProxy. These messages are used to determine if the application is available and will set the specific OpCon Agent into an **available** or **unavailable** status for task processing.
+- Stores endpoint and encryption definitions
+- Runs tasks submitted by OpCon
+- Accepts webhook registration requests from OpCon for the OpCon MFT Server
 
-SMANetCom retrieves TX messages (TX1 or TX2) from the MSGS_TO_NETCOM table, checks the LSAMTYPEID of the message and if this is a Rest-API agent places it on the approriate queue for the target ProxyAgent. The ProxyAgent processes the messages and returns the correctly formatted responses which are placed in the MSGS_TO_SAM table.
+## How jobs run
 
-## OpCon MFT AgentProxy
-The OpCon MFT AgentProxy provides the link between SMANetCom and the OpCon MFT Agent which is a service running on a Windows Server. 
+When OpCon needs to start, monitor, or check on an OpCon MFT job, SMANetCom sends a message to the AgentProxy. The AgentProxy translates that message into a Rest-API call to the OpCon MFT Agent.
 
-The AgentProxy uses various libraries to support the communications between SMANetCom and the Rest-API application.
+| Message | When it's sent | What it does |
+|---|---|---|
+| **TX1** | When OpCon starts a job | Starts a new job, or restarts a failed one from the failed step |
+| **TX2** | While a job is running | Requests the current job status |
+| **TX4** | When SMANetCom starts | Checks whether the OpCon MFT Agent is available |
+| **TXH** | On a timed interval | Heartbeat check to confirm the agent is still available |
 
-The AgentProxy accepts the standard TX messages from SMANetCom and maps them to the Rest-API endpoints supported by the OpCon MFT Agent. The returned data from the Rest-API requests are reformatted to TX message responses which are passed to the SMANetCom infrastructure via the CallBack methods. The ProxyAgent uses the  **Rest API Library**, **Rest-API Model Library** and the **MFT Model Library** when communicating with the OpCon MFT Agent Rest-API.
+A task in OpCon MFT is identified by a `GROUPNAME.JOBNAME` value. The Department name of the OpCon task becomes the group name, and the OpCon job name becomes the job name. Special characters are removed from both.
 
-Whenever an OpCon task is started, a unique jobId is generated for the OpCon task. This means that if a task is restarted, a new jobId will be generated for the task. 
-This approach allows the information for specific task executions to be visible within the OpCon environment. OpCon MFT has a similar implementation and every time a task is started by the OpCon MFT Agent a new jobId will be generated. The OpCon MFT Agent maintains a table mapping the OpCon unique jobId (Integer portion) to the OpCon MFT jobId.
+Each time a task starts, OpCon MFT generates a unique run ID (RunId). If a task fails and is restarted, the same RunId is used so that execution resumes from the failed step rather than starting over.
 
-When restarting a failed OpCon MFT task, a new opCon jobId wil be generated, but will be redirected to the failed OpCon MFT task jobId. The OpCon MFT task then restarts from the failed step.
+<details>
+<summary>View TX message technical details</summary>
 
-### TX1 Message
-A task in OpCon MFT is defined by a GROUPNAME.JOBNAME value. When defining a task, the Department name of the task is used as the group name and the job name of the task is used for the job name. Any special characters are removed from the group and job names. 
- 
-The AgentProxy receives a TX1 message from SMANetCom and checks to see if the OpCon MFT jobId is 0. If the value is 0 then a new OpCon MFT task will generated. If the value is non zero, then the existing OpCon MFT task must be restarted.
+### TX1 — Start or restart a job
 
-#### New Task
-The AgentProxy receives a TX1 message from SMANetCom. If the provided runid (field code 25001) is 0 it maps this to a **/api/job/start{groupName}.{correctedJobName}/withtag/{tagName}** POST function where the tagName is the integer portion of the OpCon unique jobId. The request responds with the OpCon MFT Agent jobId. The job running status, the OpCon Agent JobId and a JORS file identifier are returned to SMANetCom and passed to OpCon where the OpCon Agent jobId and JORS file identifier are stored in the SMASTER_AUX table associated with the OpCon task.
+The AgentProxy receives a TX1 message from SMANetCom and checks whether the RunId (field code 25001) is `0`.
 
-The AgentProxy then monitors the started task for completion (either successful or failed) by first retrieving the runid using **/api/run/bytag/{tagName}** a GET function where the tagName is the integer portion of the OpCon unique jobId to get the OpCon MFT Agent task jobId and then using the **/api/run/status/{runid}** GET function to retrieve the status of the opCon MFT Agent task. During each execution, if the task is still active, the contents of the **last_message** field is returned to OpCon. If the job completes and it is successful, a 0 value for OpConAgent JobId will be returned as well as the completion code. If the OpCon MFT task failed, only the completion code will be returned.  
+**New task (RunId = 0):** The AgentProxy calls `/api/job/start/{groupName}.{correctedJobName}/withtag/{tagName}` (POST), where `tagName` is the integer portion of the OpCon unique jobId. The response returns the OpCon MFT Agent jobId. The running status, Agent jobId, and JORS file identifier are returned to SMANetCom and stored in the SMASTER_AUX table.
 
-#### Restart Task
-The AgentProxy receives a TX1 message from SMANetCom. If the provided runid (field code 25001) is non 0 it maps this to a **/api/job/restart/job.runId}/withtag/{tagName}** POST function where the tagName is the integer portion of the OpCon unique jobId. The request responds with the OpCon MFT Agent jobId. The job running status, the OpCon Agent JobId and a JORS file identifier are returned to SMANetCom and passed to OpCon where the OpCon Agent jobId and JORS file identifier are stored in the SMASTER_AUX table associated with the OpCon task.
+The AgentProxy then monitors the task by first calling `/api/run/bytag/{tagName}` (GET) to retrieve the MFT Agent jobId, then polling `/api/run/status/{runid}` (GET) for status. While active, the `last_message` field value is returned to OpCon. On success, a jobId of `0` is returned along with the completion code. On failure, only the completion code is returned.
 
-The AgentProxy then monitors the started task for completion (either successful or failed) by first retrieving the runid using **/api/run/bytag/{tagName}** a GET function where the tagName is the integer portion of the OpCon unique jobId to get the OpCon MFT Agent task jobId and then using the **/api/run/status/{runid}** GET function to retrieve the status of the OpCon MFT Agent task. During each execution, if the task is still active, the contents of the **last_message** field is returned to OpCon. If the job completes and it is successful, a 0 value for OpConAgent JobId will be returned as well as the completion code. If the OpCon MFT task failed, only the completion code will be returned.  
+**Restart task (RunId ≠ 0):** The AgentProxy calls `/api/job/restart/{job.runId}/withtag/{tagName}` (POST). Monitoring behavior is identical to a new task.
 
-### TX2 Message
-The AgentProxy receives a TX2 message from SMANetCom and maps this to a **/api/run/status/{runid}** GET function to retrieve the status of the OpCon MFT Agent task. If the task is found a status request is passed back to SMANetCom and returned to OpCon. If the task is not found in the OpCon MFT Agent, a not found message is passed back to SMANetCom and returned to OpCon.
+### TX2 — Get job status
 
-### TX4 Message
-The AgentProxy receives a TX4 message from SMANetCom when SMANetCom starts or the OpCon MFT Agent is set to an active state and maps this to a **api/agent/info** GET function. This is used to see if the OpCon MFT Agent is available. If a response is received, a positive response is returned to SMANetCom. If an exception occurs, a negative response is returned to SMANetCom and the OpCon MFT Agent is set in a down state (not available). Currently the OpCon MFT Agent version is returned which is passed to SMANetCom and returned to OpCon where it is saved in the MACHS_AUX table.  
+The AgentProxy calls `/api/run/status/{runid}` (GET). If the task is found, its status is returned to SMANetCom and OpCon. If not found, a not-found message is returned.
 
-### TXH Message
-The AgentProxy receives a TXH message from SMANetCom on a timed basis and maps this to a **api/agent/info** GET function. This is used to see if the OpCon MFT Agent is available. If a response is received, a positive response is returned to SMANetCom. If an exception occurs a negative response is returned to SMANetCom and the OpCon MFT Agent is set in a down state (not available). 
+### TX4 — Agent availability check (startup)
 
-## SMALSAMDataRetriever
-The LSAMDataRetriever has been modified to check for OpCon MFT job log requests. The SMALSAMDataRetriever uses the **Rest API Library** the **Rest-API Model Library** and the **MFT Model Library** when communicating with the OpCon MFT Agent Rest-API.  
+The AgentProxy calls `api/agent/info` (GET). A successful response sets the agent to an **available** state in OpCon. An exception sets it to a **down** state. The agent version is also returned and stored in the MACHS_AUX table.
 
-The JORS information passed to SMALSAMDataRetriever includes the OpCon MFT Agent name and the Integer portion of the OpCon jobId. The agent information is extracted from the OpCon database and a connection is established to the OpCon MFT Agent. 
+### TXH — Heartbeat check
 
-The job log consists of the OpCon MFT Agent task status information and the step information associated with the OpCon MFT Agent task. The JORS request is first mapped to **/api/run/bytag/{tagName}** GET function to retrieve the jobId of the OpCon MFT Agent task associated with the OpCon task. Once the jodid is retrieved, a **/api/run/status/{runid}** GET function is submitted to retrieve the status information of the OpCon MFT Agent task, followed by a **/api/run/bytag/{tagName}** GET function to retrieve the step information of the OpCon MFT Agent task. 
+The AgentProxy calls `api/agent/info` (GET) on a timed basis. The same available/down logic applies as for TX4.
 
-## Solution Manager
-When defining an OpCon MFT task, endpoint and encryption information must be retrieved from the OpCon MFT Agent through the OpCon MFT Rest-API. Solution Manager itself does not connect directly to the OpCon MFT Rest-API. Solution Manager only interacts with the OpCon Rest-API. The OpCon Rest-API server will retrieve the information from the associated OpCon MFT Agent.
+</details>
 
-## Rest-API Client Library
-This library provides a set of generalized Rest-API calls required for communicating with a Rest-API application. It includes authentication methods as well as GET, POST and PUT methods. It is used by the **AgentProxy** agent and the **LSAMDataRetriever** to submit requests to the OpCon MFT Agent.
+## Job logs
 
-## Rest-API Model Library
-This library provides a set of generalized models that are used by the **Rest-API Client Library**. It also includes a specific OpCon MFT module to provide additional functions to support the OpCon MFT Agent. These additional functions are used by the **ProxyAgent** to convert the task definition information received from SMANetCom (TX1 message) to the JSON definition that the **/api/job/start** endpoint requires.
+When a job starts, OpCon stores a JORS entry in the SMASTER_AUX table. When job logs are requested, the SMALSAMDataRetriever reads this entry and connects to the OpCon MFT Agent to retrieve the task status and step-by-step details.
 
-## MFT Model Library
-This library provides the model definitions used by the OpCon MFT Agent Rest-API. It is used by the **ProxyAgent** and the **LSAMDataRetriever** when submitting requests to the OpCon MFT Agent Rest-API.  
+Job logs are retrieved on demand — they are not stored within OpCon. See [Troubleshooting](./trouble-shooting.md) for instructions on viewing job logs from Solution Manager.
 
-## Triggers
-Triggers are automatically posted by the OpCOn MFT Server to the OpCon Webhook.
-The following triggers events are submitted to OpCon
+<details>
+<summary>View JORS technical details</summary>
 
-- MFT Server Logon                  
-- MFT Server Logoff                 
-- MFT Server Upload                 
-- MFT Server Download              
-- MFT Server Start                  
-- MFT Server Copy File              
-- MFT Server Move File                   
-- MFT Server Move Directory             
-- MFT Server Delete File             
-- MFT Server Delete Directory 
+The JORS entry includes the OpCon MFT Agent name and the integer portion of the OpCon jobId. The SMALSAMDataRetriever:
 
-## Webhook
-OpCon webhook that receives trigger events and forwards these to the CloudEvents module for processing. Applications that submit trigger events to OpCon are authenticated by OpCon receiving a token from OpCon that must be accompanied with every trigger event. Any trigger event that does not contain a token or and an invalid token are ignored by the webhook.
+1. Extracts agent connection details from the OpCon database.
+2. Calls `/api/run/bytag/{tagName}` (GET) to retrieve the MFT Agent jobId.
+3. Calls `/api/run/status/{runid}` (GET) to retrieve task status.
+4. Calls `/api/run/bytag/{tagName}` (GET) again to retrieve step-level details.
 
-## CloudEvents
-CloudEvents is a new OpCon feature that receives trigger events from the Webhook. It provides the capability to define Trigger Filters for matches on the incoming messages and then processing a defined action for the match. 
+</details>
 
-Each incoming message must match the schema definition for Webhook messages. 
+## Triggers and events
 
-The Trigger filters operate on three components of the Trigger message (source - details, type, time).
+When a file event occurs on the OpCon MFT Server (such as a file upload or deletion), the server automatically posts a trigger to the OpCon webhook. The webhook forwards the event to CloudEvents for processing.
 
-The Trigger Events (actions) consist of OpCon Events. Standard property definitions for file events exist within the OpCon system which can be used to inject file information 
-into OpCon events.
+**Trigger events posted by the OpCon MFT Server:**
+
+- MFT Server Logon / Logoff
+- MFT Server Upload / Download
+- MFT Server Start
+- MFT Server Copy File
+- MFT Server Move File / Move Directory
+- MFT Server Delete File / Delete Directory
+
+**Webhook authentication:** Applications that submit trigger events receive a token from OpCon. Every trigger event must include a valid token — events without one are ignored.
+
+**CloudEvents processing:** CloudEvents receives trigger events and applies Trigger Filters to match incoming messages against defined criteria (source, type, and time). Each match triggers a configured OpCon event. Standard property definitions allow file information to be injected into those events.
+
+## Internal components reference
+
+This section describes the internal software libraries used by the AgentProxy and SMALSAMDataRetriever. This information is primarily useful for support escalations and advanced diagnostics.
+
+<details>
+<summary>View internal component details</summary>
+
+### SMANetCom
+
+SMANetCom retrieves TX1 and TX2 messages from the MSGS_TO_NETCOM table, checks the LSAMTYPEID of each message, and places Rest-API agent messages on the appropriate queue for the target ProxyAgent. The ProxyAgent processes messages and returns responses, which are placed in the MSGS_TO_SAM table.
+
+During startup, if a Rest-API agent is detected (LSAMTYPEID of 90 or greater), SMANetCom retrieves agent configuration from the database (address, port, token), starts the AgentProxy, and sends an initial TX4 message. TXH heartbeat messages are generated on a timed basis during normal operations.
+
+### Rest-API Client Library
+
+Provides generalized Rest-API methods (GET, POST, PUT) including authentication. Used by both the AgentProxy and SMALSAMDataRetriever to submit requests to the OpCon MFT Agent.
+
+### Rest-API Model Library
+
+Provides generalized models for the Rest-API Client Library, plus an OpCon MFT-specific module that converts TX1 task definition data into the JSON format required by the `/api/job/start` endpoint.
+
+### MFT Model Library
+
+Provides the model definitions used by the OpCon MFT Agent Rest-API. Used by both the AgentProxy and SMALSAMDataRetriever when submitting requests to the agent.
+
+</details>
+
+## Glossary
+
+**AgentProxy** — The ProxyAgent module (SMAMftAgentProxy) that translates SMANetCom TX messages into OpCon MFT Agent Rest-API calls.
+
+**CloudEvents** — An OpCon feature that receives trigger events from a webhook and maps them to OpCon events through configurable Trigger Filters.
+
+**JORS (Job Output Retrieval System)** — The OpCon mechanism for retrieving job logs. The SMALSAMDataRetriever retrieves job logs from the OpCon MFT Agent via Rest-API.
+
+**LSAMTYPEID** — A numeric identifier that specifies the agent type. OpCon MFT uses LSAMTYPEID 25; values of 90 or greater indicate a Rest-API agent.
+
+**SMANetCom** — The OpCon network communication module that routes TX messages between OpCon and agents. Enhanced to support direct Rest-API communication through the ProxyAgent framework.
+
+**TX Message** — A protocol message exchanged between SMANetCom and an agent. TX1 starts a job, TX2 requests job status, TX4 checks agent availability on startup, and TXH is a periodic heartbeat.
+
+**Related topics:**
+
+- [Overview](./overview.md)
+- [MFT Agent installation](./agent-installation.md)
+- [Troubleshooting](./trouble-shooting.md)
