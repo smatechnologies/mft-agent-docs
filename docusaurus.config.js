@@ -6,6 +6,9 @@ module.exports = {
   baseUrl: '/opcon/agents/opconmft/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    format: "md",
+  },
   favicon: 'img/favicon.ico',
   organizationName: 'smatechnologies',
   projectName: 'opconmft-docs',
