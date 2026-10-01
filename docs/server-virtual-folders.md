@@ -23,7 +23,7 @@ A Virtual Folder may be mapped to a directory path on your file system that is l
 
 ## Creating Virtual Folders
 
-Before creating a virtual folder, create the real folder that will be mapped to the virtual folder name.
+Before creating a virtual folder, create the real folder to map to the virtual folder name.
 
 Start the OpCon MFT Server Console, by Selecting the **Server Console** in the **OpConMFT n.nn** Application Menu.
 
@@ -31,20 +31,29 @@ Select the **VirtualFolders** Menu Item.
 
 ![Creating Virtual Folders](../static/img/opcon-mft-server-virtual-folders.png)
 
+- Select **New**.
 - Enter a name for the virtual folder in the **Virtual Folder Path** field.
-- Browse to the created folder that will be used to manage the files.
-- Manage the permissions available for the virtual folder by selecting / de-selecting the checkboxes.
+- In the **Physical Path Located** field, browse to the created folder that is used to manage the files.
+- Manage the permissions available for the virtual folder by selecting or clearing the permission options.
+- In the **Maximum Size (MB)** field, enter a size limit in MB. A value of 0 means no limit.
 - Select **Create** to create the virtual folder.
+- Select **Apply** to save the changes.
+
+Each user's settings also have a **Virtual Folders** tab, where you define virtual folders that are specific to that user.
 
 
-## Sharing Folders Between Accounts
+## Sharing Folders
 
-Virtual Folders are commonly used to share a single physical directory with multiple user accounts. 
+Virtual Folders are commonly used to share a single physical directory with multiple user accounts. To give several accounts access to the same folder, map the same virtual folder to each of those users.
+
+You can also share a folder through a link:
 
 - Logon on to the MFT Server through the web browser.
 - Select the created virtual folder.
 - Select **Create Share**.
 - Copy the generated URL and share it.
+
+A share created with **Create Share** is a link to a folder in the signed-in user's own space. Anyone with the link gets only the permissions set on the share, until the share expires.
 
 ## Sharing Network Folders
 
@@ -58,7 +67,7 @@ Yes. Create the real folder on the file system before defining the virtual folde
 
 **Can virtual folders be shared publicly without requiring a login?**
 
-Yes. After logging into the MFT Server through a web browser, select the virtual folder and select **Create Share** to generate a public URL. Copy the generated URL and distribute it to users who need access without an account.
+Yes. After logging into the MFT Server through a web browser, select the virtual folder and select **Create Share** to generate a public URL. Copy the generated URL and distribute it to users who need access without an account. The share is a link to a folder in the signed-in user's own space, and anyone with the link gets only the permissions set on the share, until the share expires. To give several accounts access to the same folder, map the same virtual folder to each of those users instead.
 
 **Related topics:**
 

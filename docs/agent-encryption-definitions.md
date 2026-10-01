@@ -27,11 +27,11 @@ PGP utilizes public key cryptography. Public key cryptography is a scheme that u
 
 Anyone with a copy of your public key can then encrypt information that only you can read. Conversely, If you have someone else’s public key, you can encrypt information that only they can read - in other words, only the person who has the corresponding private key can decrypt the information.
 
-PGP, as implemented by the OpCon MFT Agent, permits you to create keys of three different sizes (measured in bits): 1024, 2048, and 4096. Larger keys will be cryptographically secure for a longer period of time. If what you want to encrypt needs to be hidden for many years, you might want to use the largest key. The OpCon MFT Agent stores keys in an encrypted form on disk. As you use PGP, you will typically import the public keys of your recipients. If you lose your private key, you will be unable to decrypt any information encrypted with its associated public key.
+PGP, as implemented by the OpCon MFT Agent, permits you to create keys of three different sizes (measured in bits): 1024, 2048, and 4096. Larger keys are cryptographically secure for a longer period of time. If what you want to encrypt needs to be hidden for many years, you might want to use the largest key. The OpCon MFT Agent stores keys in an encrypted form on disk. As you use PGP, you typically import the public keys of your recipients. If you lose your private key, you cannot decrypt any information encrypted with its associated public key.
 
-When encrypting a file, the public key of the recipient must be specified. Keys are identified by any combination of user name, comment, and/or e-mail address. This combination will be referred to as the key name. 
+When encrypting a file, the public key of the recipient must be specified. Keys are identified by any combination of user name, comment, and/or e-mail address. This combination is referred to as the key name. 
 
-PGP encrypted files may contain digital signatures. Digital signatures enable the recipient of a file to verify the authenticity of the information's origin, and also verify that the information has not been tampered with. A digital signature will also prevent the sender from claiming that he or she did not actually send the information. Therefore, a digital signature serves the same purpose as a handwritten signature in that it attests to the contents of the information as well as to the identity of the signer. The signature will provide verification as long as the sender's private key was not compromised after after it was sent.
+PGP encrypted files may contain digital signatures. Digital signatures enable the recipient of a file to verify the authenticity of the information's origin, and also verify that the information has not been tampered with. A digital signature also prevents the sender from claiming that he or she did not actually send the information. Therefore, a digital signature serves the same purpose as a handwritten signature in that it attests to the contents of the information as well as to the identity of the signer. The signature provides verification as long as the sender's private key was not compromised after it was sent.
 
 PGP key files and encrypted files may be saved in a format referred to as ASCII armored. This format is an encrypted representation of a file consisting entirely of printable ASCII (or text-mode only) characters. Files in this format contain no binary values, and therefore may be easily sent as part of e-mail messages and visually examined using programs like Notepad.
 
@@ -42,7 +42,7 @@ The following functionality is provided by the OpCon MFT Configurator:
  
 - The creation of private and public key(s).
 - The ability to export public keys to ASCII armored and non-ASCII armored files. ASCII armored key files are plain-text files; non-armored files are in a binary format. Exported public key files are signed by the matching private key, if it is available.
-- The ability to export public and private key pairs to be shared with other applications that need to access your pgp encrypted files. The private key will still be encrypted with its passphrase.
+- The ability to export public and private key pairs to be shared with other applications that need to access your pgp encrypted files. The private key is still encrypted with its passphrase.
 - The ability to import key(s)
 - The ability to delete key(s)
 
@@ -59,11 +59,11 @@ PGP encryption is currently defined using the OpCon MFT Agent Web Server. A conn
 
 To define PGP keys, edit the associated OpCon MFT agent details using Solution Manager.
 Select the **OpCon MFT Agent Settings** TAB and then select **PGP Key Management**. 
-Enter the credentials for the OpCon MFT Agent Web Server in the pop-up window and you will be routed to PGP Key Management associated with the OpCon MFT Agent. 
+Enter the credentials for the OpCon MFT Agent Web Server in the pop-up window and you are routed to PGP Key Management associated with the OpCon MFT Agent. 
 
- - Using PGP with OpConMFT: A PGP public/private key-pair will be required and can be provided, either by creating a new pair or by importing an existing pair.
+ - Using PGP with OpConMFT: A PGP public/private key-pair is required and can be provided, either by creating a new pair or by importing an existing pair.
  - Encrypting a file with OpConMFT: The recipient's public key must be imported prior to encryption.
- - Decrypting a file with OpConMFT: Export your public key and send it to the recipient who will be encrypting the file so it can be applied during the encryption process.
+ - Decrypting a file with OpConMFT: Export your public key and send it to the recipient who encrypts the file so it can be applied during the encryption process.
  
 ![PGP Key Menu](../static/img/pgp-key-main-menu.png)
 
@@ -75,7 +75,7 @@ Select the **Create Key** button.
 
 Field                           | Description
 ------------------------------- | -----------
-**Key User Name**               | (Required) The name that will be assigned to this key-pair consisting of alphanumeric characters. 
+**Key User Name**               | (Required) The name that is assigned to this key-pair consisting of alphanumeric characters. 
 **Key Comment**                 | Comment associated with the definition.
 **Key E-Mail Address**          | Email address associated with the definition.  
 **Key Algorithm**               | Select the encryption algorithm (***RSA, DSA(DH/DSS)***).
@@ -109,7 +109,7 @@ In addition to the signature, a typical digital certificate also contains: the i
 Every type of TLS connection supported by OpCon MFT derives its encryption from a trusted server host certificate while only the most secure connections also require client certificates. The primary purpose of client certificates is to authenticate the user and is used in lieu of a password on some servers. OpCon MFT provides a tool that allows you to generate your own client-side certificate. With OpCon MFT, you can specify a different client certificate for each managed site or define one default client certificate to use whenever a client certificate is required.
 
 ### Trusting a Certificate
-OpCon MFT will not establish a TLS connection unless it trusts the server's certificate. OpCon MFT automatically trusts a certificate signed by a previously trusted Certificate Authority. The operating system maintains a list of trusted CAs and OpCon MFT provides a method allowing you to explicitly trust a certificate not on the list.
+OpCon MFT does not establish a TLS connection unless it trusts the server's certificate. OpCon MFT automatically trusts a certificate signed by a previously trusted Certificate Authority. The operating system maintains a list of trusted CAs and OpCon MFT provides a method allowing you to explicitly trust a certificate not on the list.
 
 ### TLS Connections
 OpCon MFT uses the Transport Layer Security (TLS) protocol for FTPS and HTTPS connections. The Secure Sockets Layer (SSL) protocol was developed by Netscape to add privacy, integrity and authentication to the standard HTTP protocol but it ultimately became the normal method for securing almost all internet traffic. After SSL version 3.0, the protocol was renamed to TLS. The process of establishing a TLS connection is sometimes referred to as "negotiation" or a "handshake."
@@ -127,11 +127,11 @@ TLS certificates are currently defined using the OpCon MFT Agent Web Server. A c
 
 To define Certificates, edit the associated OpCon MFT agent details using Solution Manager.
 Select the **OpCon MFT Agent Settings** TAB and then select **TLS Certificate Management**.
-Enter the credentials for the OpCon MFT Agent Web Server in the pop-up window and you will be routed to TLS Certificate Management associated with the OpCon MFT Agent. 
+Enter the credentials for the OpCon MFT Agent Web Server in the pop-up window and you are routed to TLS Certificate Management associated with the OpCon MFT Agent. 
 
 ![Certificates](../static/img/add-certificate.png)
 
-Select the **Create Key** button.
+Select the **Create** button.
 
 ![Create Certificates](../static/img/create-certificates.png)
 
@@ -142,20 +142,20 @@ Field                     | Description
 **City/Town**             | (Required) the name of the city or town within the state, province or region.  
 **Organization**          | (Required) Full legal name of an organization or person.
 **Unit**                  | (Required) Branch of organization. Examples: IT, marketing, etc.
-**Common Name**           | (Required) Fully qualified name this certificate will be used to identify. Example: ftp.opcon-mft.com.This will also be used as the first Subject Alternative Name.
+**Common Name**           | (Required) Fully qualified name this certificate is used to identify. Example: ftp.opcon-mft.com.This is also used as the first Subject Alternative Name.
 **E-mail Address**        | (Required) Valid email address associated with the certificate.
 **Password**              | (Required) The password associated with the certificate.
 **Verify Password**       | (Required) Retype the password in the verification box.
 
 When completed select the **Create Self Signed** to create a self-signed certificate or **Create Signing Request** to generate a signing request that can be submitted to a CA.
 
-Click the ***Import Key*** button to import a certificate received from a CA.
+Select the **Import** button to import a certificate received from a CA.
 
 ![Import Certificates](../static/img/import-certificate.png)
 
 Field                     | Description
 --------------------------| -----------
-**Certificate Usage**     | (Required) Select what the certificate what be used for (***Authentication, Encryption, Decryption & Signing***). 
+**Certificate Usage**     | (Required) Imported certificates are used for authentication (***Authentication***). 
 **Certificate File**      | (Required) The file name of the supplied key file. If you only have a single file with a .p12 or .pfx extension it may be a PKCS #12 container file. That type of file may hold both a public certificate and its matching private key. To import a PKCS #12 file containing both, enter the file name in the Certificate File field and leave the Private Key File name field empty.
 **Private Key File**      | The file name of the private key file, if provided.  
 **Password**              | (Required) The supplied password used during certificate import.
@@ -164,11 +164,11 @@ Field                     | Description
 When completed select the **OK** to import the certificate.
 
 ## SSH Keys
-Secure File Transfer Protocol (SFTP) is a method of transferring files between a client and server over a secure, encrypted connection (as opposed to regular FTP, which functions over an insecure connection). The security in SFTP comes through its integration with the SSH (or Secure Shell) protocol. SSH provides an encrypted transport layer over which the SFTP commands are executed, and over which files are transferred. Regular FTP connections usually utilize port 21 for connections, while SSH servers use port 22.
+Secure File Transfer Protocol (SFTP) is a method of transferring files between a client and server over a secure, encrypted connection (as opposed to regular FTP, which functions over an insecure connection). The security in SFTP comes through its integration with the SSH (or Secure Shell) protocol. SSH provides an encrypted transport layer over which the SFTP commands run, and over which files are transferred. Regular FTP connections usually utilize port 21 for connections, while SSH servers use port 22.
 
 Both password and private key authentication is supported for SFTP connections.
 
-When negotiating a connection with a remote SFTP server, SSH2 is required and ciphers are chosen in the following order: AES (any type) > Triple DES > Blowfish. The key exchange algorithm will select from the following set in order of preference:
+When negotiating a connection with a remote SFTP server, SSH2 is required and ciphers are chosen in the following order: AES (any type) > Triple DES > Blowfish. The key exchange algorithm selects from the following set in order of preference:
 
 - 1.diffie-hellman-group-sha256
 - 2.diffie-hellman-group14-sha1
@@ -178,7 +178,7 @@ OpCon MFT supports SFTP transfers over SSH. The specific security method is dict
 
 When negotiating a secure connection, the necessary encryption details are automatically downloaded from the remote server. In the case of SSH it downloads the host's public key. The first time you connect to any particular secure site you must decide if you trust the server's certificate or key. If you trust the server's credentials, OpCon MFT stores a copy of them for future use. On subsequent connection attempts, OpCon MFT compares the site's current credentials to the trusted copies and automatically connects if the credentials match.
 
-Every type of secure connection supported by OpCon MFT will require trusting the remote server but some sites will require more than a simple username and password before they trust you. OpCon MFT configuration supports uploads of personal client certificates or public keys. The OpCon MFT Configurator supports defining default credentials for use with all secure sites or specific personal credentials for each managed site. In addition to this, it can also be used to generate SSH keys.
+Every type of secure connection supported by OpCon MFT requires trusting the remote server but some sites require more than a simple username and password before they trust you. OpCon MFT configuration supports uploads of personal client certificates or public keys. The OpCon MFT Configurator supports defining default credentials for use with all secure sites or specific personal credentials for each managed site. In addition to this, it can also be used to generate SSH keys.
 
 SSH keys are currently defined using the OpCon MFT Agent Web Server. A connection to the OpCon MFT Agent Web Server requires a user / password for system where the OpCon MFT Agent is installed (not an OpCon user).
 
@@ -186,14 +186,14 @@ SSH keys are currently defined using the OpCon MFT Agent Web Server. A connectio
 
 To define SSH Keys, edit the associated OpCon MFT agent details using Solution Manager.
 Select the **OpCon MFT Agent Settings** TAB and then select **SSH Key Management**.
-Enter the credentials for the OpCon MFT Agent Web Server in the pop-up window and you will be routed to SSH Key Management associated with the OpCon MFT Agent. 
+Enter the credentials for the OpCon MFT Agent Web Server in the pop-up window and you are routed to SSH Key Management associated with the OpCon MFT Agent. 
 
 ![SSH Keys](../static/img/encryption-ssh-keys.png)
 
 Field                           | Description
 ------------------------------- | -----------
 **Import Private Key**          | To use private/public key authentication for SFTP (FTP over SSH), import the key pair. The public key must be in the appropriate place on the server.
-**Key Pair Creation**           | An SSH key pair can also be created, click this button to create one. The necessary steps must be taken to place the corresponding public key in the appropriate place on the server.
+**Key Pair Creation**           | Select **Create Key** to create an SSH key pair. The necessary steps must be taken to place the corresponding public key in the appropriate place on the server.
 
 ### Import SSH Private Key
 To import a SSH key, select the **Import Private Key** function and the **IMPORT SSH PRIVATE KEY** dialogue appears.
@@ -203,7 +203,7 @@ To import a SSH key, select the **Import Private Key** function and the **IMPORT
 Field                           | Description
 ------------------------------- | -----------
 **SSH Private Key File**        | Select the file containing the key information to import.
-**Key PassPhrase**              | Enter the passphrase that may be associated with this SSH key (if any). The passphrase will be encoded and saved for use when logging onto this particular SSH server.
+**Key PassPhrase**              | Enter the passphrase that may be associated with this SSH key (if any). The passphrase is encoded and saved for use when logging onto this particular SSH server.
 **Key PassPhrase Verification** | Re-enter the passphrase for verification.
 
 When completed select the **OK** to import the SSH Key.
@@ -217,13 +217,13 @@ To create a SSH key, select the **Key Pair Creation** function and the **CREATE 
 Field                           | Description
 ------------------------------- | -----------
 **SSH Private Key Name**        | Enter a name for the SSH Private Key.
-**Key PassPhrase**              | Enter the passphrase that may be associated with this SSH key (if any). The passphrase will be encoded and saved for use when logging onto this particular SSH server.
+**Key PassPhrase**              | Enter the passphrase that may be associated with this SSH key (if any). The passphrase is encoded and saved for use when logging onto this particular SSH server.
 **Key PassPhrase Verification** | Re-enter the passphrase for verification.
-**Key Algorithm**               | Select the algorithm to use (***RSA or DSA(DH/DSS)***).
+**Key Algorithm**               | Select the algorithm to use (***RSA, DSA(DH/DSS), ECDSA or Ed25519***).
 **Key Size (bits)**             | Select the key size (***1024, 2048, 3072, 4096***).
 
 When completed select the **OK** to import the SSH Key.
-If necessary select **Copy Public Key** to extract a copy of the public key.
+If necessary select **Copy Public Key** to extract a copy of the public key. You can export the public key in **OpenSSH**, **SSH1** or **SSH2** format.
 
 ## FAQs
 
@@ -237,7 +237,7 @@ A TLS certificate secures the connection between two systems at the transport la
 
 **Can OpCon MFT generate its own SSH keys?**
 
-Yes. Select **Key Pair Creation** in the SSH Key Management section to generate an SSH key pair using either RSA or DSA at 1024-, 2048-, 3072-, or 4096-bit key sizes. After creation, the corresponding public key must be placed in the appropriate location on the remote SFTP server.
+Yes. Select **Key Pair Creation** in the SSH Key Management section to generate an SSH key pair using RSA, DSA, ECDSA, or Ed25519, with a key size selected from the **Key Size (bits)** options. After creation, the corresponding public key must be placed in the appropriate location on the remote SFTP server.
 
 **What is ASCII armoring for PGP?**
 

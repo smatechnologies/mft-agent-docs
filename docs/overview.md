@@ -39,11 +39,11 @@ The current version is 3.13.9.
 - Provides PGP, CMS, TLS, SSH, and ZIP encryption and compression
 - Integrates with OpCon scheduling through the Rest-API, enabling job dependencies, notifications, and restartable steps
 - Supports CloudEvents for trigger-based automation from server-side file events (upload, download, delete, move)
-- Persists each completed step during execution, enabling failed jobs to restart from the failed step rather than the beginning
+- Persists each completed step during a run, enabling failed jobs to restart from the failed step rather than the beginning
 
 ## Solution Manager
 
-Solution Manager provides the user interface for the managed file transfer environment. It supports OpCon MFT Agent configuration, OpCon MFT Server activation, OpCon MFT task definition, defining endpoints, encryption information, a dashboard providing file transfer status, and query functions for current and previous executions.
+Solution Manager provides the user interface for the managed file transfer environment. It supports OpCon MFT Agent configuration, OpCon MFT Server activation, OpCon MFT task definition, defining endpoints, encryption information, a dashboard providing file transfer status, and query functions for current and previous runs.
 
 During task definition, endpoint and encryption information is retrieved from the OpCon MFT Agent and provided in lists, allowing you to select the appropriate values. Task definitions are stored within the OpCon environment, while endpoint and encryption information is stored within the OpCon MFT Agent environment.
 
@@ -57,11 +57,11 @@ The ProxyAgent continuously monitors the status of the OpCon MFT Agent, marking 
 
 ## LSAMDataRetriever
 
-The LSAMDataRetriever supports retrieval of job logs from the OpCon MFT Agent through the OpCon MFT Rest-API. The job log provides information about the task and each step executed within the task.
+The LSAMDataRetriever supports retrieval of job logs from the OpCon MFT Agent through the OpCon MFT Rest-API. The job log provides information about the task and each step run within the task.
 
 ## CloudEvents
 
-CloudEvents is an OpCon feature that accepts trigger messages through a webhook and allows the mapping of trigger messages to actions. The OpCon MFT Server supports trigger messages such as file upload, file download, file deleted, file moved, and directory deleted.
+CloudEvents is an OpCon feature that accepts trigger messages through a webhook and allows the mapping of trigger messages to actions. The OpCon MFT Server supports trigger messages such as file upload, file download, file deleted, file moved, directory created, and directory deleted. The OpCon MFT Agent also sends events for its own transfers (upload, download, copy, move, delete file, delete directory, and append) when the server webhook is configured.
 
 Trigger filters are defined on the incoming messages. When a match is found, the associated trigger event (an OpCon event) is passed to the OpCon environment for action.
 
@@ -89,7 +89,7 @@ File transfers are performed between endpoints, which can be either local or sit
 
 An OpCon MFT task consists of multiple steps representing the received task definition. These steps include creating the file set for the transfer, optionally compressing or encrypting the file set, and transferring the file set to the destination.
 
-During task execution, the OpCon MFT Agent persists each completed step. If a step fails and the task is restarted, the task restarts from the failed step.
+During a task run, the OpCon MFT Agent persists each completed step. If a step fails and the task is restarted, the task restarts from the failed step.
 
 ## OpCon MFT Server
 
@@ -97,7 +97,7 @@ The OpCon MFT Server is an additional component of the OpCon MFT Agent. It provi
 
 ## Glossary
 
-**Agent** — In OpCon MFT context, the OpCon MFT Agent software component installed on a Windows server that executes file transfer tasks and communicates with OpCon through the ProxyAgent.
+**Agent** — In OpCon MFT context, the OpCon MFT Agent software component installed on a Windows server that runs file transfer tasks and communicates with OpCon through the ProxyAgent.
 
 **CloudEvents** — An OpCon feature that receives trigger messages from a webhook and maps them to OpCon events for automated action.
 
@@ -121,7 +121,7 @@ OpCon MFT integrates through the OpCon MFT ProxyAgent, which translates OpCon TX
 
 **What happens when a task fails partway through?**
 
-The OpCon MFT Agent persists each completed step during execution. If a step fails and the task is restarted, it resumes from the failed step rather than starting from the beginning.
+The OpCon MFT Agent persists each completed step during a run. If a step fails and the task is restarted, it resumes from the failed step rather than starting from the beginning.
 
 **Related topics:**
 

@@ -34,6 +34,18 @@ Server users are defined directly within the MFT Server and can deposit or retri
 
 Virtual folders allow physical directories outside a user's home folder — including network shares — to be made accessible to server users without restructuring the file system.
 
+## Managing the server from the web UI
+
+Once the OpCon MFT Server is registered with OpCon and running, the web UI shows a **Server** menu with the following items:
+
+- **User Administration**
+- **Clients Online Now**
+- **Logging**
+- **Virtual Folder**
+- **Server Access**
+- **FTP Server**
+- **SFTP Server**
+
 ## In this section
 
 | Page | Description |
