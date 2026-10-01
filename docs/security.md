@@ -41,6 +41,15 @@ OpCon MFT supports the following protocol versions:
 
 OpCon MFT's SSL/TLS implementation is based on OpenSSL 3. For additional details, visit openssl.org.
 
+### FIPS mode
+
+FIPS mode limits connections to cryptographic algorithms approved under the FIPS standards. By default, it follows the Windows FIPS mode setting on the server where OpCon MFT is installed. To change it:
+
+- For the OpCon MFT Agent, use the **Enable FIPS mode by default** option on the **Managed Sites** page of the web UI
+- For the OpCon MFT Server, use the **Enable FIPS Mode** option on the **Administration** page of the OpCon MFT Server Console
+
+The supported ciphers with FIPS mode on and off are listed in the [FAQs](./faqs.md).
+
 ### Perfect Forward Secrecy
 
 Without Perfect Forward Secrecy (PFS), if an adversary compromises a server's private key, they can decrypt any previously recorded secure communications. PFS eliminates this risk by generating unique temporary session keys for each connection that cannot be recovered by an eavesdropper even if the server's private key is later compromised.
