@@ -47,7 +47,7 @@ To view job information, complete the following steps:
 
 ![Agent Job Information](../static/img/agent-job-information-1.png)
 
-Select the **Started** value to view step-by-step execution details, or select **Download Logs** to save the full log package.
+Select the **Started** value to view step-by-step run details, or select **Download Logs** to save the full log package.
 
 ![Agent Job Step Information](../static/img/agent-job-information-2.png)
 
@@ -63,7 +63,7 @@ The downloaded log package contains three files:
 |---|---|
 | **[Content_Type].xml** | Package metadata |
 | **271.ini** | Generated job definition showing all step configurations (271 is the OpCon MFT Agent jobId) |
-| **271_script.log** | Trace log for the task execution |
+| **271_script.log** | Trace log for the task run |
 
 <details>
 <summary>View example job log output</summary>
@@ -85,14 +85,14 @@ Result      0
 Timestamp   03/01/2023 07:56:46
 StepDetails RMA01?.dat geted to RMA010.dat
 Source File RMA01?.dat
-Target File C:\Program Files\Robo-FTP 3.13\ProgramData\FrameWork\data\General\JMFT00204\271\get\intermediate\RMA010.dat
+Target File C:\Program Files\OpConMFT 3.13\ProgramData\FrameWork\data\General\JMFT00204\271\get\intermediate\RMA010.dat
 ------------
 ------------
 Step Name   compress
 Result      0
 Timestamp   03/01/2023 07:56:47
 StepDetails RMA010.dat compressed to RMA.zip
-Source File C:\Program Files\Robo-FTP 3.13\ProgramData\FrameWork\data\General\JMFT00204\271\get\files\RMA010.dat
+Source File C:\Program Files\OpConMFT 3.13\ProgramData\FrameWork\data\General\JMFT00204\271\get\files\RMA010.dat
 Target File RMA.zip
 ------------
 ------------
@@ -100,7 +100,7 @@ Step Name   encrypt
 Result      0
 Timestamp   03/01/2023 07:56:55
 StepDetails RMA.zip encrypted to RMA.zip.pgp
-Source File C:\Program Files\Robo-FTP 3.13\ProgramData\FrameWork\data\General\JMFT00204\271\compress\files\RMA.zip
+Source File C:\Program Files\OpConMFT 3.13\ProgramData\FrameWork\data\General\JMFT00204\271\compress\files\RMA.zip
 Target File RMA.zip.pgp
 ------------
 ------------
@@ -108,7 +108,7 @@ Step Name   put
 Result      0
 Timestamp   03/01/2023 07:56:55
 StepDetails RMA.zip.pgp puted to C:\TestData\output\RMA.zip.pgp
-Source File C:\Program Files\Robo-FTP 3.13\ProgramData\FrameWork\data\General\JMFT00204\271\encrypt\files\RMA.zip.pgp
+Source File C:\Program Files\OpConMFT 3.13\ProgramData\FrameWork\data\General\JMFT00204\271\encrypt\files\RMA.zip.pgp
 Target File C:\TestData\output\RMA.zip.pgp
 ------------
 -----------------------------------
@@ -161,9 +161,9 @@ continue_on_error=False
 error1164_report_on_error=True
 error1164_skip_email_on_error=True
 error1164_continue_on_error=False
-key=SAT-312 (Test Key) <bvanhinsbergen@smatechnologies.com>
+key=MyCompany Key <mft@example.com>
 cipher=AES
-signing_key=SAT-312 (Test Key) <bvanhinsbergen@smatechnologies.com>
+signing_key=MyCompany Key <mft@example.com>
 
 [putStepDetails]
 ;
@@ -271,7 +271,7 @@ This section is intended for support personnel who need to inspect OpCon databas
 
 ### MACH Table
 
-The OpCon MFT Agent uses a port number greater than 50000. Because the MACH table field has a maximum value of 32000, the port is stored as a negative number and converted back to the correct value at runtime (for example, port 50405 is stored as -15131). This is expected behavior.
+The OpCon MFT Agent uses port 41100 by default (the next free port if 41100 is in use). Because the MACH table field has a maximum value of 32000, the port is stored as a negative number and converted back to the correct value at run time (for example, port 41100 is stored as -24436). This is expected behavior.
 
 ### LSAMTYPES Table
 
@@ -290,13 +290,13 @@ For JORS (job log retrieval) to work, the following two entries must be present:
 
 During job definition, the **Department** name is saved as the job group name with special characters removed, stored in field code 25002.
 
-Field codes 25018 and 25019 are HTML-encoded — spaces and @ signs are not visible in the database but are visible in the user interface. These fields are decoded at execution time.
+Field codes 25018 and 25019 are HTML-encoded — spaces and @ signs are not visible in the database but are visible in the user interface. These fields are decoded at run time.
 
 ### SMASTER_AUX Table
 
 Field codes 25018 and 25019 are HTML-encoded (same as JMASTER_AUX).
 
-During execution, the JORS indicator is stored in field code 62, and the OpCon Agent jobId is stored in field code 25001. If the job completes successfully, field code 25001 is set to `0`; otherwise it retains the jobId for use when restarting the failed task.
+During the run, the JORS indicator is stored in field code 62, and the OpCon Agent jobId is stored in field code 25001. If the job completes successfully, field code 25001 is set to `0`; otherwise it retains the jobId for use when restarting the failed task.
 
 </details>
 

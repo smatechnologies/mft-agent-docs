@@ -23,7 +23,7 @@ OpCon MFT provides two layers of security that can be used independently or toge
 | Security layer | How it works | Technologies |
 |---|---|---|
 | **Connection-level** | Encrypts data while it travels between systems. The sending side encrypts automatically and the receiving side decrypts automatically. | SSL/TLS (for FTPS and HTTPS), SSH (for SFTP) |
-| **File-level** | Encrypts the file itself, so it stays protected whether stored locally, at rest on a server, or during transfer. | PGP, ZIP (AES-256), CMS |
+| **File-level** | Encrypts the file itself, so it stays protected whether stored locally, at rest on a server, or during transfer. | PGP, ZIP (traditional ZIP encryption by default; AES-256 when selected), CMS |
 
 ## SSL/TLS
 
@@ -36,9 +36,10 @@ OpCon MFT supports the following protocol versions:
 | SSL 3.0 | Retained for compatibility with legacy systems |
 | TLS 1.0 | Older version, widely supported |
 | TLS 1.1 | Intermediate version |
-| TLS 1.2 | Recommended — most secure version supported |
+| TLS 1.2 | Supported and widely used |
+| TLS 1.3 | Recommended — most secure version supported |
 
-OpCon MFT's SSL/TLS implementation is based on OpenSSL 1.1.1e. For additional details, visit openssl.org.
+OpCon MFT's SSL/TLS implementation is based on OpenSSL 3. For additional details, visit openssl.org.
 
 ### Perfect Forward Secrecy
 
@@ -77,12 +78,12 @@ Supported HMAC algorithms: MD5, SHA, SHA256, SHA384
 
 ### Full cipher list
 
-OpCon MFT supports all 106 ciphers provided by OpenSSL 1.1.1e for use with TLS. Each cipher can be paired with a limited number of HMAC algorithms, for a total of 130 cipher + HMAC combinations.
+OpCon MFT supports the ciphers provided by OpenSSL for use with TLS. Each cipher can be paired with a limited number of HMAC algorithms.
 
 Most users do not need to review this list. It is provided for security audits and trading partner compatibility verification.
 
 <details>
-<summary>View all 106 supported TLS ciphers</summary>
+<summary>View the supported TLS ciphers</summary>
 
 - ECDHE-RSA-AES256-GCM-SHA384
 - ECDHE-ECDSA-AES256-GCM-SHA384
@@ -296,6 +297,9 @@ OpCon MFT supports PGP through the PGPENCRYPT and PGPDECRYPT commands and can ge
 - RIPEMD160
 - SHA 256-bit, 384-bit, 512-bit
 - SHA-224
+- SHA3-256
+- SHA3-384
+- SHA3-512
 
 **Compression algorithms**
 
@@ -365,7 +369,7 @@ Connection-level security (SSL/TLS, SSH) encrypts data while it is in transit be
 
 **Which encryption should be used for the highest security?**
 
-For data in transit, use TLS 1.2 with a PFS-enabled cipher. For data at rest or when the remote server cannot automatically decrypt files, use PGP with AES-256 and the RSA or DSA key algorithm. For ZIP encryption, use AES-256 rather than the legacy PKZIP scheme.
+For data in transit, use TLS 1.3 (or TLS 1.2 when the remote system does not support TLS 1.3) with a PFS-enabled cipher. For data at rest or when the remote server cannot automatically decrypt files, use PGP with AES-256 and the RSA or DSA key algorithm. For ZIP encryption, use AES-256 rather than the legacy PKZIP scheme.
 
 **Can OpCon MFT generate its own PGP keys?**
 

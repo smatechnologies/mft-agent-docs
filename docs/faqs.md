@@ -26,7 +26,7 @@ OpCon MFT maintains general debug logs for each interpreter process run as well 
 
 Logs for job runs rotate out according to the **Prune Old Data** field in the OpCon MFT settings. The default retention period is 1 year.
 
-Debug logs do not rotate out. This is generally not a concern, but when the **Extra Debug Data** checkbox is enabled, these files can grow significantly and may need to be purged manually. Debug logs are located in `C:\Program Files\OpConMFT 3.13\ProgramData\debug` and `C:\Program Files\OpConMFT 3.13\UserData\USER_NAME\debug`. The latter folder is only relevant when running the Scheduler Service under a non-default user (default is SYSTEM).
+Debug logs are deleted after 4 days by default. You can change the retention period on the **Debug Data** page of the web UI. When the **Extra Debug Data** option is enabled, these files can grow significantly and may need to be purged manually. Debug logs are located in `C:\Program Files\OpConMFT 3.13\ProgramData\debug` and `C:\Program Files\OpConMFT 3.13\UserData\USER_NAME\debug`. The latter folder is only relevant when running the Scheduler Service under a non-default user (default is SYSTEM).
 
 The server maintains its own set of logs — one for each internal server (FTP/HTTP and FTPS separately). These are rotated out after a default of 4 days.
 
@@ -34,7 +34,7 @@ The size of logs varies depending on the protocol used and the specifics of indi
 
 ## File capabilities
 
-### What transfer protocols are supported by the OpCon MFT Client?
+### What transfer protocols are supported by the OpCon MFT Agent?
 
 - FTP
 - FTPS
@@ -225,27 +225,15 @@ The following options are not enabled by default but can be selectively enabled:
 ```            
 kex_algorithms:
     diffie-hellman-group-exchange-sha1
-    diffie-hellman-group14-sha1
-    diffie-hellman-group1-sha1
                     
 server_host_key_algorithms:
     sk-ssh-ed25519-cert-v01@openssh.com
     ssh-rsa-cert-v01@openssh.com
     ssh-dss-cert-v01@openssh.com
-    ssh-rsa
     ssh-dss
-                    
-encryption_algorithms:
-    aes256-cbc
-    aes192-cbc
-    aes128-cbc
-    blowfish-cbc
-    3des-cbc
 
 mac_algorithms:
     hmac_sha1-etm@openssh.com
-    hmac-sha1
-    hmac-md5
 ```
 
 ### Client
@@ -254,13 +242,14 @@ mac_algorithms:
   - RSA (1024-bit, 2048-bit, 4096-bit)
   - DSA/DSS (1024-bit, 2048-bit, 4096-bit)
 - **CMS** — OpCon MFT supports CMS internally. This is data-at-rest encryption, similar to PGP, that uses SSL/TLS certificates instead of PGP keys.
-- **FTPS** — See Non-FIPS ciphers for Server, above.
-- **HTTPS** — See Non-FIPS ciphers for Server, above.
+- **FTPS** — The client uses OpenSSL's full cipher set ordered by strength by default; the server uses a narrower set that excludes export, anonymous and low-strength ciphers.
+- **HTTPS** — The client uses OpenSSL's full cipher set ordered by strength by default; the server uses a narrower set that excludes export, anonymous and low-strength ciphers.
 - **SFTP** — See SFTP ciphers/algorithms for Server, above. Fine-grained control of these options is available for each managed site.
 - **SSH Keys** (available for client authentication and server authentication over SFTP)
   - RSA (1024-bit, 2048-bit, 3072-bit, 4096-bit)
   - DSA (1024-bit, 2048-bit, 3072-bit, 4096-bit)
-  - ECDSA (256-bit, 384-bit, 412-bit)
+  - ECDSA (the 256, 384 and 512 key size options on the **SSH Keys** page)
+  - Ed25519
 
 ## Best practices for server deployment
 

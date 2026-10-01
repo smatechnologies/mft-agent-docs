@@ -51,10 +51,9 @@ OpCon MFT is 64-bit software. The following requirements apply:
 - Requires the 64-bit version of **Windows Server 2012 R2, 2016, or 2019 (including Core edition)**, or **Windows Desktop Editions 10 or 11**
 - Requires **Microsoft .NET Framework 4.8**
 - Requires **Visual Studio 2022 C++ Runtime**
-- Requires **SQL Compact Edition 4.0 SP1**
 
 :::note
-The full installer includes all of these dependencies.
+The full installer includes the .NET Framework 4.8 and Visual Studio 2022 C++ Runtime dependencies.
 :::
 
 :::note

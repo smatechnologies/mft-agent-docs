@@ -13,7 +13,7 @@ tags:
 
 ## What is it?
 
-The OpCon MFT Agent is the client component of OpCon MFT that performs B2B file transfers. It is installed on a Windows server and communicates with OpCon through the ProxyAgent, executing file transfer tasks defined as OpCon jobs.
+The OpCon MFT Agent is the client component of OpCon MFT that performs B2B file transfers. It is installed on a Windows server and communicates with OpCon through the ProxyAgent, running file transfer tasks defined as OpCon jobs.
 
 - Use this when you need to automate the transfer of files between internal systems, trading partners, or cloud storage
 - Use this when you need compression, encryption, or file renaming as part of a scheduled file transfer job
@@ -35,7 +35,7 @@ The OpCon MFT Agent supports submission and retrieval of data files between syst
 
 File transfers are performed between endpoints. An endpoint is either a local path on the agent server or a remote site with defined connection settings.
 
-A task consists of multiple steps executed in a specific order: retrieving a file set from the source endpoint, optionally compressing or encrypting the files, and placing them at the destination endpoint. Each completed step is persisted so that if a step fails and the task is restarted, it resumes from the failed step.
+A task consists of multiple steps that run in a specific order: retrieving a file set from the source endpoint, optionally compressing or encrypting the files, and placing them at the destination endpoint. Each completed step is persisted so that if a step fails and the task is restarted, it resumes from the failed step.
 
 ## In this section
 

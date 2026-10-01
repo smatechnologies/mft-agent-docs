@@ -59,7 +59,7 @@ When OpCon needs to start, monitor, or check on an OpCon MFT job, SMANetCom send
 
 A task in OpCon MFT is identified by a `GROUPNAME.JOBNAME` value. The Department name of the OpCon task becomes the group name, and the OpCon job name becomes the job name. Special characters are removed from both.
 
-Each time a task starts, OpCon MFT generates a unique run ID (RunId). If a task fails and is restarted, the same RunId is used so that execution resumes from the failed step rather than starting over.
+Each time a task starts, OpCon MFT generates a unique run ID (RunId). If a task fails and is restarted, the same RunId is used so that the run resumes from the failed step rather than starting over.
 
 <details>
 <summary>View TX message technical details</summary>
@@ -70,9 +70,9 @@ The AgentProxy receives a TX1 message from SMANetCom and checks whether the RunI
 
 **New task (RunId = 0):** The AgentProxy calls `/api/job/start/{groupName}.{correctedJobName}/withtag/{tagName}` (POST), where `tagName` is the integer portion of the OpCon unique jobId. The response returns the OpCon MFT Agent jobId. The running status, Agent jobId, and JORS file identifier are returned to SMANetCom and stored in the SMASTER_AUX table.
 
-The AgentProxy then monitors the task by first calling `/api/run/bytag/{tagName}` (GET) to retrieve the MFT Agent jobId, then polling `/api/run/status/{runid}` (GET) for status. While active, the `last_message` field value is returned to OpCon. On success, a jobId of `0` is returned along with the completion code. On failure, only the completion code is returned.
+The AgentProxy then monitors the task by first calling `/api/run/bytag/{tagName}` (GET) to retrieve the MFT Agent jobId, then polling `/api/run/status/{runid}` (GET) for status. While active, the `LastMessage` field value is returned to OpCon. On success, a jobId of `0` is returned along with the completion code. On failure, only the completion code is returned.
 
-**Restart task (RunId ≠ 0):** The AgentProxy calls `/api/job/restart/{job.runId}/withtag/{tagName}` (POST). Monitoring behavior is identical to a new task.
+**Restart task (RunId ≠ 0):** The AgentProxy calls `/api/run/restart/{runId}/withtag/{tagName}` (POST). Monitoring behavior is identical to a new task.
 
 ### TX2 — Get job status
 
@@ -102,7 +102,7 @@ The JORS entry includes the OpCon MFT Agent name and the integer portion of the 
 1. Extracts agent connection details from the OpCon database.
 2. Calls `/api/run/bytag/{tagName}` (GET) to retrieve the MFT Agent jobId.
 3. Calls `/api/run/status/{runid}` (GET) to retrieve task status.
-4. Calls `/api/run/bytag/{tagName}` (GET) again to retrieve step-level details.
+4. Calls `/api/run/steps/bytag/{tagName}` (GET) to retrieve step-level details.
 
 </details>
 

@@ -47,13 +47,17 @@ To register the webhook, complete the following steps:
    ![OpCon MFT Server Registration](../static/img/opcon-mft-server-registration.png)
 
 3. Set the **Server Enabled** field to **True**.
-4. In the **Server WebHook URL** field, enter `https://(OpCon Server)/api/cloudevents/events`. This is the URL of the OpCon webhook. SSL is used for this connection, so the server name in the URL must match the name on the OpCon server certificate. If OpCon and OpCon MFT are installed on the same server, use `localhost`.
+4. In the **Server WebHook URL** field, enter `https://(OpCon Server)/api/cloudevents/events`. This is the URL of the OpCon webhook. SSL is used for this connection, so the server name in the URL must match the name on the OpCon server certificate. If OpCon and OpCon MFT are installed on the same server, use `localhost`. The URL must start with `http://` or `https://` and use forward slashes.
 5. Select the **Save** button. The OpCon environment submits a registration request to the OpCon MFT Agent.
 
 The following two messages are displayed when registration succeeds:
 
 - Configuration saved
 - Webhook Registered Successfully
+
+:::note
+Saving the webhook settings restarts the **SMA OpConMFT Server 3.13** service. If the startup type of that service is Disabled, the settings are saved but take effect only after you re-enable the service.
+:::
 
 ## Configure and start the OpCon MFT Server
 
@@ -64,14 +68,18 @@ To configure and start the OpCon MFT Server, complete the following steps:
 
    ![Server Configuration](../static/img/opcon-mft-server-start-ftp-server.png)
 
-3. To enable web file sharing, enter a port number for the HTTP port value. Use a specific port number instead of the default port (80).
+3. Web file sharing starts disabled: setup turns the HTTP and HTTPS listeners off. To enable it, enter a port number for the HTTPS port (recommended) or the HTTP port. HTTPS protects user logins and files in transit.
 4. Select the **Start FTP** button to start the FTP server.
 
 For additional information on FTP and SFTP server configuration fields, open the help file by selecting **Server Help File** in the **OpConMFT n.nn** application menu.
 
+### SFTP server
+
+Setup creates an SFTP server alongside the FTP server. The SFTP server listens on port 22 when that port is free, and starts automatically once its SSH host key exists. You configure and start the SFTP server from the **SFTP Server** menu item in the OpCon MFT Server Console, the same way as the FTP server.
+
 ## Define OpCon MFT Server users
 
-All users who will retrieve or deposit files on the OpCon MFT Server must be configured directly within the server. To manage server users, complete the following steps:
+All users who retrieve or deposit files on the OpCon MFT Server must be configured directly within the server. To manage server users, complete the following steps:
 
 1. Select the **Server Console** in the **OpConMFT n.nn** application menu. The OpCon MFT Server Console opens.
 2. Select the **Users** menu item.

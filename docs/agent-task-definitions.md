@@ -13,7 +13,7 @@ tags:
 
 ## What is it?
 
-Task definitions configure the file transfer operations that the OpCon MFT Agent executes as OpCon jobs.
+Task definitions configure the file transfer operations that the OpCon MFT Agent runs as OpCon jobs.
 
 - Use this when defining a new file transfer task in Solution Manager
 - Use this when configuring compression, encryption, or file renaming as part of a task
@@ -60,7 +60,7 @@ To add a date directory (date format can be defined using tokens) the files in t
 
 ## Tasks Overview
 
-A task within the OpCon MFT Agent consists of multiple steps that are executed in a specific order. These invidual steps are persisted and provide
+A task within the OpCon MFT Agent consists of multiple steps that run in a specific order. These invidual steps are persisted and provide
 a restart point after a file transfer failure occurs.
 
 An OpCon task has a unique jobId generated everytime an OpCon task is started or restarted. An OpCon MFT Agent task also has a unique jobId generated
@@ -76,7 +76,7 @@ without inadvertently duplicating steps for a given file.
 
 While the OpCon MFT Agent supports mans different steps, the OpConMFT JobType currently supports the following steps:
 
-- **get** step is associated with an endpoint and creates the file set according to the File Filter information that will be used for the subsequent steps.
+- **get** step is associated with an endpoint and creates the file set according to the File Filter information that is used for the subsequent steps.
 - **put** step is associated with an endpoint and delivers the file set to the defined location.
 - **compress** step is used to compress a file set.
 - **decompress** step is used to decompress a file set.
@@ -98,13 +98,13 @@ The **_get_** step searches the defined **_File Path_** for file names that matc
 
 | Field                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Endpoint**            | Select the required endpoint from the dropdown list (the list includes both local and remote (site) endpoints). This defines which endpoint to use to retrieve the file set. A local endpoint is relative to the installed OpConMFT Agent and is either a UNC Path or a Windows directory. When using a UNC Path, the user associated with the OpConMFT Agent must have the required privileges to access the required file set. |
-| **File Filter**         | This defines the files to be included in the file set. It supports wild cards (?) and (\*) as well as multiple definitions seperated by the pipe ('\|') character (i.e. \*.csv\|\*.xls). When requiring all files in the directory the definition \* should be used instead of \*.\* as the second definition will only select files that have a name and and extension.                                                         |
+| **Endpoint**            | Select the required endpoint from the list (the list includes both local and remote (site) endpoints). This defines which endpoint to use to retrieve the file set. A local endpoint is relative to the installed OpConMFT Agent and is either a UNC Path or a Windows directory. When using a UNC Path, the user associated with the OpConMFT Agent must have the required privileges to access the required file set. |
+| **File Filter**         | This defines the files to be included in the file set. It supports wild cards (?) and (\*) as well as multiple definitions seperated by the pipe ('\|') character (i.e. \*.csv\|\*.xls). When requiring all files in the directory the definition \* should be used instead of \*.\* as the second definition only selects files that have a name and and extension.                                                         |
 | **File Path**           | An optional definition that defines the path to check for files to add to the file set. If present the value is relative to the default definition associated with the endpoint.                                                                                                                                                                                                                                                 |
 | **Timeout**             | An optional field that indicates how many minutes the **_get_** step should wait for the source files if no files are present when the task starts (default value is 1 minute).                                                                                                                                                                                                                                                  |
-| **Retain Source Files** | This field indicates if the source files associated with the **_get_** step should be removed after the file set is created (values True : False - default False). Mutually exclusive with Reprocess Files.                                                                                                                                                                                                                      |
+| **Retain Source Files** | This field indicates whether the source files associated with the **_get_** step stay in the source location. True keeps the source files in place; False moves them out of the source location once the file set is created (values True : False - default False). Mutually exclusive with Reprocess Files.                                                                                                                                                                                                                      |
 | **Reprocess Files**     | This field indicates if the source files associated with the **_get_** step can be reprocessed after the file has been previously processed (values True : False - default False). Mutually exclusive with Retain Source Files.                                                                                                                                                                                                  |
-| **Archive Files**       | This field indicates if the source files associated with the **_get_** step will be stored in the usually temporary midpoint location on the Server running MFT. (values True : False - default False).                                                                                                                                                                                                                          |
+| **Archive Files**       | This field indicates if the source files associated with the **_get_** step are stored in the usually temporary midpoint location on the Server running MFT. (values True : False - default False).                                                                                                                                                                                                                          |
 
 ### Destination
 
@@ -116,10 +116,10 @@ The **_put_** step places the files in the file set in the destination **_File P
 
 | Field               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Endpoint**        | Select the required endpoint from the dropdown list (the list includes both local and remote (site) endpoints). This defines the endpoint to use defining where to place the file set. A local endpoint is relative to the installed OpConMFT Agent and is either a UNC PATH or a Windows directory. When using a UNC Path, the user associated with the OpConMFT Agent must have the required privileges to access the required file set. |
+| **Endpoint**        | Select the required endpoint from the list (the list includes both local and remote (site) endpoints). This defines the endpoint to use defining where to place the file set. A local endpoint is relative to the installed OpConMFT Agent and is either a UNC PATH or a Windows directory. When using a UNC Path, the user associated with the OpConMFT Agent must have the required privileges to access the required file set. |
 | **File Path**       | This is an optional definition that defines the path where the files should be placed. If present the value is relative to the default definition associated with the endpoint.                                                                                                                                                                                                                                                            |
-| **Overwrite**       | Select what should happen from the dropdown list if the destination files associated with the **_put_** step already exist (values True : Append : False - default True).                                                                                                                                                                                                                                                                  |
-| **Rename Files**    | Select this field if renaming of files in the target system is required. When selected, the **_Search Pattern_**, **_Replace Pattern_**, **_Test Filename_** and the **_New Name_** fields will appear.                                                                                                                                                                                                                                    |
+| **Overwrite**       | Select what should happen from the list if the destination files associated with the **_put_** step already exist (values True : Append : False - default True).                                                                                                                                                                                                                                                                  |
+| **Rename Files**    | Select this field if renaming of files in the target system is required. When selected, the **_Search Pattern_**, **_Replace Pattern_**, **_Test Filename_** and the **_New Name_** fields appear.                                                                                                                                                                                                                                    |
 | **Search Pattern**  | This field consists of a Regex string indicating what to search for in the file name. This field works with the **_Replace Pattern_** field.                                                                                                                                                                                                                                                                                               |
 | **Replace Pattern** | This field consists of a Regex string indicating what the replacement text should be if a match is found. This field works with the **_Search Pattern_** field.                                                                                                                                                                                                                                                                            |
 
@@ -141,7 +141,7 @@ The optional Compression section defines the information for the **_compress_** 
 
 | Field      | Description                                                                                                    |
 | ---------- | -------------------------------------------------------------------------------------------------------------- |
-| **Action** | Select the Compression action from the dropdown list (values are None : Compress : Decompress - default None). |
+| **Action** | Select the Compression action from the list (values are None : Compress : Decompress - default None). |
 
 #### Compress Action
 
@@ -151,7 +151,7 @@ The **_compress_** step includes all files associated with the file set into a z
 
 | Field         | Description                                                                                                                                     |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| **File Name** | An optional definition that defines the name of the zip file to create. The default zip filename is the name of the first file in the file set. |
+| **File Name** | An optional definition that defines the name of the zip file to create. The default zip filename is the name of the first file in the file set with its extension replaced by `.zip`. |
 | **Password**  | An optional definition that defines a password that can be added to the compressed file.                                                        |
 
 #### Decompress Action
@@ -171,21 +171,21 @@ The optional Encryption section defines the information for the **_encrypt_** or
 
 | Field      | Description                                                                                               |
 | ---------- | --------------------------------------------------------------------------------------------------------- |
-| **Action** | Select the Encryption action from the dropdown list (values are None : Encrypt : Decrypt - default None). |
+| **Action** | Select the Encryption action from the list (values are None : Encrypt : Decrypt - default None). |
 
 #### Encrypt Action
 
-The **_encrypt_** step is used to encrypt files in the task's current file set with a specific PGP public key. The encrypted output files replace their associated input source files in the file set that is passed to the task's next step. The encrypted output files are named by adding a .pgp extension to the source file name. For example, if the source file is named **_{filenamepart}_** then the output file will be named **_{filenamepart}_**.pgp.
+The **_encrypt_** step is used to encrypt files in the task's current file set with a specific PGP public key. The encrypted output files replace their associated input source files in the file set that is passed to the task's next step. The encrypted output files are named by adding a .pgp extension to the source file name. For example, if the source file is named **_{filenamepart}_** then the output file is named **_{filenamepart}_**.pgp.
 
 ![Encrypt Section](../static/img/opconmft-encrypt-section.png)
 
 | Field              | Description                                                                                                                                                                                                                                                                                                                                                               |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **File Filter**    | This defines the files of the file set to be included in encrypted file. It supports wild cards (?) and (\*) as well as multiple definitions seperated by the pipe ('\|') character (i.e \*.dt1\|\*.dt2). When requiring all files in the file set \* should be used instead of \*.\* as the second definition will only select files that have a name and and extension. |
-| **Key**            | Unique identifier of the public key used for encryption. Select the key name from the dropdown list.                                                                                                                                                                                                                                                                      |
-| **Signature Type** | The encoding type used to encode the Signing Key. Select the encoding type from the dropdown list (values MD5 : RIPE160 : SHA1 : SHA256 : SHA512 : SHA3 - 256 : SHA3 - 512 - default SHA256).                                                                                                                                                                             |
-| **Signing Key**    | Digital signature enabling the recipient of the file to verify the authenticity of the information's origin, and also verify that the information has not been tampered with. Select the Signing key name from the dropdown list.                                                                                                                                         |
-| **Cipher**         | Select the symmetric cipher to be used to encrypt the file set from the dropdown list (values are CAST5 : AES : AES192 : IDEA : Blowfish : Twofish : 3DES - default AES).                                                                                                                                                                                                 |
+| **File Filter**    | This defines the files of the file set to be included in encrypted file. It supports wild cards (?) and (\*) as well as multiple definitions seperated by the pipe ('\|') character (i.e \*.dt1\|\*.dt2). When requiring all files in the file set \* should be used instead of \*.\* as the second definition only selects files that have a name and and extension. |
+| **Key**            | Unique identifier of the public key used for encryption. Select the key name from the list.                                                                                                                                                                                                                                                                      |
+| **Signature Type** | The encoding type used to encode the Signing Key. Select the encoding type from the list (values MD5 : RIPE160 : SHA1 : SHA256 : SHA512 : SHA3 - 256 : SHA3 - 512 - default SHA256).                                                                                                                                                                             |
+| **Signing Key**    | Digital signature enabling the recipient of the file to verify the authenticity of the information's origin, and also verify that the information has not been tampered with. Select the Signing key name from the list.                                                                                                                                         |
+| **Cipher**         | Select the symmetric cipher to be used to encrypt the file set from the list (values are CAST5 : AES : AES192 : AES256 : IDEA : Blowfish : Twofish : 3DES - default AES).                                                                                                                                                                                                 |
 | **Ascii Armor**    | Indicates whether the encrypted representation of a file should consist entirely of printable ASCII characters (values true : false - default false).                                                                                                                                                                                                                     |
 
 #### Decrypt Action
@@ -196,7 +196,7 @@ The **_decrypt_** step decrypts PGP (or GPG) encrypted source files in the curre
 
 | Field           | Description                                                                                                                                                                                                                                                                                                                                              |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **File Filter** | This defines the files of the file set to be decrypted. It supports wild cards (?) and (\*) as well as multiple definitions separated by the pipe ('\|') character (i.e \*.dt1\|\*.dt2). When requiring all files in the file set \* should be used instead of \*.\* as the second definition will only select files that have a name and and extension. |
+| **File Filter** | This defines the files of the file set to be decrypted. It supports wild cards (?) and (\*) as well as multiple definitions separated by the pipe ('\|') character (i.e \*.dt1\|\*.dt2). When requiring all files in the file set \* should be used instead of \*.\* as the second definition only selects files that have a name and and extension. |
 
 ### Failure Criteria
 
@@ -210,7 +210,7 @@ A file set is the group of files that a task step is currently working on. Steps
 
 **What happens when a task is restarted after failure?**
 
-Each completed step is persisted during execution. When a failed task is restarted, it resumes from the failed step rather than repeating all previous steps. The OpCon MFT Agent maintains a mapping between the OpCon jobId and the OpCon MFT Agent jobId to support this behavior.
+Each completed step is persisted while the task runs. When a failed task is restarted, it resumes from the failed step rather than repeating all previous steps. The OpCon MFT Agent maintains a mapping between the OpCon jobId and the OpCon MFT Agent jobId to support this behavior.
 
 **When should the Reverse Order option be used?**
 
