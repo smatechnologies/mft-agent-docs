@@ -19,6 +19,7 @@ module.exports = {
         'agent-encryption-definitions',
         'agent-group-definitions',
         'agent-task-definitions',
+        'agent-result-codes',
       ],
     },
     {

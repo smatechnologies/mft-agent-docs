@@ -200,7 +200,7 @@ The **_decrypt_** step decrypts PGP (or GPG) encrypted source files in the curre
 
 ### Failure Criteria
 
-An OpCon MFT task successfully completes with a return code of 0, which is the default setting.
+An OpCon MFT task successfully completes with a return code of 0, which is the default setting. For the meaning of other return codes, see [Task Result Codes](./agent-result-codes.md).
 
 ## FAQs
 
